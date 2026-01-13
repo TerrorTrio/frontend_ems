@@ -1,5 +1,5 @@
 import {useEmployeeApi} from "../hooks/useEmployeeApi.ts";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Button, Container} from "react-bootstrap";
 import Table from '@mui/joy/Table';
 import {Chip, IconButton} from "@mui/joy";
@@ -10,10 +10,9 @@ export default function EmployeeTable() {
     const {fetchEmployees, loading, error} = useEmployeeApi();
     const [employees, setEmployees] = useState([]);
 
-    const handleLoadEmployees = () => {
+    useEffect(() => {
         fetchEmployees().then(data => setEmployees(data)).catch(err => console.error(err));
-        console.log(employees);
-    }
+    }, [])
 
     if (loading) {
         return <div>Lade Mitarbeiter...</div>;
@@ -25,9 +24,6 @@ export default function EmployeeTable() {
 
     return (
         <Container>
-            <Button onClick={handleLoadEmployees}>
-                Mitarbeiter laden
-            </Button>
             <Table sx={{mt: 2}}
                    aria-label={"Mitarbeiterliste"}
                    hoverRow
@@ -53,8 +49,8 @@ export default function EmployeeTable() {
                             <Chip key={skill.id} sx={{mr: 1}}>{skill.skill}</Chip>
                         ))}</td>
                         <td>
-                            <IconButton><RemoveRedEye sx={{mr: 2}}/></IconButton>
-                            <IconButton><DeleteIcon color={"error"}/></IconButton>
+                            <IconButton aria-label={"View employee details"}><RemoveRedEye/></IconButton>
+                            <IconButton aria-label={"Deletes an employee"}><DeleteIcon color={"error"}/></IconButton>
                         </td>
                     </tr>
                 ))}
