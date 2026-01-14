@@ -5,7 +5,6 @@ import './index.css'
 import App from './App.tsx'
 import {BrowserRouter} from "react-router-dom";
 import {AuthProvider} from "react-oidc-context";
-import '@fontsource/inter';
 
 const oidc = {
     authority: "http://localhost:9000/application/o/employee_api",
