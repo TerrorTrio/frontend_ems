@@ -1,13 +1,12 @@
-import {useEmployeeApi} from "../hooks/useEmployeeApi.ts";
+import {useFetchEmployees} from "../hooks/useFetchEmployees.ts";
 import {useEffect} from "react";
-import {Container} from "react-bootstrap";
 import Table from '@mui/joy/Table';
-import {Chip, IconButton} from "@mui/joy";
+import {Card, Chip, IconButton} from "@mui/joy";
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import RemoveRedEye from '@mui/icons-material/RemoveRedEyeOutlined';
 
 export default function EmployeeTable() {
-    const {employees, fetchEmployees, loading, error} = useEmployeeApi();
+    const {employees, fetchEmployees, loading, error} = useFetchEmployees();
 
     useEffect(() => {
         void fetchEmployees();
@@ -22,7 +21,7 @@ export default function EmployeeTable() {
     }
 
     return (
-        <Container>
+        <Card>
             <Table sx={{mt: 2}}
                    aria-label={"Mitarbeiterliste"}
                    hoverRow
@@ -47,7 +46,7 @@ export default function EmployeeTable() {
                         <td>{employee.skillSet.map(skill => (
                             <Chip key={skill.id} sx={{mr: 1}}>{skill.skill}</Chip>
                         ))}</td>
-                        <td>
+                        <td style={{textAlign: "right"}}>
                             <IconButton aria-label={"View employee details"}><RemoveRedEye/></IconButton>
                             <IconButton aria-label={"Deletes an employee"}><DeleteIcon color={"error"}/></IconButton>
                         </td>
@@ -55,6 +54,6 @@ export default function EmployeeTable() {
                 ))}
                 </tbody>
             </Table>
-        </Container>
+        </Card>
     )
 }

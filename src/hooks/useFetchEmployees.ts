@@ -3,7 +3,7 @@ import { useAuth } from "react-oidc-context";
 import type {Employee} from "../types/employee.ts";
 import {getEmployees} from "../services/employeeService.ts";
 
-export function useEmployeeApi() {
+export function useFetchEmployees() {
     const auth = useAuth();
 
     const [employees, setEmployees] = useState<Employee[]>([]);
@@ -16,8 +16,7 @@ export function useEmployeeApi() {
 
         try {
             const response = await getEmployees(auth.user?.access_token);
-
-            setEmployees(response.results ?? []);
+            setEmployees(response);
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Ein Fehler ist aufgetreten');
         } finally {
