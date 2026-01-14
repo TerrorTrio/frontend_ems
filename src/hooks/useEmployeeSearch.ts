@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import type {Employee} from "../types/employee.ts";
+import {getEmployees} from "../services/employeeService.ts";
 
 export default function useEmployeeSearch(debouncedSearchTerm : string){
     const [results, setResults] = useState<Employee[]>([]);
@@ -17,12 +18,17 @@ export default function useEmployeeSearch(debouncedSearchTerm : string){
 
         async function doSearch() {
             try {
-                const results = await fetchSearchedEmployeesFromApi(debouncedSearchTerm);
+                const results = await getEmployees();
                 if(results.length === 0){
                     setResults(results);
                     setErrorMessage("No results found");
                 }else if (!cancelled) {
-                    setResults(results);
+                    const filteredEmployees = results.filter(
+                        (e) =>
+                            e.firstName.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) ||
+                            e.lastName.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
+                    );
+                    setResults(filteredEmployees);
                     setErrorMessage("");
                 }
             } catch (error: unknown) {

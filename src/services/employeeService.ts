@@ -3,7 +3,6 @@ import type {Employee} from "../types/employee.ts";
 const BASE_URL = "http://localhost:8089"
 
 export async function getEmployees(accessToken?: string): Promise<Employee[]> {
-
     const headers: HeadersInit = {
         'Content-Type': 'application/json'
     };
