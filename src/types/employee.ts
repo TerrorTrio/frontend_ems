@@ -10,7 +10,3 @@ interface Skill{
     id: number,
     skill: string
 }
-
-export interface EmployeeSearchResults {
-    results: Employee[];
-}

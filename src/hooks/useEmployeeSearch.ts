@@ -1,8 +1,8 @@
 import {useEffect, useState} from "react";
-import type {EmployeeSearchResults} from "../types/employee.ts";
+import type {Employee} from "../types/employee.ts";
 
 export default function useEmployeeSearch(debouncedSearchTerm : string){
-    const [results, setResults] = useState<EmployeeSearchResults>({results: []});
+    const [results, setResults] = useState<Employee[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
 
@@ -11,7 +11,7 @@ export default function useEmployeeSearch(debouncedSearchTerm : string){
         if(debouncedSearchTerm.length === 0){
             return;
         }
-        setResults({results: []});
+        setResults([]);
         setIsLoading(true);
         let cancelled = false;
 
@@ -26,7 +26,7 @@ export default function useEmployeeSearch(debouncedSearchTerm : string){
                     setErrorMessage("");
                 }
             } catch (error: unknown) {
-                setResults({results: []});
+                setResults([]);
                 setErrorMessage(String(error).substring(7));
             }finally {
                 setIsLoading(false);
