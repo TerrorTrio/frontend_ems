@@ -1,7 +1,7 @@
 import {useCallback, useState} from "react";
 import { useAuth } from "react-oidc-context";
 import type {Employee} from "../types/employee.ts";
-import {getEmployees} from "../services/employeeService.ts";
+import {fetchEmployeesFromApi} from "../services/employeeService.ts";
 
 export function useFetchEmployees() {
     const auth = useAuth();
@@ -15,7 +15,7 @@ export function useFetchEmployees() {
         setError(null);
 
         try {
-            const response = await getEmployees(auth.user?.access_token);
+            const response = await fetchEmployeesFromApi(auth.user?.access_token);
             setEmployees(response);
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Ein Fehler ist aufgetreten');
