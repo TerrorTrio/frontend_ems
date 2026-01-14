@@ -2,15 +2,25 @@ import {Input} from "@mui/joy";
 import "./css/SearchInput.css";
 import {SearchRounded} from "@mui/icons-material";
 import useEmployeeSearch from "../hooks/useEmployeeSearch.ts";
+import {useEffect, useState} from "react";
+import {useDebounce} from "use-debounce";
+import type {Employee} from "../types/employee.ts";
 
 interface SearchInputProps {
-    searchTerm: string,
-    debouncedSearchTerm: string,
-    setSearchTerm: (term: string) => void,
+    employees: Employee[],
+    setEmployees: (employees: Employee[]) => void
 }
 
-export function SearchInput({searchTerm, debouncedSearchTerm, setSearchTerm}: SearchInputProps) {
-    useEmployeeSearch(debouncedSearchTerm);
+export function SearchInput({ employees, setEmployees }: SearchInputProps) {
+    const [searchTerm, setSearchTerm] = useState("");
+    const [debouncedSearchTerm] = useDebounce(searchTerm, 500);
+
+    const results = useEmployeeSearch(debouncedSearchTerm, employees);
+    console.log(results);
+    useEffect(() => {
+        setEmployees(results);
+    }, [results, setEmployees]);
+
     return <Input className={"input"}
                   placeholder={"Suchen..."}
                   startDecorator={<SearchRounded sx={{ml: "-3px"}}/>}

@@ -1,17 +1,24 @@
 import EmployeeTable from "../components/EmployeeTable.tsx";
 import {SearchFilterPanel} from "../components/SearchFilterPanel.tsx";
+import {useFetchEmployees} from "../hooks/useFetchEmployees.ts";
 import {useState} from "react";
-import {useDebounce} from "use-debounce";
+import type {Employee} from "../types/employee.ts";
 
 export function EmployeePage() {
-    const [searchTerm, setSearchTerm] = useState("");
-    const [debouncedSearchTerm] = useDebounce(searchTerm, 500);
+    const [employees, setEmployees] = useState<Employee[]>([])
+    const {loading, error} = useFetchEmployees(setEmployees);
+
+    if (loading) {
+        return <div>Lade Mitarbeiter...</div>;
+    }
+    if (error) {
+        return <div> {error}</div>;
+    }
 
     return (
         <>
-            <SearchFilterPanel searchTerm={searchTerm} setSearchTerm={setSearchTerm}
-                               debouncedSearchTerm={debouncedSearchTerm}/>
-            <EmployeeTable/>
+            <SearchFilterPanel employees={employees} setEmployees={setEmployees}/>
+            <EmployeeTable employees={employees}/>
         </>
     )
 }

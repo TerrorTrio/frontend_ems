@@ -1,12 +1,11 @@
 import {useCallback, useState} from "react";
 import { useAuth } from "react-oidc-context";
-import type {Employee} from "../types/employee.ts";
 import {fetchEmployeesFromApi} from "../services/employeeService.ts";
+import type {Employee} from "../types/employee.ts";
 
-export function useFetchEmployees() {
+export function useFetchEmployees(setEmployees: (employees: Employee[]) => void) {
     const auth = useAuth();
 
-    const [employees, setEmployees] = useState<Employee[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -24,5 +23,6 @@ export function useFetchEmployees() {
         }
     }, [auth.user?.access_token]);
 
-    return {employees, fetchEmployees, loading, error};
+    fetchEmployees();
+    return {loading, error};
 }
