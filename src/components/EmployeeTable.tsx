@@ -1,10 +1,11 @@
 import {useEmployeeApi} from "../hooks/useEmployeeApi.ts";
 import {useEffect, useState} from "react";
-import {Button, Container} from "react-bootstrap";
+import {Container} from "react-bootstrap";
 import Table from '@mui/joy/Table';
 import {Chip, IconButton} from "@mui/joy";
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import RemoveRedEye from '@mui/icons-material/RemoveRedEyeOutlined';
+import type {Employee} from "../types/employee.ts";
 
 export default function EmployeeTable() {
     const {fetchEmployees, loading, error} = useEmployeeApi();
@@ -40,7 +41,7 @@ export default function EmployeeTable() {
                 </thead>
 
                 <tbody>
-                {employees.map((employee) => (
+                {employees.map((employee : Employee) => (
                     <tr key={employee.id}>
                         <td>{employee.firstName}</td>
                         <td>{employee.lastName}</td>
