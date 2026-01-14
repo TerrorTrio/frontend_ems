@@ -21,8 +21,13 @@ export default function EmployeeTable() {
     }
 
     return (
-        <Card>
-            <Table sx={{mt: 2}}
+        <Card sx={{
+            boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.2)',
+            mt: 2
+        }}>
+
+        <h3 style={{marginLeft: 2}}>Mitarbeiterliste ({employees.length} gefunden)</h3>
+            <Table sx={{mt: 4}}
                    aria-label={"Mitarbeiterliste"}
                    hoverRow
                    stickyHeader
