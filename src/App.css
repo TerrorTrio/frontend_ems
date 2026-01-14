@@ -1,7 +1,7 @@
 body {
     margin: 0;
     padding: 0;
-    background: #f7f7f7;
+    background: #F8F8F8FF;
 }
 
 .container,
@@ -14,7 +14,7 @@ body {
     position: sticky;
     top: 0;
     z-index: 1000;
-    background: #ffffff;
+    background: #F8F8F8FF;
     border-bottom: 1px solid #e5e7eb;
     display: flex;
     align-items: center;
@@ -27,7 +27,7 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    color: #1f5af6; /* Blau */
+    color: #1f5af6;
     font-weight: 700;
     font-size: 16px;
 }
@@ -88,7 +88,7 @@ body {
 }
 
 .logout-btn {
-    background: #3b4b5f; /* leicht abgesetzt */
+    background: #3b4b5f;
 }
 
 .logout-btn:hover {
@@ -101,22 +101,27 @@ body {
 
 .sidebar {
     width: 220px;
-    background: #f8f9fb;
-    border-right: 1px solid #e3e6eb;
+    background: #f2f2f2;
+    border: 1px solid #d7dce2;
+    border-top: none;
+    border-bottom: none;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
     padding: 16px 12px;
+    display: flex;
+    flex-direction: column;
 }
 
-.menue {
+.nav {
     display: block;
 }
 
-.menue-list {
+.nav-list {
     list-style: none;
     margin: 0;
     padding: 0;
 }
 
-.menue-link {
+.nav-link {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -127,7 +132,7 @@ body {
     transition: background 0.15s ease, color 0.15s ease;
 }
 
-.menue-link :hover {
+.nav-link :hover {
     background: #e8f0ff;
     color: #1f56d8;
 }
