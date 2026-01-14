@@ -1,18 +1,17 @@
 import {useEmployeeApi} from "../hooks/useEmployeeApi.ts";
-import {useEffect, useState} from "react";
-import {Button, Container} from "react-bootstrap";
+import {useEffect} from "react";
+import {Container} from "react-bootstrap";
 import Table from '@mui/joy/Table';
 import {Chip, IconButton} from "@mui/joy";
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import RemoveRedEye from '@mui/icons-material/RemoveRedEyeOutlined';
 
 export default function EmployeeTable() {
-    const {fetchEmployees, loading, error} = useEmployeeApi();
-    const [employees, setEmployees] = useState([]);
+    const {employees, fetchEmployees, loading, error} = useEmployeeApi();
 
     useEffect(() => {
-        fetchEmployees().then(data => setEmployees(data)).catch(err => console.error(err));
-    }, [])
+        void fetchEmployees();
+    }, [fetchEmployees])
 
     if (loading) {
         return <div>Lade Mitarbeiter...</div>;
@@ -35,7 +34,7 @@ export default function EmployeeTable() {
                     <th>Nachname</th>
                     <th>Ort</th>
                     <th>Qualifikationen</th>
-                    <th>Aktionen</th>
+                    <th style={{textAlign: "right"}}>Aktionen</th>
                 </tr>
                 </thead>
 

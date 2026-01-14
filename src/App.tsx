@@ -1,11 +1,9 @@
 import './App.css'
 import {Container, Nav, Navbar} from "react-bootstrap";
 import {Link, Route, Routes} from "react-router-dom";
-import {EmployeeTablePage} from "./pages/EmployeeTablePage.tsx";
+import {EmployeePage} from "./pages/EmployeePage.tsx";
 
 function App() {
-
-
     return (
         <Container>
             <Navbar bg="light" expand="lg">
@@ -20,7 +18,7 @@ function App() {
             </Navbar>
             <Routes>
                 <Route path="/employees" element={
-                        <EmployeeTablePage/>
+                        <EmployeePage/>
                 }/>
             </Routes>
         </Container>

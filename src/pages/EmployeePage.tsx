@@ -1,8 +1,6 @@
 import EmployeeTable from "../components/EmployeeTable.tsx";
 
-
-export function EmployeeTablePage() {
-
+export function EmployeePage() {
 return (
     <EmployeeTable />
 )
