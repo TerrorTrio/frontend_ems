@@ -8,18 +8,18 @@ import type {Employee} from "../types/employee.ts";
 
 interface SearchInputProps {
     employees: Employee[],
-    setEmployees: (employees: Employee[]) => void
+    setFilteredEmployees: (filteredEmployees: Employee[]) => void
 }
 
-export function SearchInput({ employees, setEmployees }: SearchInputProps) {
+export function SearchInput({ employees, setFilteredEmployees }: SearchInputProps) {
     const [searchTerm, setSearchTerm] = useState("");
     const [debouncedSearchTerm] = useDebounce(searchTerm, 500);
 
     const results = useEmployeeSearch(debouncedSearchTerm, employees);
     console.log(results);
     useEffect(() => {
-        setEmployees(results);
-    }, [results, setEmployees]);
+        setFilteredEmployees(results);
+    }, [results, setFilteredEmployees]);
 
     return <Input className={"input"}
                   placeholder={"Suchen..."}

@@ -1,16 +1,19 @@
 import "react-bootstrap";
 import {SearchInput} from "./SearchInput.tsx";
 import type {Employee} from "../types/employee.ts";
+import {Row} from "react-bootstrap";
 
 interface SearchFilterPanelProps {
     employees: Employee[],
-    setEmployees: (employees: Employee[]) => void
+    setFilteredEmployees: (filteredEmployees: Employee[]) => void
 }
 
-export function SearchFilterPanel({employees, setEmployees}: SearchFilterPanelProps) {
+export function SearchFilterPanel({employees, setFilteredEmployees}: SearchFilterPanelProps) {
     return (
         <>
-            <SearchInput employees={employees} setEmployees={setEmployees}/>
+            <Row>
+                <SearchInput employees={employees} setFilteredEmployees={setFilteredEmployees}/>
+            </Row>
         </>
     )
 }

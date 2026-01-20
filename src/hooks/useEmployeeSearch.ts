@@ -5,13 +5,11 @@ export default function useEmployeeSearch(debouncedSearchTerm: string, employees
         return employees;
     }
 
-    const lower = debouncedSearchTerm.toLowerCase();
+    const searchTermLowerCase = debouncedSearchTerm.toLowerCase();
 
-    const searchedEmployees = employees.filter(
+    return employees.filter(
         (e) =>
-            e.firstName.toLowerCase().includes(lower) ||
-            e.lastName.toLowerCase().includes(lower)
+            e.firstName.toLowerCase().includes(searchTermLowerCase) ||
+            e.lastName.toLowerCase().includes(searchTermLowerCase)
     );
-
-    return searchedEmployees;
 }

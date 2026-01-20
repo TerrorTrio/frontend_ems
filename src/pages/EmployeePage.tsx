@@ -6,6 +6,7 @@ import type {Employee} from "../types/employee.ts";
 
 export function EmployeePage() {
     const [employees, setEmployees] = useState<Employee[]>([])
+    const [filteredEmployees, setFilteredEmployees] = useState<Employee[]>([])
     const {loading, error} = useFetchEmployees(setEmployees);
 
     if (loading) {
@@ -17,8 +18,8 @@ export function EmployeePage() {
 
     return (
         <>
-            <SearchFilterPanel employees={employees} setEmployees={setEmployees}/>
-            <EmployeeTable employees={employees}/>
+            <SearchFilterPanel employees={employees} setFilteredEmployees={setFilteredEmployees}/>
+            <EmployeeTable employees={filteredEmployees}/>
         </>
     )
 }
