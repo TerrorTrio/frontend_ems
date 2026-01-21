@@ -3,7 +3,7 @@ import GroupIcon from '@mui/icons-material/GroupOutlined';
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 import "../App.css";
 
-export default function Menue() {
+export default function Navbar() {
     return (
         <aside className="sidebar">
             <nav className="nav">

@@ -20,9 +20,11 @@ const oidc = {
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
         <AuthProvider {...oidc}>
+            <RequireAuth>
                 <BrowserRouter>
                     <App/>
                 </BrowserRouter>
+            </RequireAuth>
         </AuthProvider>
     </StrictMode>,
 )
