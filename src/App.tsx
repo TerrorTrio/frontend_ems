@@ -10,6 +10,7 @@ function App() {
             <div style={{display: "flex", flex: 1, minHeight: 0}}>
                 <NavBar/>
             </div>
+
             <Footer/>
         </div>
     );
