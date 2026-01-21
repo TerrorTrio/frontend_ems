@@ -11,7 +11,6 @@ export function useFetchEmployees() {
     const [error, setError] = useState<string | null>(null);
 
 
-    useEffect(() => {
         const fetchEmployees = async () => {
             setLoading(true);
             setError(null);
@@ -25,8 +24,10 @@ export function useFetchEmployees() {
                 setLoading(false);
             }
         };
-        fetchEmployees();
-    }, [auth.user?.access_token, setEmployees]);
 
-    return {employees, loading, error};
+    useEffect(() => {
+        fetchEmployees();
+    }, [auth.user?.access_token]);
+
+    return {fetchEmployees, employees, loading, error};
 }

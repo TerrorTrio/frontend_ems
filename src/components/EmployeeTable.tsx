@@ -3,9 +3,11 @@ import Table from '@mui/joy/Table';
 import {Card, Chip, IconButton} from "@mui/joy";
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import RemoveRedEye from '@mui/icons-material/RemoveRedEyeOutlined';
+import {useDeleteEmployee} from "../hooks/useDeleteEmployees.ts";
 
 export default function EmployeeTable() {
-    const {employees, loading, error} = useFetchEmployees();
+    const {fetchEmployees, employees, loading, error} = useFetchEmployees();
+    const {deleteEmployee, deleting, deleteError} = useDeleteEmployee();
 
     if (loading) {
         return <div>Lade Mitarbeiter...</div>;
@@ -13,6 +15,15 @@ export default function EmployeeTable() {
 
     if (error) {
         return <div> {error}</div>;
+    }
+
+    if (deleteError) {
+        return <div> {deleteError} </div>
+    }
+
+    const handleDelete = async (employeeId : number)=> {
+        await deleteEmployee(employeeId);
+        await fetchEmployees();
     }
 
     return (
@@ -54,7 +65,7 @@ export default function EmployeeTable() {
                         </td>
                         <td style={{textAlign: "right", whiteSpace: 'nowrap'}}>
                             <IconButton aria-label={"View employee details"}><RemoveRedEye/></IconButton>
-                            <IconButton aria-label={"Deletes an employee"}><DeleteIcon color={"error"}/></IconButton>
+                            <IconButton aria-label={"Deletes an employee"} onClick={() => handleDelete(employee.id)} disabled={deleting}><DeleteIcon color={"error"}/></IconButton>
                         </td>
                     </tr>
                 ))}
