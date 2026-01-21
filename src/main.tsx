@@ -4,6 +4,7 @@ import {createRoot} from 'react-dom/client'
 import App from './App.tsx'
 import {BrowserRouter} from "react-router-dom";
 import {AuthProvider} from "react-oidc-context";
+import '@fontsource/inter';
 import RequireAuth from "./auth/RequireAuth.tsx";
 
 const oidc = {
