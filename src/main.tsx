@@ -6,6 +6,7 @@ import App from './App.tsx'
 import {BrowserRouter} from "react-router-dom";
 import {AuthProvider} from "react-oidc-context";
 import '@fontsource/inter';
+import RequireAuth from "./auth/RequireAuth.tsx";
 
 const oidc = {
     authority: "http://localhost:9000/application/o/employee_api",
@@ -20,9 +21,11 @@ const oidc = {
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
         <AuthProvider {...oidc}>
-            <BrowserRouter>
-                <App/>
-            </BrowserRouter>
+            <RequireAuth>
+                <BrowserRouter>
+                    <App/>
+                </BrowserRouter>
+            </RequireAuth>
         </AuthProvider>
     </StrictMode>,
 )
