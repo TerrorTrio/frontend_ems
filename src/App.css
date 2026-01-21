@@ -53,23 +53,27 @@
 }
 
 .icon-btn {
+    --btn-bg: #1a33b2;
+    --btn-shadow: rgba(31, 90, 246, 0.25);
+
     display: inline-flex;
     align-items: center;
     justify-content: center;
     width: 36px;
     height: 36px;
-    border: none;
     border-radius: 50%;
+    border: none;
+    background-color: var(--btn-bg);
     cursor: pointer;
-    background: #1A33B2FF;
     transition: transform 120ms ease, box-shadow 120ms ease;
 }
 
 .icon-btn svg {
     width: 18px;
     height: 18px;
-    stroke: #ffffff;
+
     fill: none;
+    stroke: #fff;
     stroke-width: 1.8;
     stroke-linecap: round;
     stroke-linejoin: round;
@@ -77,19 +81,12 @@
 
 .icon-btn:hover {
     transform: translateY(-1px);
-    box-shadow: 0 4px 10px rgba(31, 90, 246, 0.25);
-}
-
-.user-btn {
-    background: #1A33B2FF;
+    box-shadow: 0 4px 10px var(--btn-shadow);
 }
 
 .logout-btn {
-    background: #3b4b5f;
-}
-
-.logout-btn:hover {
-    box-shadow: 0 4px 10px rgba(59, 75, 95, 0.25);
+    --btn-bg: #3b4b5f;
+    --btn-shadow: rgba(59, 75, 95, 0.25);
 }
 
 .sidebar {
