@@ -7,13 +7,15 @@ import {EmployeePage} from "./pages/EmployeePage.tsx";
 
 function App() {
     return (
-        <div style={{display: "flex", flexDirection: "column", minHeight: "100vh"}}>
+        <div className="app-container">
             <Header/>
-            <div style={{display: "flex", flex: 1, minHeight: 0}}>
+            <div className="app-body">
                 <NavBar/>
+                <main className="app-content">
                 <Routes>
                     <Route path="/employees" element={<EmployeePage/>}/>
                 </Routes>
+                </main>
             </div>
             <Footer/>
         </div>
