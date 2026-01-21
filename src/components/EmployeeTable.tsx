@@ -1,16 +1,11 @@
 import {useFetchEmployees} from "../hooks/useFetchEmployees.ts";
-import {useEffect} from "react";
 import Table from '@mui/joy/Table';
 import {Card, Chip, IconButton} from "@mui/joy";
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import RemoveRedEye from '@mui/icons-material/RemoveRedEyeOutlined';
 
 export default function EmployeeTable() {
-    const {employees, fetchEmployees, loading, error} = useFetchEmployees();
-
-    useEffect(() => {
-        void fetchEmployees();
-    }, [fetchEmployees])
+    const {employees, loading, error} = useFetchEmployees();
 
     if (loading) {
         return <div>Lade Mitarbeiter...</div>;
