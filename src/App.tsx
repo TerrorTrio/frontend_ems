@@ -2,6 +2,7 @@ import './App.css'
 import {Container, Nav, Navbar} from "react-bootstrap";
 import {Link, Route, Routes} from "react-router-dom";
 import {EmployeePage} from "./pages/EmployeePage.tsx";
+import {EmployeeDetailPage} from "./pages/EmployeeDetailPage.tsx";
 
 function App() {
     return (
@@ -19,6 +20,9 @@ function App() {
             <Routes>
                 <Route path="/employees" element={
                         <EmployeePage/>
+                }/>
+                <Route path="/employees/:id" element={
+                        <EmployeeDetailPage/>
                 }/>
             </Routes>
         </Container>

@@ -42,3 +42,27 @@ export async function removeEmployeeFromApi({accessToken, employeeId}: RemoveEmp
         throw new Error(`Fehler beim Löschen eines Mitarbeiters: ${response.status} ${response.statusText}`)
     }
 }
+
+interface FetchSingleEmployeeProps {
+    accessToken?: string,
+    employeeId: number
+}
+
+export async function fetchSingleEmployeeFromApi({accessToken, employeeId}: FetchSingleEmployeeProps): Promise<Employee> {
+
+    const headers: HeadersInit = {
+        'Content-Type': 'application/json'
+    };
+
+    if (accessToken) {
+        headers["Authorization"] = `Bearer ${accessToken}`;
+    }
+
+    const response = await fetch(`${BASE_URL}/employees/${employeeId}`, {method: "GET", headers});
+
+    if (!response.ok) {
+        throw new Error(`Fehler beim Laden eines Mitarbeiters: ${response.status} ${response.statusText}`)
+    }
+
+    return response.json();
+}
