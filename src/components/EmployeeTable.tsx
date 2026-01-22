@@ -33,7 +33,7 @@ export default function EmployeeTable({employees}: {employees: Employee[]}) {
                 </thead>
 
                 <tbody>
-                {employees.map((employee) => (
+                {employees.map((employee : Employee) => (
                     <tr key={employee.id}>
                         <td>{employee.firstName}</td>
                         <td>{employee.lastName}</td>
