@@ -1,5 +1,5 @@
 import type {Employee} from "../types/employee.ts";
-import {Box, Card, FormControl, FormLabel, Input} from "@mui/joy";
+import {Autocomplete, Box, Card, createFilterOptions, FormControl, FormLabel, Input} from "@mui/joy";
 import {parseStreet} from "../hooks/useStreetParser.ts";
 
 interface EmployeeInfoProps {
@@ -8,6 +8,13 @@ interface EmployeeInfoProps {
 
 export default function EmployeeInfo({employee} : EmployeeInfoProps) {
     const {streetName, houseNumber} = parseStreet(employee.street);
+
+    const filterOptions = createFilterOptions(
+        {
+            matchFrom: "start",
+            stringify: (option: { skill : string }) => option.skill
+        }
+    )
 
     return (
         <Card>
@@ -50,7 +57,21 @@ export default function EmployeeInfo({employee} : EmployeeInfoProps) {
             </Box>
 
             <h4 style={{marginTop: 20}}>Qualifikationen</h4>
-
+            <FormControl>
+                <Autocomplete
+                    placeholder="Wähle eine Qualfikation aus"
+                    options={qualifications}
+                    getOptionLabel={(option) => option.skill}
+                    filterOptions={filterOptions}
+                />
+            </FormControl>
         </Card>
     )
 }
+
+const qualifications = [
+    {id: 1, skill: "Java"},
+    {id: 2, skill: "Angular"},
+    {id: 3, skill: "Scrum"},
+    {id: 4, skill: "Scuam"}
+]
