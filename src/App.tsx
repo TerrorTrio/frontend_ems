@@ -1,28 +1,25 @@
-import './App.css'
-import {Container, Nav, Navbar} from "react-bootstrap";
-import {Link, Route, Routes} from "react-router-dom";
+import "./App.css";
+import Header from "./components/Header.tsx";
+import Footer from "./components/Footer.tsx";
+import NavBar from "./components/Navbar.tsx";
+import {Route, Routes} from "react-router-dom";
 import {EmployeePage} from "./pages/EmployeePage.tsx";
 
 function App() {
     return (
-        <Container>
-            <Navbar bg="light" expand="lg">
-                <Container>
-                    <Navbar.Toggle aria-controls="basic-navbar-nav"/>
-                    <Navbar.Collapse id="basic-navbar-nav">
-                        <Nav className="me-auto">
-                            <Nav.Link as={Link} to="/employees">Mitarbeiter</Nav.Link>
-                        </Nav>
-                    </Navbar.Collapse>
-                </Container>
-            </Navbar>
-            <Routes>
-                <Route path="/employees" element={
-                        <EmployeePage/>
-                }/>
-            </Routes>
-        </Container>
-    )
+        <div className="app-container">
+            <Header/>
+            <div className="app-body">
+                <NavBar/>
+                <main className="app-content">
+                <Routes>
+                    <Route path="/employees" element={<EmployeePage/>}/>
+                </Routes>
+                </main>
+            </div>
+            <Footer/>
+        </div>
+    );
 }
 
-export default App
+export default App;

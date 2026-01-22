@@ -1,15 +1,30 @@
-import {useAuth} from "react-oidc-context";
-import type {JSX} from "react";
+import { useAuth } from "react-oidc-context";
+import { useEffect, type ReactNode } from "react";
 
-export default function RequireAuth({children}: { children: JSX.Element }) {
+interface RequireAuthProps {
+    children: ReactNode;
+}
+
+export default function RequireAuth({ children }: RequireAuthProps) {
     const auth = useAuth();
 
-    if (auth.isLoading) return <p>Lädt…</p>;
-    if (auth.error) return <p>Fehler: {auth.error.message}</p>;
+    useEffect(() => {
+        if (!auth.isLoading && !auth.isAuthenticated && !auth.activeNavigator) {
+            auth.signinRedirect();
+        }
+    }, [auth.isLoading, auth.isAuthenticated, auth.activeNavigator]);
+
+    if (auth.isLoading) {
+        return <div>Laden...</div>;
+    }
+
+    if (auth.error) {
+        return <div>Fehler: {auth.error.message}</div>;
+    }
 
     if (!auth.isAuthenticated) {
-        auth.signinRedirect();
-        return <div>Weiterleitung zum Login...</div>;
+        return <div>Weiterleitung zur Anmeldung...</div>;
     }
-    return children;
+
+    return <>{children}</>;
 }
