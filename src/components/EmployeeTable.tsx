@@ -11,7 +11,7 @@ export default function EmployeeTable({employees}: {employees: Employee[]}) {
             width: '100%',
             mt: 2
         }}>
-            <h3 style={{marginLeft: 2}}>Mitarbeiterliste ({employees.length} gefunden)</h3>
+            <h4 style={{marginLeft: 2}}>Mitarbeiterliste ({employees.length} gefunden)</h4>
             <Table sx={{
                 mt: 4,
                 tableLayout: 'auto',

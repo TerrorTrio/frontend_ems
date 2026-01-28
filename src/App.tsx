@@ -20,7 +20,7 @@ function App() {
                 <NavBar/>
                 <main style={{
                     flex: 1,
-                    padding: "3vw 9vw 9vw",
+                    padding: "2vw 9vw 2vw 9vw",
                     overflow: "auto",
                 }}>
                     <Routes>

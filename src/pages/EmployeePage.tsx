@@ -17,6 +17,9 @@ export function EmployeePage() {
 
     return (
         <>
+            <h3 style={{
+                marginBottom: "20px"
+            }}>Mitarbeiterübersicht</h3>
             <SearchFilterPanel employees={employees} setFilteredEmployees={setFilteredEmployees}/>
             <EmployeeTable employees={filteredEmployees}/>
         </>
