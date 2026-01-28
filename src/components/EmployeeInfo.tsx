@@ -132,7 +132,7 @@ export default function EmployeeInfo({employee, onUpdate}: EmployeeInfoProps) {
 
     return (
         <Card sx={{marginTop: 3}}>
-            <h4>Persönliche Daten</h4>
+            <h5>Persönliche Daten</h5>
             <Box sx={{display: "flex", gap: 2}}>
                 <FormControl sx={{flex: 1}}>
                     <FormLabel>Vorname</FormLabel>
@@ -152,7 +152,7 @@ export default function EmployeeInfo({employee, onUpdate}: EmployeeInfoProps) {
                 </FormControl>
             </Box>
 
-            <h4 style={{marginTop: 20}}>Kontaktdaten</h4>
+            <h5 style={{marginTop: 10}}>Kontaktdaten</h5>
             <FormControl>
                 <FormLabel>Telefon</FormLabel>
                 <Input
@@ -162,7 +162,7 @@ export default function EmployeeInfo({employee, onUpdate}: EmployeeInfoProps) {
                 />
             </FormControl>
 
-            <h4 style={{marginTop: 20}}>Adresse</h4>
+            <h5 style={{marginTop: 10}}>Adresse</h5>
             <Box sx={{display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2}}>
                 <FormControl>
                     <FormLabel>Straße</FormLabel>
@@ -198,7 +198,7 @@ export default function EmployeeInfo({employee, onUpdate}: EmployeeInfoProps) {
                 </FormControl>
             </Box>
 
-            <h4 style={{marginTop: 20}}>Qualifikationen</h4>
+            <h5 style={{marginTop: 10}}>Qualifikationen</h5>
             <FormControl>
                 <Autocomplete<Skill>
                     key={selectedSkills.length}

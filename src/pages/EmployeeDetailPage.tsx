@@ -20,7 +20,7 @@ export function EmployeeDetailPage() {
 
     return (
         <>
-            <h1>Mitarbeiterdetails</h1>
+            <h3>Mitarbeiterdetails</h3>
             <EmployeeInfo employee={employee} onUpdate={refetch}/>
         </>
     )
