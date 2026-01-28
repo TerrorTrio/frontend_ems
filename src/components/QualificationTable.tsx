@@ -22,7 +22,7 @@ export default function QualificationTable() {
             }}
         >
             <h3 style={{ marginLeft: 2 }}>
-                Qualifikationen ({skills.length} gefunden)
+               Aktuelle Qualifikationen ({skills.length} gefunden)
             </h3>
 
             <Table
@@ -38,7 +38,7 @@ export default function QualificationTable() {
                 <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Skill</th>
+                    <th>Bezeichnung</th>
                 </tr>
                 </thead>
 
