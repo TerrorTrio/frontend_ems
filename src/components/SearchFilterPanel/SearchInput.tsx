@@ -1,5 +1,5 @@
 import {Input} from "@mui/joy";
-import "./css/SearchFilterPanel.css";
+import "../css/SearchFilterPanel.css";
 import {SearchRounded} from "@mui/icons-material";
 
 interface SearchInputProps {

@@ -139,7 +139,7 @@
 
 .app-content {
     flex: 1;
-    padding: 3% 10% 10%;
+    padding: 3vw 9vw 9vw;
     overflow: auto;
 }
 

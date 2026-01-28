@@ -1,11 +1,11 @@
 import "react-bootstrap";
 import {SearchInput} from "./SearchInput.tsx";
-import type {Employee} from "../types/employee.ts";
+import type {Employee} from "../../types/employee.ts";
 import {Filter} from "./Filter.tsx";
-import "./css/SearchFilterPanel.css";
+import "../css/SearchFilterPanel.css";
 import {useEffect, useState} from "react";
 import {useDebounce} from "use-debounce";
-import useEmployeeSearch from "../hooks/useEmployeeSearch.ts";
+import useEmployeeFilter from "../../hooks/useEmployeeFilter.ts";
 
 interface SearchFilterPanelProps {
     employees: Employee[],
@@ -18,8 +18,7 @@ export function SearchFilterPanel({employees, setFilteredEmployees}: SearchFilte
     const [debouncedSearchName] = useDebounce(searchedName, 500);
     const [selectedQualifications, setSelectedQualifications] = useState<string[]>([]);
 
-
-    const results = useEmployeeSearch(debouncedSearchName, employees, searchedCity, selectedQualifications);
+    const results = useEmployeeFilter(debouncedSearchName, employees, searchedCity, selectedQualifications);
     console.log(results);
     useEffect(() => {
         setFilteredEmployees(results);
@@ -29,8 +28,7 @@ export function SearchFilterPanel({employees, setFilteredEmployees}: SearchFilte
         <>
             <div className="search-filter-panel">
                 <SearchInput searchedName={searchedName} setSearchedName={setSearchedName}/>
-                <Filter selectedQualifications={selectedQualifications}
-                        setSelectedQualifications={setSelectedQualifications} setSearchedCity={setSearchedCity}/>
+                <Filter setSelectedQualifications={setSelectedQualifications} setSearchedCity={setSearchedCity}/>
             </div>
         </>
     )

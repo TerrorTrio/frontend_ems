@@ -6,7 +6,7 @@ export interface Employee {
     skillSet: Skill[]
 }
 
-interface Skill{
+export interface Skill{
     id: number,
     skill: string
 }
