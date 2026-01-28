@@ -5,9 +5,8 @@ import {useState} from "react";
 import type {Employee} from "../types/employee.ts";
 
 export function EmployeePage() {
-    const [employees, setEmployees] = useState<Employee[]>([])
     const [filteredEmployees, setFilteredEmployees] = useState<Employee[]>([])
-    const {loading, error} = useFetchEmployees(setEmployees);
+    const {employees, loading, error } = useFetchEmployees();
 
     if (loading) {
         return <div>Lade Mitarbeiter...</div>;

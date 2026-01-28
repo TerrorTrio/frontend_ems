@@ -45,7 +45,7 @@ export default function Navbar() {
                                     to={link.to}
                                     style={{
                                         ...navLinkStyle,
-                                        color: isActive ? "#1A33B2FF" : "#4a5568",
+                                        color: isActive ? "#1A33D2FF" : "#4a5568",
                                     }}
                                     onClick={() => setActiveLink(link.to)}
                                 >
