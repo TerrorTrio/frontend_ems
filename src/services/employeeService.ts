@@ -66,3 +66,38 @@ export async function fetchSingleEmployeeFromApi({accessToken, employeeId}: Fetc
 
     return response.json();
 }
+
+interface UpdateEmployeeProps {
+    accessToken?: string,
+    employeeId: number,
+    employee: Employee
+}
+
+export async function updateEmployeeInApi({accessToken, employeeId, employee}: UpdateEmployeeProps): Promise<Employee> {
+
+    const headers: HeadersInit = {
+        'Content-Type': 'application/json'
+    };
+
+    if (accessToken) {
+        headers["Authorization"] = `Bearer ${accessToken}`;
+    }
+
+    const body = {
+        lastName: employee.lastName,
+        firstName: employee.firstName,
+        street: employee.street,
+        postcode: employee.postcode,
+        city: employee.city,
+        phone: employee.phone,
+        skillSet: employee.skillSet?.map(skill => skill.id) ?? []
+    };
+
+    const response = await fetch(`${BASE_URL}/employees/${employeeId}`, {method: "PUT", headers, body: JSON.stringify(body)});
+
+    if (!response.ok) {
+        throw new Error(`Fehler beim Aktualisieren: ${response.status} ${response.statusText}`);
+    }
+
+    return response.json();
+}

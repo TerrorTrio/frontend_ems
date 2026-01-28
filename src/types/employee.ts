@@ -1,3 +1,5 @@
+import type {Skill} from "./skill.ts";
+
 export interface Employee {
     id: number,
     firstName: string,
@@ -7,9 +9,4 @@ export interface Employee {
     city: string,
     phone: string,
     skillSet: Skill[]
-}
-
-interface Skill{
-    id: number,
-    skill: string
 }

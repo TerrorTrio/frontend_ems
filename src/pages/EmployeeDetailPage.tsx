@@ -4,7 +4,7 @@ import {useFetchSingleEmployee} from "../hooks/useFetchSingleEmployee.ts";
 
 export function EmployeeDetailPage() {
     const {id} = useParams<{id: string}>();
-    const {employee, loading, error} = useFetchSingleEmployee(Number(id));
+    const {refetch, employee, loading, error} = useFetchSingleEmployee(Number(id));
 
     if (loading) {
         return <div>Lade Mitarbeiter...</div>;
@@ -21,7 +21,7 @@ export function EmployeeDetailPage() {
     return (
         <>
         <h1>Mitarbeiterdetails</h1>
-        <EmployeeInfo employee={employee} />
+        <EmployeeInfo employee={employee} onUpdate={refetch}/>
         </>
     )
 }

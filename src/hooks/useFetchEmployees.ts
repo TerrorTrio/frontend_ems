@@ -17,8 +17,8 @@ export function useFetchEmployees() {
             try {
                 const response = await fetchEmployeesFromApi(auth.user?.access_token);
                 setEmployees(response);
-            } catch (err) {
-                setError(err instanceof Error ? err.message : 'Ein Fehler ist aufgetreten');
+            } catch (error) {
+                setError(error instanceof Error ? error.message : 'Ein Fehler ist aufgetreten');
             } finally {
                 setLoading(false);
             }
@@ -28,5 +28,5 @@ export function useFetchEmployees() {
         fetchEmployees();
     }, [auth.user?.access_token]);
 
-    return {fetchEmployees, employees, loading, error};
+    return {refetch: fetchEmployees, employees, loading, error};
 }

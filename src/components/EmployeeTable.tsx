@@ -1,39 +1,22 @@
 import {useFetchEmployees} from "../hooks/useFetchEmployees.ts";
 import Table from '@mui/joy/Table';
-import {Button, Card, Chip, DialogActions, DialogContent, DialogTitle, IconButton, Modal, ModalDialog} from "@mui/joy";
+import {Card, Chip, IconButton} from "@mui/joy";
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import RemoveRedEye from '@mui/icons-material/RemoveRedEyeOutlined';
-import {useDeleteEmployee} from "../hooks/useDeleteEmployees.ts";
+import {useDeleteEmployee} from "../hooks/useDeleteEmployee.ts";
 import {useNavigate} from "react-router-dom";
-import {useState} from "react";
+import {useDeleteDialog} from "../hooks/useDeleteDialog.tsx";
 
 export default function EmployeeTable() {
-    const {fetchEmployees, employees, loading, error} = useFetchEmployees();
+    const {refetch, employees, loading, error} = useFetchEmployees();
     const {deleteEmployee, deleting, deleteError} = useDeleteEmployee();
     const navigate = useNavigate();
 
-    const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-    const [employeeToDelete, setEmployeeToDelete] = useState<number | null>(null);
+  const {openDialog, Dialog} = useDeleteDialog(async (id) => {
+      await deleteEmployee(id);
+      await refetch();
+  })
 
-
-    const openDeleteModal = (employeeId: number) => {
-        setEmployeeToDelete(employeeId);
-        setDeleteModalOpen(true);
-    };
-
-    const handleConfirmDelete = async () => {
-        if (employeeToDelete !== null) {
-            await deleteEmployee(employeeToDelete);
-            await fetchEmployees();
-        }
-        setDeleteModalOpen(false);
-        setEmployeeToDelete(null);
-    };
-
-    const handleCancelDelete = () => {
-        setDeleteModalOpen(false);
-        setEmployeeToDelete(null);
-    };
 
     if (loading) {
         return <div>Lade Mitarbeiter...</div>;
@@ -88,28 +71,13 @@ export default function EmployeeTable() {
                             <IconButton
                                 aria-label="View employee details"
                                 onClick={() => navigate(`/employees/${employee.id}`)}><RemoveRedEye/></IconButton>
-                            <IconButton aria-label={"Deletes an employee"} onClick={() => openDeleteModal(employee.id)} disabled={deleting}><DeleteIcon color={"error"}/></IconButton>
+                            <IconButton aria-label={"Deletes an employee"} onClick={() => openDialog(employee.id)} disabled={deleting}><DeleteIcon color={"error"}/></IconButton>
                         </td>
-
-                        <Modal open={deleteModalOpen} onClose={handleCancelDelete}>
-                            <ModalDialog variant="outlined" role="alertdialog">
-                                <DialogTitle>Mitarbeiter löschen</DialogTitle>
-                                <DialogContent>Möchtest du diesen Mitarbeiter wirklich löschen?
-                                </DialogContent>
-                                <DialogActions>
-                                    <Button variant="solid" color="danger" onClick={handleConfirmDelete} loading={deleting}>
-                                        Löschen
-                                    </Button>
-                                    <Button variant="plain" color="neutral" onClick={handleCancelDelete}>
-                                        Abbrechen
-                                    </Button>
-                                </DialogActions>
-                            </ModalDialog>
-                        </Modal>
                     </tr>
                 ))}
                 </tbody>
             </Table>
+            <Dialog/>
         </Card>
     )
 }
