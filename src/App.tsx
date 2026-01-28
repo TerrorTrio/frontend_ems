@@ -1,22 +1,33 @@
-import "./App.css";
 import Header from "./components/Header.tsx";
 import Footer from "./components/Footer.tsx";
 import NavBar from "./components/Navbar.tsx";
 import {Route, Routes} from "react-router-dom";
 import {EmployeePage} from "./pages/EmployeePage.tsx";
-import {QualificationsPage} from "./pages/QualificationPages.tsx";
+import {QualificationsPage} from "./pages/QualificationPage.tsx";
 
 function App() {
     return (
-        <div className="app-container">
+        <div style={{
+            display: "flex",
+            flexDirection: "column",
+            minHeight: "100vh",
+        }}>
             <Header/>
-            <div className="app-body">
+            <div style={{
+                display: "flex",
+                flex: 1,
+                minHeight: 0,
+            }}>
                 <NavBar/>
-                <main className="app-content">
-                <Routes>
-                    <Route path="/employees" element={<EmployeePage/>}/>
-                    <Route path="/qualifications" element={<QualificationsPage/>}/>
-                </Routes>
+                <main style={{
+                    flex: 1,
+                    padding: "2vw 9vw 2vw 9vw",
+                    overflow: "auto",
+                }}>
+                    <Routes>
+                        <Route path="/employees" element={<EmployeePage/>}/>
+                        <Route path="/qualifications" element={<QualificationsPage/>}/>
+                    </Routes>
                 </main>
             </div>
             <Footer/>
