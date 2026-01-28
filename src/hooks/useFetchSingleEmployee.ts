@@ -31,5 +31,5 @@ export function useFetchSingleEmployee(employeeId: number) {
         fetchEmployee();
     }, [auth.user?.access_token]);
 
-    return {fetchEmployee, employee, loading, error};
+    return {refetch: fetchEmployee, employee, loading, error};
 }
