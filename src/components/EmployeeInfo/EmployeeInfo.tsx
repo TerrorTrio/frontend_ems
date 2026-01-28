@@ -1,4 +1,4 @@
-import type {Employee} from "../types/employee.ts";
+import type {Employee} from "../../types/employee.ts";
 import {
     Autocomplete,
     Box,
@@ -11,15 +11,15 @@ import {
     Input,
     Snackbar
 } from "@mui/joy";
-import {parseStreet} from "../hooks/useStreetParser.ts";
+import {parseStreet} from "../../hooks/useStreetParser.ts";
 import {type SyntheticEvent, useEffect, useState} from "react";
 import CloseIcon from "@mui/icons-material/Close";
-import {useDeleteDialog} from "../hooks/useDeleteDialog.tsx";
-import {useDeleteEmployee} from "../hooks/useDeleteEmployee.ts";
+import {useDeleteDialog} from "../../hooks/useDeleteDialog.tsx";
+import {useDeleteEmployee} from "../../hooks/useDeleteEmployee.ts";
 import {useNavigate} from "react-router-dom";
-import type {Skill} from "../types/skill.ts";
-import {useUpdateEmployee} from "../hooks/useUpdateEmployee.ts";
-import {useFetchQualifications} from "../hooks/useFetchQualifications.ts";
+import type {Skill} from "../../types/skill.ts";
+import {useUpdateEmployee} from "../../hooks/useUpdateEmployee.ts";
+import {useFetchQualifications} from "../../hooks/useFetchQualifications.ts";
 
 interface EmployeeInfoProps {
     employee: Employee

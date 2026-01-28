@@ -1,4 +1,4 @@
-import EmployeeInfo from "../components/EmployeeInfo.tsx";
+import EmployeeInfo from "../components/EmployeeInfo/EmployeeInfo.tsx";
 import {useParams} from "react-router-dom";
 import {useFetchSingleEmployee} from "../hooks/useFetchSingleEmployee.ts";
 
