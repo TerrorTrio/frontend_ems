@@ -1,6 +1,7 @@
 import {useAuth} from "react-oidc-context";
 import {useEffect, useState} from "react";
-import {fetchQualifications} from "../services/qualificationsService.ts";
+import {fetchQualifications} from "../services/qualificationService.ts";
+import type {Skill} from "../types/employee.ts";
 
 export function useFetchQualifications() {
     const auth = useAuth();
