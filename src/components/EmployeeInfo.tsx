@@ -130,6 +130,10 @@ export default function EmployeeInfo({employee, onUpdate}: EmployeeInfoProps) {
         setIsEditing(false);
     }
 
+    const handleGoBack = () => {
+        navigate("/employees")
+    }
+
     return (
         <Card sx={{marginTop: 3}}>
             <h5>Persönliche Daten</h5>
@@ -252,7 +256,10 @@ export default function EmployeeInfo({employee, onUpdate}: EmployeeInfoProps) {
                             <Button color="primary" onClick={handleSave} loading={updating}>Speichern</Button>
                         </>
                     ) : (
+                        <>
+                        <Button color="neutral" onClick={handleGoBack}>Zurück</Button>
                         <Button color="primary" onClick={() => setIsEditing(true)}>Bearbeiten</Button>
+                        </>
                     )}
                 </Box>
             </Box>
