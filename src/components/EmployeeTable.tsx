@@ -5,7 +5,6 @@ import RemoveRedEye from '@mui/icons-material/RemoveRedEyeOutlined';
 import type {Employee} from "../types/employee.ts";
 
 export default function EmployeeTable({employees}: {employees: Employee[]}) {
-    console.log(employees);
     return (
         <Card sx={{
             boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.2)',

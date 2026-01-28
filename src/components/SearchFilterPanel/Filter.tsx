@@ -80,12 +80,7 @@ export function Filter({setSelectedQualifications, setSearchedCity: setSearchedC
                             "&:hover": {backgroundColor: "red"}
                         }}
                                 onClick={() => {
-                                    setTempCity("")
-                                    setSearchedCity("")
-                                    setTempQualifications([])
-                                    setSelectedQualifications([])
-                                    setShowFilter(false);
-                                    setFilterSelected(false);
+                                    handleClearFields();
                                 }}>
                             <FaTimesCircle/>
                         </Button>
@@ -94,4 +89,13 @@ export function Filter({setSelectedQualifications, setSearchedCity: setSearchedC
             )}
         </div>
     );
+
+    function handleClearFields() {
+        setTempCity("")
+        setSearchedCity("")
+        setTempQualifications([])
+        setSelectedQualifications([])
+        setShowFilter(false);
+        setFilterSelected(false);
+    }
 }

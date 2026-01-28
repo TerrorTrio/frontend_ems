@@ -18,7 +18,6 @@ export function SearchFilterPanel({employees, setFilteredEmployees}: SearchFilte
     const [selectedQualifications, setSelectedQualifications] = useState<string[]>([]);
 
     const results = useEmployeeFilter(debouncedSearchName, employees, searchedCity, selectedQualifications);
-    console.log(results);
     useEffect(() => {
         setFilteredEmployees(results);
     }, [results, setFilteredEmployees]);
