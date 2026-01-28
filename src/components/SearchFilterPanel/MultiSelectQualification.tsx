@@ -1,16 +1,16 @@
 import {useState} from "react";
 import {Input} from "@mui/joy";
 import {useFetchQualifications} from "../../hooks/useFetchQualifications.ts";
-import type {Skill} from "../../types/employee.ts";
+import type {Skill} from "../../types/skill.ts";
 
-interface Props {
+interface MultiSelectQualificationProps {
     tempQualifications: string[];
     setTempQualifications: (selected: string[]) => void;
 }
 
-export function MultiSelectQualification({tempQualifications, setTempQualifications}: Props) {
+export function MultiSelectQualification({tempQualifications, setTempQualifications}: MultiSelectQualificationProps) {
     const [search, setSearch] = useState("");
-    const {skills, loading, error} = useFetchQualifications();
+    const {skills, loadingQualifications, fetchQualificationError} = useFetchQualifications();
 
     function toggleOption(option: string) {
         const newSelected = tempQualifications.includes(option)
@@ -41,9 +41,9 @@ export function MultiSelectQualification({tempQualifications, setTempQualificati
                         maxHeight: 200,
                         overflowY: "auto",
                     }}>
-                    {loading && <li className="msd-loading">Lade Qualifikationen...</li>}
-                    {error && <li className="msd-error">Fehler beim Laden der Qualifikationen</li>}
-                    {!loading && !error && filteredOptions.map((option: Skill) => (
+                    {loadingQualifications && <li className="msd-loading">Lade Qualifikationen...</li>}
+                    {fetchQualificationError && <li className="msd-error">Fehler beim Laden der Qualifikationen</li>}
+                    {!loadingQualifications && !fetchQualificationError && filteredOptions.map((option: Skill) => (
                         <li
                             key={option.skill}
                             className="msd-item"

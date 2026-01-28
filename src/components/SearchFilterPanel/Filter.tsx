@@ -4,12 +4,12 @@ import {useState} from "react";
 import {Box, Button, Card, Input} from "@mui/joy";
 import {MultiSelectQualification} from "./MultiSelectQualification.tsx";
 
-interface Props {
+interface FilterProps {
     setSelectedQualifications: (selected: string[]) => void;
     setSearchedCity: (selected: string) => void;
 }
 
-export function Filter({setSelectedQualifications, setSearchedCity: setSearchedCity}: Props) {
+export function Filter({setSelectedQualifications, setSearchedCity: setSearchedCity}: FilterProps) {
     const [showFilter, setShowFilter] = useState(false);
     const [filterSelected, setFilterSelected] = useState(false);
     const [tempCity, setTempCity] = useState<string>("");
