@@ -3,7 +3,7 @@ import {useParams} from "react-router-dom";
 import {useFetchSingleEmployee} from "../hooks/useFetchSingleEmployee.ts";
 
 export function EmployeeDetailPage() {
-    const {id} = useParams<{id: string}>();
+    const {id} = useParams<{ id: string }>();
     const {refetch, employee, loading, error} = useFetchSingleEmployee(Number(id));
 
     if (loading) {
@@ -20,8 +20,8 @@ export function EmployeeDetailPage() {
 
     return (
         <>
-        <h1>Mitarbeiterdetails</h1>
-        <EmployeeInfo employee={employee} onUpdate={refetch}/>
+            <h1>Mitarbeiterdetails</h1>
+            <EmployeeInfo employee={employee} onUpdate={refetch}/>
         </>
     )
 }

@@ -1,5 +1,16 @@
 import type {Employee} from "../types/employee.ts";
-import {Autocomplete, Box, Button, Card, Chip, createFilterOptions, FormControl, FormLabel, Input, Snackbar} from "@mui/joy";
+import {
+    Autocomplete,
+    Box,
+    Button,
+    Card,
+    Chip,
+    createFilterOptions,
+    FormControl,
+    FormLabel,
+    Input,
+    Snackbar
+} from "@mui/joy";
 import {parseStreet} from "../hooks/useStreetParser.ts";
 import {type SyntheticEvent, useEffect, useState} from "react";
 import CloseIcon from "@mui/icons-material/Close";
@@ -34,7 +45,7 @@ export default function EmployeeInfo({employee, onUpdate}: EmployeeInfoProps) {
         city: employee.city
     })
 
-    const [toast, setToast] = useState<{open: boolean; message: string; color: "danger" | "success"}>({
+    const [toast, setToast] = useState<{ open: boolean; message: string; color: "danger" | "success" }>({
         open: false,
         message: "",
         color: "danger"

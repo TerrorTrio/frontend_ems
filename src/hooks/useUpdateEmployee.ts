@@ -14,11 +14,11 @@ export function useUpdateEmployee() {
         setUpdateError(null);
 
         try {
-           return await updateEmployeeInApi({
-               accessToken: auth.user?.access_token,
-               employeeId: employee.id,
-               employee
-           })
+            return await updateEmployeeInApi({
+                accessToken: auth.user?.access_token,
+                employeeId: employee.id,
+                employee
+            })
         } catch (error) {
             setUpdateError(error instanceof Error ? error.message : 'Ein Fehler ist aufgetreten');
             return null;

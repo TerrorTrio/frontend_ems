@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import { useAuth } from "react-oidc-context";
+import {useAuth} from "react-oidc-context";
 import type {Employee} from "../types/employee.ts";
 import {fetchEmployeesFromApi} from "../services/employeeService.ts";
 
@@ -10,19 +10,19 @@ export function useFetchEmployees() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-        const fetchEmployees = async () => {
-            setLoading(true);
-            setError(null);
+    const fetchEmployees = async () => {
+        setLoading(true);
+        setError(null);
 
-            try {
-                const response = await fetchEmployeesFromApi(auth.user?.access_token);
-                setEmployees(response);
-            } catch (error) {
-                setError(error instanceof Error ? error.message : 'Ein Fehler ist aufgetreten');
-            } finally {
-                setLoading(false);
-            }
-        };
+        try {
+            const response = await fetchEmployeesFromApi(auth.user?.access_token);
+            setEmployees(response);
+        } catch (error) {
+            setError(error instanceof Error ? error.message : 'Ein Fehler ist aufgetreten');
+        } finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
         fetchEmployees();

@@ -48,7 +48,10 @@ interface FetchSingleEmployeeProps {
     employeeId: number
 }
 
-export async function fetchSingleEmployeeFromApi({accessToken, employeeId}: FetchSingleEmployeeProps): Promise<Employee> {
+export async function fetchSingleEmployeeFromApi({
+                                                     accessToken,
+                                                     employeeId
+                                                 }: FetchSingleEmployeeProps): Promise<Employee> {
 
     const headers: HeadersInit = {
         'Content-Type': 'application/json'
@@ -93,7 +96,11 @@ export async function updateEmployeeInApi({accessToken, employeeId, employee}: U
         skillSet: employee.skillSet?.map(skill => skill.id) ?? []
     };
 
-    const response = await fetch(`${BASE_URL}/employees/${employeeId}`, {method: "PUT", headers, body: JSON.stringify(body)});
+    const response = await fetch(`${BASE_URL}/employees/${employeeId}`, {
+        method: "PUT",
+        headers,
+        body: JSON.stringify(body)
+    });
 
     if (!response.ok) {
         throw new Error(`Fehler beim Aktualisieren: ${response.status} ${response.statusText}`);

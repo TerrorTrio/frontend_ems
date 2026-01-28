@@ -12,11 +12,10 @@ export default function EmployeeTable() {
     const {deleteEmployee, deleting, deleteError} = useDeleteEmployee();
     const navigate = useNavigate();
 
-  const {openDialog, Dialog} = useDeleteDialog(async (id) => {
-      await deleteEmployee(id);
-      await refetch();
-  })
-
+    const {openDialog, Dialog} = useDeleteDialog(async (id) => {
+        await deleteEmployee(id);
+        await refetch();
+    })
 
     if (loading) {
         return <div>Lade Mitarbeiter...</div>;
@@ -71,7 +70,8 @@ export default function EmployeeTable() {
                             <IconButton
                                 aria-label="View employee details"
                                 onClick={() => navigate(`/employees/${employee.id}`)}><RemoveRedEye/></IconButton>
-                            <IconButton aria-label={"Deletes an employee"} onClick={() => openDialog(employee.id)} disabled={deleting}><DeleteIcon color={"error"}/></IconButton>
+                            <IconButton aria-label={"Deletes an employee"} onClick={() => openDialog(employee.id)}
+                                        disabled={deleting}><DeleteIcon color={"error"}/></IconButton>
                         </td>
                     </tr>
                 ))}
