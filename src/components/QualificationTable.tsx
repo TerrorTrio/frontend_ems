@@ -3,14 +3,14 @@ import Table from "@mui/joy/Table";
 import { Card, Chip } from "@mui/joy";
 
 export default function QualificationTable() {
-    const { skills, loading, error } = useFetchQualifications();
+    const { skills, loadingQualifications, fetchQualificationError } = useFetchQualifications();
 
-    if (loading) {
+    if (loadingQualifications) {
         return <div>Lade Qualifikationen...</div>;
     }
 
-    if (error) {
-        return <div>{error}</div>;
+    if (fetchQualificationError) {
+        return <div>{fetchQualificationError}</div>;
     }
 
     return (

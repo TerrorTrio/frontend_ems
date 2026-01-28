@@ -16,7 +16,6 @@ const oidc = {
     scope: "openid profile email", // optional: " offline_access"
 };
 
-
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
         <AuthProvider {...oidc}>
