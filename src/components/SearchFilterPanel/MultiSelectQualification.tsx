@@ -8,7 +8,7 @@ interface Props {
     setTempQualifications: (selected: string[]) => void;
 }
 
-export function MultiSelectQualification({ tempQualifications, setTempQualifications }: Props) {
+export function MultiSelectQualification({tempQualifications, setTempQualifications}: Props) {
     const [search, setSearch] = useState("");
     const {skills, loading, error} = useFetchQualifications();
 
@@ -18,6 +18,7 @@ export function MultiSelectQualification({ tempQualifications, setTempQualificat
             : [...tempQualifications, option];
         setTempQualifications(newSelected);
     }
+
     const filteredOptions = skills.filter((o) =>
         o.skill.toLowerCase().includes(search.toLowerCase())
     );
@@ -33,7 +34,13 @@ export function MultiSelectQualification({ tempQualifications, setTempQualificat
                     className="msd-search"
                 />
 
-                <ul className="qualification-list msd-list">
+                <ul className="msd-list"
+                    style={{
+                        listStyle: "none",
+                        padding: 13,
+                        maxHeight: 200,
+                        overflowY: "auto",
+                    }}>
                     {loading && <li className="msd-loading">Lade Qualifikationen...</li>}
                     {error && <li className="msd-error">Fehler beim Laden der Qualifikationen</li>}
                     {!loading && !error && filteredOptions.map((option: Skill) => (

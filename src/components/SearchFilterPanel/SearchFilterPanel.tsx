@@ -2,7 +2,6 @@ import "react-bootstrap";
 import {SearchInput} from "./SearchInput.tsx";
 import type {Employee} from "../../types/employee.ts";
 import {Filter} from "./Filter.tsx";
-import "../css/SearchFilterPanel.css";
 import {useEffect, useState} from "react";
 import {useDebounce} from "use-debounce";
 import useEmployeeFilter from "../../hooks/useEmployeeFilter.ts";
@@ -26,7 +25,13 @@ export function SearchFilterPanel({employees, setFilteredEmployees}: SearchFilte
 
     return (
         <>
-            <div className="search-filter-panel">
+            <div style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                width: "100%",
+                height: "36px",
+            }}>
                 <SearchInput searchedName={searchedName} setSearchedName={setSearchedName}/>
                 <Filter setSelectedQualifications={setSelectedQualifications} setSearchedCity={setSearchedCity}/>
             </div>

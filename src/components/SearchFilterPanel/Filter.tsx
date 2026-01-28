@@ -1,6 +1,5 @@
 import {FaTimesCircle} from "react-icons/fa";
 import {FaFilter} from "react-icons/fa";
-import "../css/SearchFilterPanel.css"
 import {useState} from "react";
 import {Box, Button, Card, Input} from "@mui/joy";
 import {MultiSelectQualification} from "./MultiSelectQualification.tsx";
@@ -17,7 +16,12 @@ export function Filter({setSelectedQualifications, setSearchedCity: setSearchedC
     const [tempQualifications, setTempQualifications] = useState<string[]>([]);
 
     return (
-        <div className={"filter-wrapper"}>
+        <div style={{
+            position: "relative",
+            display: "inline-block",
+            width: "9rem",
+            height: "36px",
+        }}>
             <Button
                 sx={{
                     padding: 0,
@@ -34,7 +38,17 @@ export function Filter({setSelectedQualifications, setSearchedCity: setSearchedC
                 <FaFilter/> Filter
             </Button>
             {showFilter && (
-                <Card className="filter-widget">
+                <Card sx={{
+                    position: "absolute",
+                    zIndex: 9999,
+                    left: "-6rem",
+                    mt: "0.5rem",
+                    width: "15rem",
+                    height: "auto",
+                    backgroundColor: "white",
+                    borderRadius: "12px",
+                    boxShadow: "0 5px 30px rgba(0, 0, 0, 0.2)",
+                }}>
                     <Input placeholder={"Ort..."} value={tempCity} onChange={(e) => {
                         setTempCity(e.target.value)
                     }}/>
