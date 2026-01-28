@@ -140,6 +140,7 @@ export default function EmployeeInfo({employee, onUpdate}: EmployeeInfoProps) {
                         value={isEditing ? formData.firstName : employee.firstName}
                         onChange={(event) => handleInputChange("firstName", event.target.value)}
                         readOnly={!isEditing}
+                        sx={{fontSize: 14}}
                     />
                 </FormControl>
                 <FormControl sx={{flex: 1}}>
@@ -148,6 +149,7 @@ export default function EmployeeInfo({employee, onUpdate}: EmployeeInfoProps) {
                         value={isEditing ? formData.lastName : employee.lastName}
                         onChange={(event) => handleInputChange("lastName", event.target.value)}
                         readOnly={!isEditing}
+                        sx={{fontSize: 14}}
                     />
                 </FormControl>
             </Box>
@@ -159,6 +161,7 @@ export default function EmployeeInfo({employee, onUpdate}: EmployeeInfoProps) {
                     value={isEditing ? formData.phone : employee.phone}
                     onChange={(event) => handleInputChange("phone", event.target.value)}
                     readOnly={!isEditing}
+                    sx={{fontSize: 14}}
                 />
             </FormControl>
 
@@ -170,6 +173,7 @@ export default function EmployeeInfo({employee, onUpdate}: EmployeeInfoProps) {
                         value={isEditing ? formData.streetName : streetName}
                         onChange={(event) => handleInputChange("streetName", event.target.value)}
                         readOnly={!isEditing}
+                        sx={{fontSize: 14}}
                     />
                 </FormControl>
                 <FormControl>
@@ -178,6 +182,7 @@ export default function EmployeeInfo({employee, onUpdate}: EmployeeInfoProps) {
                         value={isEditing ? formData.houseNumber : houseNumber}
                         onChange={(event) => handleInputChange("houseNumber", event.target.value)}
                         readOnly={!isEditing}
+                        sx={{fontSize: 14}}
                     />
                 </FormControl>
                 <FormControl>
@@ -186,6 +191,7 @@ export default function EmployeeInfo({employee, onUpdate}: EmployeeInfoProps) {
                         value={isEditing ? formData.postcode : employee.postcode}
                         onChange={(event) => handleInputChange("postcode", event.target.value)}
                         readOnly={!isEditing}
+                        sx={{fontSize: 14}}
                     />
                 </FormControl>
                 <FormControl>
@@ -194,6 +200,7 @@ export default function EmployeeInfo({employee, onUpdate}: EmployeeInfoProps) {
                         value={isEditing ? formData.city : employee.city}
                         onChange={(event) => handleInputChange("city", event.target.value)}
                         readOnly={!isEditing}
+                        sx={{fontSize: 14}}
                     />
                 </FormControl>
             </Box>
@@ -211,6 +218,7 @@ export default function EmployeeInfo({employee, onUpdate}: EmployeeInfoProps) {
                     readOnly={!isEditing}
                     loading={loadingQualifications}
                     disabled={loadingQualifications}
+                    sx={{fontSize: 14}}
                 />
             </FormControl>
 
@@ -220,6 +228,7 @@ export default function EmployeeInfo({employee, onUpdate}: EmployeeInfoProps) {
                         key={skill.id}
                         variant="soft"
                         endDecorator={isEditing ? <CloseIcon fontSize="small"/> : null}
+                        sx={{fontSize: 14}}
                         onClick={isEditing ? () => handleRemoveSkills(skill.id) : undefined}>
                         {skill.skill}
                     </Chip>
