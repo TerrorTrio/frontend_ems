@@ -15,6 +15,15 @@ export function Filter({setSelectedQualifications, setSearchedCity: setSearchedC
     const [tempCity, setTempCity] = useState<string>("");
     const [tempQualifications, setTempQualifications] = useState<string[]>([]);
 
+    const handleClearFields = () => {
+        setTempCity("")
+        setSearchedCity("")
+        setTempQualifications([])
+        setSelectedQualifications([])
+        setShowFilter(false);
+        setFilterSelected(false);
+    }
+
     return (
         <div style={{
             position: "relative",
@@ -89,13 +98,4 @@ export function Filter({setSelectedQualifications, setSearchedCity: setSearchedC
             )}
         </div>
     );
-
-    function handleClearFields() {
-        setTempCity("")
-        setSearchedCity("")
-        setTempQualifications([])
-        setSelectedQualifications([])
-        setShowFilter(false);
-        setFilterSelected(false);
-    }
 }
