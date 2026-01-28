@@ -1,4 +1,3 @@
-import "./App.css";
 import Header from "./components/Header.tsx";
 import Footer from "./components/Footer.tsx";
 import NavBar from "./components/Navbar.tsx";
@@ -7,14 +6,26 @@ import {EmployeePage} from "./pages/EmployeePage.tsx";
 
 function App() {
     return (
-        <div className="app-container">
+        <div style={{
+            display: "flex",
+            flexDirection: "column",
+            minHeight: "100vh",
+        }}>
             <Header/>
-            <div className="app-body">
+            <div style={{
+                display: "flex",
+                flex: 1,
+                minHeight: 0,
+            }}>
                 <NavBar/>
-                <main className="app-content">
-                <Routes>
-                    <Route path="/employees" element={<EmployeePage/>}/>
-                </Routes>
+                <main style={{
+                    flex: 1,
+                    padding: "3vw 9vw 9vw",
+                    overflow: "auto",
+                }}>
+                    <Routes>
+                        <Route path="/employees" element={<EmployeePage/>}/>
+                    </Routes>
                 </main>
             </div>
             <Footer/>
