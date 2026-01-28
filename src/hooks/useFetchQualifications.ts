@@ -1,35 +1,32 @@
-import {useAuth} from "react-oidc-context";
 import {useEffect, useState} from "react";
-import {fetchQualifications} from "../services/qualificationService.ts";
-import type {Skill} from "../types/employee.ts";
+import { useAuth } from "react-oidc-context";
+import type {Skill} from "../types/skill.ts";
+import {fetchQualificationsFromApi} from "../services/qualificationService.ts";
 
 export function useFetchQualifications() {
     const auth = useAuth();
 
     const [skills, setSkills] = useState<Skill[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+    const [loadingQualifications, setLoadingQualifications] = useState(false);
+    const [fetchQualificationError, setFetchQualificationError] = useState<string | null>(null);
+
+    const fetchQualifications = async () => {
+        setLoadingQualifications(true);
+        setFetchQualificationError(null);
+
+        try {
+            const response = await fetchQualificationsFromApi(auth.user?.access_token);
+            setSkills(response);
+        } catch (error) {
+            setFetchQualificationError(error instanceof Error ? error.message : 'Ein Fehler ist aufgetreten');
+        } finally {
+            setLoadingQualifications(false);
+        }
+    };
 
     useEffect(() => {
-        if(!auth.isAuthenticated || !auth.user?.access_token){
-            setLoading(false);
-            setError("Nicht authentifiziert");
-            return;
-        }
+        fetchQualifications();
+    }, [auth.user?.access_token]);
 
-        const load = async () => {
-            try {
-                const data = await fetchQualifications(auth.user?.access_token);
-                setSkills(data);
-
-            } catch (err) {
-                setError(err instanceof Error ? err.message : 'Ein Fehler ist aufgetreten');
-            } finally {
-                setLoading(false);
-            }
-        };
-        load();
-    }, [auth.isAuthenticated, auth.user?.access_token]);
-
-    return {skills, loading, error};
+    return {fetchQualifications, skills, loadingQualifications, fetchQualificationError};
 }
