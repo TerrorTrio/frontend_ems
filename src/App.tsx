@@ -25,6 +25,7 @@ function App() {
                     overflow: "auto",
                 }}>
                     <Routes>
+                        <Route path="/callback" element={<EmployeePage/>}/>
                         <Route path="/employees" element={<EmployeePage/>}/>
                         <Route path="/qualifications" element={<QualificationsPage/>}/>
                     </Routes>

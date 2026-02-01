@@ -2,11 +2,8 @@ import {NavLink} from "react-router-dom";
 import GroupIcon from '@mui/icons-material/GroupOutlined';
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 import * as React from "react";
-import {useState} from "react";
 
 export default function Navbar() {
-    const [activeLink, setActiveLink] = useState<string>("/employees");
-
     const navLinkStyle: React.CSSProperties = {
         display: "flex",
         alignItems: "center",
@@ -37,24 +34,20 @@ export default function Navbar() {
         >
             <nav style={{display: "block"}}>
                 <ul style={{listStyle: "none", margin: 0, padding: 0}}>
-                    {links.map((link) => {
-                        const isActive = activeLink === link.to;
-                        return (
-                            <li key={link.to}>
-                                <NavLink
-                                    to={link.to}
-                                    style={{
-                                        ...navLinkStyle,
-                                        color: isActive ? "#1A33D2FF" : "#4a5568",
-                                    }}
-                                    onClick={() => setActiveLink(link.to)}
-                                >
-                                    {link.icon}
-                                    {link.label}
-                                </NavLink>
-                            </li>
-                        );
-                    })}
+                    {links.map((link) => (
+                        <li key={link.to}>
+                            <NavLink
+                                to={link.to}
+                                style={({ isActive }) => ({
+                                    ...navLinkStyle,
+                                    color: isActive ? "#1A33D2FF" : "#4a5568",
+                                })}
+                            >
+                                {link.icon}
+                                {link.label}
+                            </NavLink>
+                        </li>
+                    ))}
                 </ul>
             </nav>
         </aside>
