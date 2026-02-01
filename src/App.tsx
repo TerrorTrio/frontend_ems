@@ -5,6 +5,7 @@ import {Route, Routes} from "react-router-dom";
 import {EmployeePage} from "./pages/EmployeePage.tsx";
 import {QualificationsPage} from "./pages/QualificationPage.tsx";
 import {EmployeeDetailPage} from "./pages/EmployeeDetailPage.tsx";
+import {CreateEmployeePage} from "./pages/CreateEmployeePage.tsx";
 
 function App() {
     return (
@@ -22,13 +23,14 @@ function App() {
                 <NavBar/>
                 <main style={{
                     flex: 1,
-                    padding: "2vw 9vw 2vw 9vw",
+                    padding: "2vh 9vw 2vh 9vw",
                     overflow: "auto",
                 }}>
                     <Routes>
-                        <Route path="/employees" element={<EmployeePage/>}/>
                         <Route path="/callback" element={<EmployeePage/>}/>
+                        <Route path="/employees" element={<EmployeePage/>}/>
                         <Route path="/employees/:id" element={<EmployeeDetailPage/>}/>
+                        <Route path="/employees/new" element={<CreateEmployeePage/>}/>
                         <Route path="/qualifications" element={<QualificationsPage/>}/>
                     </Routes>
                 </main>

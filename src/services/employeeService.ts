@@ -76,7 +76,6 @@ interface UpdateEmployeeProps {
 }
 
 export async function updateEmployeeInApi({accessToken, employeeId, employee}: UpdateEmployeeProps): Promise<Employee> {
-
     const headers: HeadersInit = {
         'Content-Type': 'application/json'
     };
@@ -103,6 +102,46 @@ export async function updateEmployeeInApi({accessToken, employeeId, employee}: U
 
     if (!response.ok) {
         throw new Error(`Fehler beim Aktualisieren: ${response.status} ${response.statusText}`);
+    }
+
+    return response.json();
+}
+
+interface SaveEmployeeProps {
+    accessToken?: string,
+    employee: Employee
+}
+
+export async function saveEmployeeInApi({accessToken, employee}: SaveEmployeeProps): Promise<Employee> {
+    const headers: HeadersInit = {
+        'Content-Type': 'application/json'
+    };
+
+    if (accessToken) {
+        headers["Authorization"] = `Bearer ${accessToken}`;
+    }
+
+    const body = {
+        lastName: employee.lastName,
+        firstName: employee.firstName,
+        street: employee.street,
+        postcode: employee.postcode,
+        city: employee.city,
+        phone: employee.phone,
+        skillSet: employee.skillSet?.map(skill => skill.id) ?? []
+    };
+
+    const response = await fetch(`${BASE_URL}/employees`, {
+        method: "POST",
+        headers,
+        body: JSON.stringify(body)
+    });
+
+    if (!response.ok) {
+        const errorBody = await response.json();
+
+        console.log(JSON.stringify(body));
+        throw new Error(`Fehler beim Speichern: ${response.status}. ${errorBody.message}`);
     }
 
     return response.json();

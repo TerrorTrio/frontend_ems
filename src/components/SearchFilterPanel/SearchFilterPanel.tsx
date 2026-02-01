@@ -4,7 +4,7 @@ import type {Employee} from "../../types/employee.ts";
 import {Filter} from "./Filter.tsx";
 import {useEffect, useState} from "react";
 import {useDebounce} from "use-debounce";
-import useEmployeeFilter from "../../hooks/useEmployeeFilter.ts";
+import useEmployeeFilter from "../../hooks/Employee/useEmployeeFilter.ts";
 
 interface SearchFilterPanelProps {
     employees: Employee[],

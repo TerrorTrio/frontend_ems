@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import { useAuth } from "react-oidc-context";
-import {fetchEmployeesFromApi} from "../services/employeeService.ts";
-import type {Employee} from "../types/employee.ts";
+import {fetchEmployeesFromApi} from "../../services/employeeService.ts";
+import type {Employee} from "../../types/employee.ts";
 
 export function useFetchEmployees() {
     const auth = useAuth();

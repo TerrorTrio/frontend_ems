@@ -1,6 +1,6 @@
 import EmployeeTable from "../components/EmployeeTable.tsx";
 import {SearchFilterPanel} from "../components/SearchFilterPanel/SearchFilterPanel.tsx";
-import {useFetchEmployees} from "../hooks/useFetchEmployees.ts";
+import {useFetchEmployees} from "../hooks/Employee/useFetchEmployees.ts";
 import {useState} from "react";
 import type {Employee} from "../types/employee.ts";
 

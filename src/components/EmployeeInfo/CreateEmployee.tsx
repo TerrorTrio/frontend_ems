@@ -2,47 +2,36 @@ import type {Employee} from "../../types/employee.ts";
 import {
     Card,
 } from "@mui/joy";
-import {parseStreet} from "../../hooks/useStreetParser.ts";
 import {type SyntheticEvent, useEffect, useState} from "react";
-import {useDeleteDialog} from "../../hooks/useDeleteDialog.tsx";
-import {useDeleteEmployee} from "../../hooks/Employee/useDeleteEmployee.ts";
 import {useNavigate} from "react-router-dom";
 import type {Skill} from "../../types/skill.ts";
-import {useUpdateEmployee} from "../../hooks/Employee/useUpdateEmployee.ts";
 import {useFetchQualifications} from "../../hooks/useFetchQualifications.ts";
 import type {EmployeeFormData} from "../../types/employeeFormData.ts";
 import {EmployeePersonalSection} from "./EmployeePersonalSection.tsx";
 import {EmployeeContactSection} from "./EmployeeContactSection.tsx";
 import {EmployeeAdressSection} from "./EmployeeAdressSection.tsx";
 import {EmployeeSkillsSection} from "./EmployeeSkillsSection.tsx";
-import {EmployeeActionsBar} from "./EmployeeActionsBar.tsx";
 import {ToastSnackBar} from "./ToastSnackBar.tsx";
+import {useSaveEmployee} from "../../hooks/Employee/useSaveEmployee.ts";
+import {SaveEmployeeActionsBar} from "./SaveEmployeeActionBar.tsx";
 
-interface EmployeeInfoProps {
-    employee: Employee
-    onUpdate?: () => void;
-}
 
-export default function EmployeeInfo({employee, onUpdate}: EmployeeInfoProps) {
+export default function CreateEmployee() {
     const navigate = useNavigate();
-    const {streetName, houseNumber} = parseStreet(employee.street);
+    const {saveEmployee, saving, saveError} = useSaveEmployee();
 
-    const {deleteEmployee, deleting, deleteError} = useDeleteEmployee();
-    const {updateEmployee, updating, updateError} = useUpdateEmployee();
     const {skills, loadingQualifications, fetchQualificationError} = useFetchQualifications();
-
-    const [isEditing, setIsEditing] = useState(false);
-    const [selectedSkills, setSelectedSkills] = useState<Skill[]>(employee.skillSet ?? []);
+    const [selectedSkills, setSelectedSkills] = useState<Skill[]>([]);
 
     const [formData, setFormData] = useState<EmployeeFormData>({
-        firstName: employee.firstName,
-        lastName: employee.lastName,
-        phone: employee.phone,
-        streetName,
-        houseNumber,
-        postcode: employee.postcode,
-        city: employee.city
-    })
+        firstName: "",
+        lastName: "",
+        phone: "",
+        streetName: "",
+        houseNumber: "",
+        postcode: "",
+        city: ""
+    });
 
     const [toast, setToast] = useState<{ open: boolean; message: string; color: "danger" | "success" }>({
         open: false,
@@ -51,16 +40,10 @@ export default function EmployeeInfo({employee, onUpdate}: EmployeeInfoProps) {
     });
 
     useEffect(() => {
-        if (updateError) {
-            setToast({open: true, message: updateError, color: "danger"});
+        if (saveError) {
+            setToast({open: true, message: saveError, color: "danger"});
         }
-    }, [updateError]);
-
-    useEffect(() => {
-        if (deleteError) {
-            setToast({open: true, message: deleteError, color: "danger"});
-        }
-    }, [deleteError]);
+    }, [saveError]);
 
     useEffect(() => {
         if (fetchQualificationError) {
@@ -68,12 +51,6 @@ export default function EmployeeInfo({employee, onUpdate}: EmployeeInfoProps) {
         }
     }, [fetchQualificationError]);
 
-    const {openDialog, Dialog} = useDeleteDialog(async (id) => {
-        await deleteEmployee(id);
-        if (!deleteError) {
-            navigate("/employees");
-        }
-    });
 
     const handleInputChange = (field: string, value: string) => {
         setFormData(prevState => ({...prevState, [field]: value}));
@@ -90,8 +67,8 @@ export default function EmployeeInfo({employee, onUpdate}: EmployeeInfoProps) {
     }
 
     const handleSave = async () => {
-        const updatedEmployee: Employee = {
-            ...employee,
+        const employee: Employee = {
+            id: 1,
             firstName: formData.firstName,
             lastName: formData.lastName,
             street: `${formData.streetName} ${formData.houseNumber}`,
@@ -101,41 +78,30 @@ export default function EmployeeInfo({employee, onUpdate}: EmployeeInfoProps) {
             skillSet: selectedSkills
         };
 
-        const result = await updateEmployee(updatedEmployee);
+        const result = await saveEmployee(employee);
         if (result) {
-            setIsEditing(false);
-            onUpdate?.();
+            navigate("/employees");
         }
     }
 
     const handleCancel = () => {
-        setFormData({
-            firstName: employee.firstName,
-            lastName: employee.lastName,
-            phone: employee.phone,
-            streetName,
-            houseNumber,
-            postcode: employee.postcode,
-            city: employee.city
-        });
-        setSelectedSkills(employee.skillSet ?? []);
-        setIsEditing(false);
+        navigate("/employees");
     }
 
     return (
         <Card sx={{marginTop: 3, gap: 0}}>
             <EmployeePersonalSection
-                isEditing={isEditing}
+                isEditing={true}
                 value={{firstName: formData.firstName, lastName: formData.lastName}}
                 onChange={handleInputChange}/>
 
             <EmployeeContactSection
-                isEditing={isEditing}
+                isEditing={true}
                 value={{phone: formData.phone}}
                 onChange={handleInputChange}/>
 
             <EmployeeAdressSection
-                isEditing={isEditing}
+                isEditing={true}
                 value={{
                     streetName: formData.streetName,
                     houseNumber: formData.houseNumber,
@@ -145,24 +111,17 @@ export default function EmployeeInfo({employee, onUpdate}: EmployeeInfoProps) {
                 onChange={handleInputChange}/>
 
             <EmployeeSkillsSection
-                isEditing={isEditing}
+                isEditing={true}
                 skills={skills}
                 selectedSkills={selectedSkills}
                 loading={loadingQualifications}
                 onAdd={handleAddSkill}
                 onRemove={handleRemoveSkill}/>
 
-            <EmployeeActionsBar
-                isEditing={isEditing}
-                deleting={deleting}
-                updating={updating}
-                onDelete={() => openDialog(employee.id)}
-                onGoBack={() => navigate("/employees")}
-                onEdit={() => setIsEditing(true)}
+            <SaveEmployeeActionsBar
                 onCancel={handleCancel}
+                saving={saving}
                 onSave={handleSave}/>
-
-            <Dialog/>
 
             <ToastSnackBar
                 toast={toast}

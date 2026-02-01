@@ -1,12 +1,13 @@
 import Table from '@mui/joy/Table';
-import {Card, Chip, IconButton} from "@mui/joy";
+import {Button, Card, Chip, IconButton} from "@mui/joy";
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveRedEye from '@mui/icons-material/RemoveRedEyeOutlined';
-import {useDeleteEmployee} from "../hooks/useDeleteEmployee.ts";
+import {useDeleteEmployee} from "../hooks/Employee/useDeleteEmployee.ts";
 import {useNavigate} from "react-router-dom";
 import {useDeleteDialog} from "../hooks/useDeleteDialog.tsx";
 import type {Employee} from "../types/employee.ts";
-import {useFetchEmployees} from "../hooks/useFetchEmployees.ts";
+import {useFetchEmployees} from "../hooks/Employee/useFetchEmployees.ts";
 
 export default function EmployeeTable({filteredEmployees}: { filteredEmployees: Employee[] }) {
     const {refetch} = useFetchEmployees();
@@ -28,7 +29,21 @@ export default function EmployeeTable({filteredEmployees}: { filteredEmployees: 
             width: '100%',
             mt: 2
         }}>
-            <h4 style={{marginLeft: 2}}>Mitarbeiterliste ({filteredEmployees.length} gefunden)</h4>
+            <div style={{display:"flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
+                <h4 style={{marginLeft: 2}}>Mitarbeiterliste ({filteredEmployees.length} gefunden)</h4>
+                <Button sx={{
+                    minHeight: '40px',
+                    width: '14vw',
+                    fontWeight: "normal",
+                    fontSize: "13px",
+                    backgroundColor: "#258bf2",
+                    borderRadius: "10px",
+                    "&:hover": {backgroundColor: "#0b80f1"},}}
+                        onClick={() => navigate(`/employees/new`)}>
+                    <AddCircleOutlineIcon style={{fontSize: "22", paddingRight: "5px"}}/> Mitarbeiter hinzufügen
+                </Button>
+            </div>
+
             <Table sx={{
                 mt: 4,
                 tableLayout: 'auto',
