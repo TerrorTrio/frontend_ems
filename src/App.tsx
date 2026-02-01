@@ -4,6 +4,7 @@ import NavBar from "./components/Navbar.tsx";
 import {Route, Routes} from "react-router-dom";
 import {EmployeePage} from "./pages/EmployeePage.tsx";
 import {QualificationsPage} from "./pages/QualificationPage.tsx";
+import {EmployeeDetailPage} from "./pages/EmployeeDetailPage.tsx";
 
 function App() {
     return (
@@ -26,6 +27,7 @@ function App() {
                 }}>
                     <Routes>
                         <Route path="/employees" element={<EmployeePage/>}/>
+                        <Route path="/employees/:id" element={<EmployeeDetailPage/>}/>
                         <Route path="/qualifications" element={<QualificationsPage/>}/>
                     </Routes>
                 </main>

@@ -6,26 +6,27 @@ import type {Employee} from "../types/employee.ts";
 export function useFetchEmployees() {
     const auth = useAuth();
 
-    const [employees, setEmployees] = useState<Employee[]>([])
+    const [employees, setEmployees] = useState<Employee[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
+    const fetchEmployees = async () => {
+        setLoading(true);
+        setError(null);
+
+        try {
+            const response = await fetchEmployeesFromApi(auth.user?.access_token);
+            setEmployees(response);
+        } catch (error) {
+            setError(error instanceof Error ? error.message : 'Ein Fehler ist aufgetreten');
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
-        const fetchEmployees = async () => {
-            setLoading(true);
-            setError(null);
-
-            try {
-                const response = await fetchEmployeesFromApi(auth.user?.access_token);
-                setEmployees(response);
-            } catch (err) {
-                setError(err instanceof Error ? err.message : 'Ein Fehler ist aufgetreten');
-            } finally {
-                setLoading(false);
-            }
-        };
         fetchEmployees();
-    }, [auth.user?.access_token, setEmployees]);
+    }, [auth.user?.access_token]);
 
-    return {employees, loading, error};
+    return {refetch: fetchEmployees, employees, loading, error};
 }

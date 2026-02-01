@@ -21,7 +21,7 @@ export function EmployeePage() {
                 marginBottom: "20px"
             }}>Mitarbeiterübersicht</h3>
             <SearchFilterPanel employees={employees} setFilteredEmployees={setFilteredEmployees}/>
-            <EmployeeTable employees={filteredEmployees}/>
+            <EmployeeTable filteredEmployees={filteredEmployees}/>
         </>
     )
 }

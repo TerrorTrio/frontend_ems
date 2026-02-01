@@ -1,0 +1,172 @@
+import type {Employee} from "../../types/employee.ts";
+import {
+    Card,
+} from "@mui/joy";
+import {parseStreet} from "../../hooks/useStreetParser.ts";
+import {type SyntheticEvent, useEffect, useState} from "react";
+import {useDeleteDialog} from "../../hooks/useDeleteDialog.tsx";
+import {useDeleteEmployee} from "../../hooks/useDeleteEmployee.ts";
+import {useNavigate} from "react-router-dom";
+import type {Skill} from "../../types/skill.ts";
+import {useUpdateEmployee} from "../../hooks/useUpdateEmployee.ts";
+import {useFetchQualifications} from "../../hooks/useFetchQualifications.ts";
+import type {EmployeeFormData} from "../../types/employeeFormData.ts";
+import {EmployeePersonalSection} from "./EmployeePersonalSection.tsx";
+import {EmployeeContactSection} from "./EmployeeContactSection.tsx";
+import {EmployeeAdressSection} from "./EmployeeAdressSection.tsx";
+import {EmployeeSkillsSection} from "./EmployeeSkillsSection.tsx";
+import {EmployeeActionsBar} from "./EmployeeActionsBar.tsx";
+import {ToastSnackBar} from "./ToastSnackBar.tsx";
+
+interface EmployeeInfoProps {
+    employee: Employee
+    onUpdate?: () => void;
+}
+
+export default function EmployeeInfo({employee, onUpdate}: EmployeeInfoProps) {
+    const navigate = useNavigate();
+    const {streetName, houseNumber} = parseStreet(employee.street);
+
+    const {deleteEmployee, deleting, deleteError} = useDeleteEmployee();
+    const {updateEmployee, updating, updateError} = useUpdateEmployee();
+    const {skills, loadingQualifications, fetchQualificationError} = useFetchQualifications();
+
+    const [isEditing, setIsEditing] = useState(false);
+    const [selectedSkills, setSelectedSkills] = useState<Skill[]>(employee.skillSet ?? []);
+
+    const [formData, setFormData] = useState<EmployeeFormData>({
+        firstName: employee.firstName,
+        lastName: employee.lastName,
+        phone: employee.phone,
+        streetName,
+        houseNumber,
+        postcode: employee.postcode,
+        city: employee.city
+    })
+
+    const [toast, setToast] = useState<{ open: boolean; message: string; color: "danger" | "success" }>({
+        open: false,
+        message: "",
+        color: "danger"
+    });
+
+    useEffect(() => {
+        if (updateError) {
+            setToast({open: true, message: updateError, color: "danger"});
+        }
+    }, [updateError]);
+
+    useEffect(() => {
+        if (deleteError) {
+            setToast({open: true, message: deleteError, color: "danger"});
+        }
+    }, [deleteError]);
+
+    useEffect(() => {
+        if (fetchQualificationError) {
+            setToast({open: true, message: fetchQualificationError, color: "danger"});
+        }
+    }, [fetchQualificationError]);
+
+    const {openDialog, Dialog} = useDeleteDialog(async (id) => {
+        await deleteEmployee(id);
+        if (!deleteError) {
+            navigate("/employees");
+        }
+    });
+
+    const handleInputChange = (field: string, value: string) => {
+        setFormData(prevState => ({...prevState, [field]: value}));
+    }
+
+    const handleAddSkill = (_event: SyntheticEvent, value: Skill | null) => {
+        if (value && !selectedSkills.some(skill => skill.id === value.id)) {
+            setSelectedSkills([...selectedSkills, value]);
+        }
+    };
+
+    const handleRemoveSkill = (id: number) => {
+        setSelectedSkills(selectedSkills.filter(skill => skill.id !== id));
+    }
+
+    const handleSave = async () => {
+        const updatedEmployee: Employee = {
+            ...employee,
+            firstName: formData.firstName,
+            lastName: formData.lastName,
+            street: `${formData.streetName} ${formData.houseNumber}`,
+            postcode: formData.postcode,
+            city: formData.city,
+            phone: formData.phone,
+            skillSet: selectedSkills
+        };
+
+        const result = await updateEmployee(updatedEmployee);
+        if (result) {
+            setIsEditing(false);
+            onUpdate?.();
+        }
+    }
+
+    const handleCancel = () => {
+        setFormData({
+            firstName: employee.firstName,
+            lastName: employee.lastName,
+            phone: employee.phone,
+            streetName,
+            houseNumber,
+            postcode: employee.postcode,
+            city: employee.city
+        });
+        setSelectedSkills(employee.skillSet ?? []);
+        setIsEditing(false);
+    }
+
+    return (
+        <Card sx={{marginTop: 3}}>
+            <EmployeePersonalSection
+                isEditing={isEditing}
+                value={{firstName: formData.firstName, lastName: formData.lastName}}
+                onChange={handleInputChange}/>
+
+            <EmployeeContactSection
+                isEditing={isEditing}
+                value={{phone: formData.phone}}
+                onChange={handleInputChange}/>
+
+            <EmployeeAdressSection
+                isEditing={isEditing}
+                value={{
+                    streetName: formData.streetName,
+                    houseNumber: formData.houseNumber,
+                    postcode: formData.postcode,
+                    city: formData.city
+                }}
+                onChange={handleInputChange}/>
+
+            <EmployeeSkillsSection
+                isEditing={isEditing}
+                skills={skills}
+                selectedSkills={selectedSkills}
+                loading={loadingQualifications}
+                onAdd={handleAddSkill}
+                onRemove={handleRemoveSkill}/>
+
+            <EmployeeActionsBar
+                isEditing={isEditing}
+                deleting={deleting}
+                updating={updating}
+                onDelete={() => openDialog(employee.id)}
+                onGoBack={() => navigate("/employees")}
+                onEdit={() => setIsEditing(true)}
+                onCancel={handleCancel}
+                onSave={handleSave}/>
+
+            <Dialog/>
+
+            <ToastSnackBar
+                toast={toast}
+                onClose={() => setToast((prevState) => ({...prevState, open: false}))}/>
+        </Card>
+    )
+}
