@@ -27,6 +27,7 @@ function App() {
                 }}>
                     <Routes>
                         <Route path="/employees" element={<EmployeePage/>}/>
+                        <Route path="/callback" element={<EmployeePage/>}/>
                         <Route path="/employees/:id" element={<EmployeeDetailPage/>}/>
                         <Route path="/qualifications" element={<QualificationsPage/>}/>
                     </Routes>
