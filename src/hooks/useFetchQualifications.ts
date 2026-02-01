@@ -29,4 +29,6 @@ export function useFetchQualifications() {
     }, [auth.user?.access_token]);
 
     return {fetchQualifications, skills, loadingQualifications, fetchQualificationError};
+
 }
+

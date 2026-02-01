@@ -21,6 +21,32 @@ export async function fetchQualificationsFromApi(accessToken?: string): Promise<
     return response.json();
 }
 
-// export async function updateQualificationsFromApi(id: number, skill: string, token?: string){
-//
-// }
+export async function updateQualificationsFromApi(id: number, skill: string, token?: string){
+    const response = await fetch(`${BASE_URL}/qualifications/${id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token ? `Bearer ${token}` : '',
+        },
+        body: JSON.stringify({skill}),
+    });
+
+    if (!response.ok) {
+        throw new Error(`Fehler beim Aktualisieren der Qualifikation: ${response.status} ${response.statusText}`);
+    }
+
+    return response.json();
+}
+
+export async function deleteQualificationFromApi(id: number, token?: string) {
+    const response = await fetch(`${BASE_URL}/qualifications/${id}`, {
+        method: "DELETE",
+        headers: {
+            Authorization: token ? `Bearer ${token}` : "",
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error("Fehler beim Löschen der Qualifikation");
+    }
+}
