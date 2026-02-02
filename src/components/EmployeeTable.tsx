@@ -1,4 +1,3 @@
-import {useFetchEmployees} from "../hooks/useFetchEmployees.ts";
 import Table from '@mui/joy/Table';
 import {Card, Chip, IconButton} from "@mui/joy";
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
@@ -29,13 +28,16 @@ export default function EmployeeTable() {
         return <div> {deleteError} </div>
     }
 
+import type {Employee} from "../types/employee.ts";
+
+export default function EmployeeTable({employees}: {employees: Employee[]}) {
     return (
         <Card sx={{
             boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.2)',
             width: '100%',
             mt: 2
         }}>
-            <h3 style={{marginLeft: 2}}>Mitarbeiterliste ({employees.length} gefunden)</h3>
+            <h4 style={{marginLeft: 2}}>Mitarbeiterliste ({employees.length} gefunden)</h4>
             <Table sx={{
                 mt: 4,
                 tableLayout: 'auto',
@@ -56,7 +58,7 @@ export default function EmployeeTable() {
                 </thead>
 
                 <tbody>
-                {employees.map((employee) => (
+                {employees.map((employee : Employee) => (
                     <tr key={employee.id}>
                         <td>{employee.firstName}</td>
                         <td>{employee.lastName}</td>
