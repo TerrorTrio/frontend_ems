@@ -5,39 +5,33 @@ import RemoveRedEye from '@mui/icons-material/RemoveRedEyeOutlined';
 import {useDeleteEmployee} from "../hooks/useDeleteEmployee.ts";
 import {useNavigate} from "react-router-dom";
 import {useDeleteDialog} from "../hooks/useDeleteDialog.tsx";
+import {useEmployees} from "../context/EmployeeContext.tsx";
+import type {Employee} from "../types/employee.ts";
 
 export default function EmployeeTable() {
-    const {refetch, employees, loading, error} = useFetchEmployees();
+    const {filteredEmployees, loading} = useEmployees();
     const {deleteEmployee, deleting, deleteError} = useDeleteEmployee();
     const navigate = useNavigate();
 
     const {openDialog, Dialog} = useDeleteDialog(async (id) => {
         await deleteEmployee(id);
-        await refetch();
     })
 
     if (loading) {
         return <div>Lade Mitarbeiter...</div>;
     }
 
-    if (error) {
-        return <div> {error}</div>;
-    }
-
     if (deleteError) {
         return <div> {deleteError} </div>
     }
 
-import type {Employee} from "../types/employee.ts";
-
-export default function EmployeeTable({employees}: {employees: Employee[]}) {
     return (
         <Card sx={{
             boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.2)',
             width: '100%',
             mt: 2
         }}>
-            <h4 style={{marginLeft: 2}}>Mitarbeiterliste ({employees.length} gefunden)</h4>
+            <h4 style={{marginLeft: 2}}>Mitarbeiterliste ({filteredEmployees.length} gefunden)</h4>
             <Table sx={{
                 mt: 4,
                 tableLayout: 'auto',
@@ -58,7 +52,7 @@ export default function EmployeeTable({employees}: {employees: Employee[]}) {
                 </thead>
 
                 <tbody>
-                {employees.map((employee : Employee) => (
+                {filteredEmployees.map((employee: Employee) => (
                     <tr key={employee.id}>
                         <td>{employee.firstName}</td>
                         <td>{employee.lastName}</td>
