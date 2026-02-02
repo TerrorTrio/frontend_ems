@@ -1,12 +1,26 @@
-import {useFetchQualifications} from "../hooks/useFetchQualifications";
-import {useDeleteQualification} from "../hooks/useDeleteQualification";
+import { useFetchQualifications } from "../hooks/useFetchQualifications";
+import { useDeleteQualification } from "../hooks/useDeleteQualification";
+import { useUpdateQualification } from "../hooks/useUpdateQualification";
 import Table from "@mui/joy/Table";
-import {Card, Chip, IconButton} from "@mui/joy";
-import DeleteIcon from "@mui/icons-material/Delete";
+import { Card, Chip, IconButton } from "@mui/joy";
+import DeleteIcon from "@mui/icons-material/DeleteOutlined";
+import EditIcon from "@mui/icons-material/EditOutlined";
 
 export default function QualificationTable() {
-    const {skills, loadingQualifications, fetchQualificationError} = useFetchQualifications();
-    const {skillId, setSkillId, isDeleting, deleteError, deleteQualification} = useDeleteQualification();
+    const {
+        skills,
+        loadingQualifications,
+        fetchQualificationError,
+        fetchQualifications
+    } = useFetchQualifications();
+
+    const {
+        setSkillId,
+        deleteQualification,
+        isDeleting
+    } = useDeleteQualification();
+
+    const { updateQualification, isUpdating } = useUpdateQualification();
 
     if (loadingQualifications) {
         return <div>Lade Qualifikationen...</div>;
@@ -24,7 +38,7 @@ export default function QualificationTable() {
                 mt: 2,
             }}
         >
-            <h3 style={{marginLeft: 2}}>
+            <h3 style={{ marginLeft: 2 }}>
                 Aktuelle Qualifikationen ({skills.length} gefunden)
             </h3>
 
@@ -34,7 +48,7 @@ export default function QualificationTable() {
                     tableLayout: "auto",
                     width: "100%",
                 }}
-                aria-label={"Qualifikationsliste"}
+                aria-label="Qualifikationsliste"
                 hoverRow
                 stickyHeader
             >
@@ -42,7 +56,7 @@ export default function QualificationTable() {
                 <tr>
                     <th>ID</th>
                     <th>Bezeichnung</th>
-                    <th>Aktionen</th>
+                    <th style={{ textAlign: "right", whiteSpace: "nowrap" }}>Aktionen</th>
                 </tr>
                 </thead>
 
@@ -50,48 +64,43 @@ export default function QualificationTable() {
                 {skills.map((skill) => (
                     <tr key={skill.id}>
                         <td>{skill.id}</td>
+
                         <td>
-                            <Chip sx={{mr: 3}}>{skill.skill}</Chip>
+                            <Chip sx={{ mr: 3 }}>{skill.skill}</Chip>
                         </td>
-                        <td>
 
-                            {/*<button*/}
-                            {/*    disabled={isDeleting}*/}
-                            {/*    onClick={() => {*/}
-                            {/*        setSkillId(skill.id);*/}
-                            {/*        deleteQualification();*/}
-                            {/*    }}>*/}
-                            {/*    Löschen*/}
-                            {/*</button>*/}
-
-                            {/*<Button*/}
-                            {/*    // variant="solid"*/}
-                            {/*    // color="danger"*/}
-                            {/*    // size="sm"*/}
-                            {/*    startDecorator={<DeleteIcon />}*/}
-                            {/*    disabled={isDeleting}*/}
-                            {/*    onClick={async () => {*/}
-                            {/*        setSkillId(skill.id);*/}
-                            {/*        await deleteQualification();*/}
-                            {/*        // fetchQualifications(); // Liste neu laden*/}
-                            {/*    }}*/}
-                            {/*>*/}
-                            {/*    Löschen*/}
-                            {/*</Button>*/}
-
+                        <td style={{ textAlign: "right", whiteSpace: "nowrap" }}>
                             <IconButton
-                                variant="outlined"
-                                color="danger"
-                                size="sm"
-                                onClick={() => {
+                                aria-label="Edit qualification"
+                                disabled={isUpdating}
+                                onClick={async () => {
+                                    // ID setzen
                                     setSkillId(skill.id);
-                                    deleteQualification();
+
+                                    // Update ausführen
+                                    const result = await updateQualification(skill.id, skill.skill);
+
+                                    // Wenn erfolgreich → Liste neu laden
+                                    if (result) {
+                                        await fetchQualifications();
+                                    }
                                 }}
                             >
-                                <DeleteIcon />
+                                <EditIcon />
                             </IconButton>
 
 
+                            <IconButton
+                                aria-label="Delete qualification"
+                                disabled={isDeleting}
+                                onClick={async () => {
+                                    setSkillId(skill.id);
+                                    await deleteQualification();
+                                    await fetchQualifications();
+                                }}
+                            >
+                                <DeleteIcon color="error" />
+                            </IconButton>
                         </td>
                     </tr>
                 ))}
