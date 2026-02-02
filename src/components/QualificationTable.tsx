@@ -1,9 +1,12 @@
-import { useFetchQualifications } from "../hooks/useFetchQualifications";
+import {useFetchQualifications} from "../hooks/useFetchQualifications";
+import {useDeleteQualification} from "../hooks/useDeleteQualification";
 import Table from "@mui/joy/Table";
-import { Card, Chip } from "@mui/joy";
+import {Card, Chip, IconButton} from "@mui/joy";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 export default function QualificationTable() {
-    const { skills, loadingQualifications, fetchQualificationError } = useFetchQualifications();
+    const {skills, loadingQualifications, fetchQualificationError} = useFetchQualifications();
+    const {skillId, setSkillId, isDeleting, deleteError, deleteQualification} = useDeleteQualification();
 
     if (loadingQualifications) {
         return <div>Lade Qualifikationen...</div>;
@@ -21,8 +24,8 @@ export default function QualificationTable() {
                 mt: 2,
             }}
         >
-            <h3 style={{ marginLeft: 2 }}>
-               Aktuelle Qualifikationen ({skills.length} gefunden)
+            <h3 style={{marginLeft: 2}}>
+                Aktuelle Qualifikationen ({skills.length} gefunden)
             </h3>
 
             <Table
@@ -39,6 +42,7 @@ export default function QualificationTable() {
                 <tr>
                     <th>ID</th>
                     <th>Bezeichnung</th>
+                    <th>Aktionen</th>
                 </tr>
                 </thead>
 
@@ -47,7 +51,47 @@ export default function QualificationTable() {
                     <tr key={skill.id}>
                         <td>{skill.id}</td>
                         <td>
-                            <Chip sx={{ mr: 3 }}>{skill.skill}</Chip>
+                            <Chip sx={{mr: 3}}>{skill.skill}</Chip>
+                        </td>
+                        <td>
+
+                            {/*<button*/}
+                            {/*    disabled={isDeleting}*/}
+                            {/*    onClick={() => {*/}
+                            {/*        setSkillId(skill.id);*/}
+                            {/*        deleteQualification();*/}
+                            {/*    }}>*/}
+                            {/*    Löschen*/}
+                            {/*</button>*/}
+
+                            {/*<Button*/}
+                            {/*    // variant="solid"*/}
+                            {/*    // color="danger"*/}
+                            {/*    // size="sm"*/}
+                            {/*    startDecorator={<DeleteIcon />}*/}
+                            {/*    disabled={isDeleting}*/}
+                            {/*    onClick={async () => {*/}
+                            {/*        setSkillId(skill.id);*/}
+                            {/*        await deleteQualification();*/}
+                            {/*        // fetchQualifications(); // Liste neu laden*/}
+                            {/*    }}*/}
+                            {/*>*/}
+                            {/*    Löschen*/}
+                            {/*</Button>*/}
+
+                            <IconButton
+                                variant="outlined"
+                                color="danger"
+                                size="sm"
+                                onClick={() => {
+                                    setSkillId(skill.id);
+                                    deleteQualification();
+                                }}
+                            >
+                                <DeleteIcon />
+                            </IconButton>
+
+
                         </td>
                     </tr>
                 ))}
