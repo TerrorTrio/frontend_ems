@@ -21,7 +21,6 @@ export async function fetchQualificationsFromApi(accessToken?: string): Promise<
 }
 
 export async function updateQualificationsFromApi(id: number, skill: string, accessToken?: string): Promise<Skill> {
-
     const headers: HeadersInit = {
         "Content-Type": "application/json",
     };
@@ -59,6 +58,11 @@ export async function deleteQualificationFromApi(id: number, accessToken?: strin
     });
 
     if (!response.ok) {
+        const errorBody = await response.text();
+
+        if (response.status === 500 &&  errorBody.includes("foreign key constraint")) {
+            throw new Error("Diese Qualifikation kann nicht gelöscht werden, da sie noch einem oder mehreren Mitarbeitern zugewiesen ist.");
+        }
         throw new Error(`Fehler beim Löschen der Qualifikation: ${response.status} ${response.statusText}`);
     }
 }

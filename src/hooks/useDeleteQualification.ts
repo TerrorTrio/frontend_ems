@@ -6,15 +6,10 @@ import {deleteQualificationFromApi} from "../services/qualificationService.ts";
 export function useDeleteQualification(){
     const auth = useAuth();
 
-    const [skillId, setSkillId] = useState<number | null>(null);
     const [isDeleting, setIsDeleting] = useState(false);
     const [deleteError, setDeleteError] = useState<string | null>(null);
 
-    const deleteQualification = async () => {
-        if (skillId === null) {
-            setDeleteError('Keine Qualifikation ausgewählt');
-            return;
-        }
+    const deleteQualification = async (skillId: number) => {
 
         setIsDeleting(true);
         setDeleteError(null);
@@ -27,12 +22,14 @@ export function useDeleteQualification(){
             setIsDeleting(false);
         }
     };
+
+    const clearError = () => setDeleteError(null);
+
     return {
-        skillId,
-        setSkillId,
         isDeleting,
         deleteError,
         deleteQualification,
+        clearError,
     };
 
 }
