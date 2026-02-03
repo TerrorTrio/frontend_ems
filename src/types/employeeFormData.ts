@@ -7,9 +7,3 @@ export type EmployeeFormData = {
     postcode: string;
     city: string;
 }
-
-export type ToastState = {
-    open: boolean;
-    message: string;
-    color: "danger" | "success";
-}

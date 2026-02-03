@@ -31,7 +31,5 @@ export function useDeleteEmployee() {
             setDeleting(false);
         }
     };
-
-
     return {deleteEmployee, deleting, deleteError};
 }

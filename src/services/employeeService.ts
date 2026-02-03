@@ -14,7 +14,8 @@ export async function fetchEmployeesFromApi(accessToken?: string): Promise<Emplo
     const response = await fetch(`${BASE_URL}/employees`, {headers});
 
     if (!response.ok) {
-        throw new Error(`Fehler beim Laden der Mitarbeiter: ${response.status} ${response.statusText}`);
+        const errorBody = await response.json();
+        throw new Error(`Fehler beim Laden der Mitarbeiter: ${response.status}. ${errorBody.message}`);
     }
 
     return response.json();
@@ -38,7 +39,8 @@ export async function removeEmployeeFromApi({accessToken, employeeId}: RemoveEmp
     const response = await fetch(`${BASE_URL}/employees/${employeeId}`, {method: "DELETE", headers});
 
     if (!response.ok) {
-        throw new Error(`Fehler beim Löschen eines Mitarbeiters: ${response.status} ${response.statusText}`)
+        const errorBody = await response.json();
+        throw new Error(`Fehler beim Löschen eines Mitarbeiters: ${response.status}. ${errorBody.message}`)
     }
 }
 
@@ -63,7 +65,8 @@ export async function fetchSingleEmployeeFromApi({
     const response = await fetch(`${BASE_URL}/employees/${employeeId}`, {method: "GET", headers});
 
     if (!response.ok) {
-        throw new Error(`Fehler beim Laden eines Mitarbeiters: ${response.status} ${response.statusText}`)
+        const errorBody = await response.json();
+        throw new Error(`Fehler beim Laden eines Mitarbeiters: ${response.status}. ${errorBody.message}`)
     }
 
     return response.json();
@@ -102,7 +105,8 @@ export async function updateEmployeeInApi({accessToken, employeeId, employee}: U
     });
 
     if (!response.ok) {
-        throw new Error(`Fehler beim Aktualisieren: ${response.status} ${response.statusText}`);
+        const errorBody = await response.json();
+        throw new Error(`Fehler beim Aktualisieren: ${response.status}. ${errorBody.message}`);
     }
 
     return response.json();
