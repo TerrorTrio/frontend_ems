@@ -90,6 +90,9 @@
 }
 
 .sidebar {
+    position: sticky;
+    top: 0;
+    height: 100vh;
     width: 220px;
     background: #f2f2f2;
     border-right: 1px solid #d7dce2;
@@ -97,6 +100,7 @@
     padding: 16px 12px;
     display: flex;
     flex-direction: column;
+    flex-shrink: 0;
 }
 
 .nav {
@@ -134,13 +138,14 @@
 .app-body {
     display: flex;
     flex: 1;
-    min-height: 0;
+    overflow: hidden;
 }
 
 .app-content {
     flex: 1;
     padding: 3% 10% 10%;
-    overflow: auto;
+    overflow-y: auto;
+    height: calc(100vh - 60px); /* Header-Höhe abziehen */
 }
 
 .footer {
