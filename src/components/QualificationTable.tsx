@@ -91,16 +91,16 @@ export default function QualificationTable() {
                 </ModalDialog>
             </Modal>
 
-            <Card
-                sx={{
-                    boxShadow: "0px 2px 10px rgba(0, 0, 0, 0.2)",
-                    width: "100%",
-                    mt: 2,
-                }}
-            >
-                <h3 style={{marginLeft: 2}}>
-                    Aktuelle Qualifikationen ({skills.length} gefunden)
-                </h3>
+        <Card
+            sx={{
+                boxShadow: "0px 2px 10px rgba(0, 0, 0, 0.2)",
+                width: "100%",
+                mt: 2,
+            }}
+        >
+            <h4 style={{ marginLeft: 2 }}>
+               Aktuelle Qualifikationen ({skills.length} gefunden)
+            </h4>
 
                 <Table
                     sx={{
