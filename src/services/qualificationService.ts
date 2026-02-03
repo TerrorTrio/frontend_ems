@@ -14,7 +14,8 @@ export async function fetchQualificationsFromApi(accessToken?: string): Promise<
     const response = await fetch(`${BASE_URL}/qualifications`, { headers });
 
     if (!response.ok) {
-        throw new Error(`Fehler beim Laden der Qualifikationen: ${response.status} ${response.statusText}`);
+        const errorBody = await response.json();
+        throw new Error(`Fehler beim Laden der Qualifikationen: ${response.status} ${errorBody.message}`);
     }
 
     return response.json();
@@ -36,14 +37,15 @@ export async function updateQualificationsFromApi(id: number, skill: string, acc
     });
 
     if (!response.ok) {
-        throw new Error(`Fehler beim Aktualisieren der Qualifikation: ${response.status} ${response.statusText}`);
+
+        const errorBody = await response.json();
+        throw new Error(`Fehler beim Aktualisieren der Qualifikation: ${response.status} ${errorBody.message}`);
     }
 
     return response.json();
 }
 
 export async function deleteQualificationFromApi(id: number, accessToken?: string): Promise<void> {
-
     const headers: HeadersInit = {
         "Content-Type": "application/json",
     };
@@ -58,11 +60,17 @@ export async function deleteQualificationFromApi(id: number, accessToken?: strin
     });
 
     if (!response.ok) {
-        const errorBody = await response.text();
+        const errorText = await response.text();
 
-        if (response.status === 500 && errorBody.includes("foreign key constraint")) {
+        if (response.status === 500 && errorText.includes("foreign key constraint")) {
             throw new Error("Diese Qualifikation kann nicht gelöscht werden, da sie noch einem oder mehreren Mitarbeitern zugewiesen ist.");
         }
-        throw new Error(`Fehler beim Löschen der Qualifikation: ${response.status} ${response.statusText}`);
+
+        try {
+            const errorBody = JSON.parse(errorText);
+            throw new Error(`Fehler beim Löschen der Qualifikation: ${response.status} ${errorBody.message}`);
+        } catch {
+            throw new Error(`Fehler beim Löschen der Qualifikation: ${response.status} ${errorText || response.statusText}`);
+        }
     }
 }

@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import { useAuth } from "react-oidc-context";
+import {useAuth} from "react-oidc-context";
 import type {Skill} from "../types/skill.ts";
 import {fetchQualificationsFromApi} from "../services/qualificationService.ts";
 
@@ -29,6 +29,4 @@ export function useFetchQualifications() {
     }, [auth.user?.access_token]);
 
     return {fetchQualifications, skills, loadingQualifications, fetchQualificationError};
-
 }
-
