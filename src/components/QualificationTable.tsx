@@ -15,6 +15,11 @@ export default function QualificationTable() {
     const {updateQualification, isUpdating} = useUpdateQualification();
     const {createQualification, isCreating} = useCreateQualification();
 
+    // Suchfunktion
+    const [searchValue, setSearchValue] = useState("");
+
+    const filteredSkills = skills.filter(skill => skill.skill.toLowerCase().includes(searchValue.toLowerCase()));
+
     // Edit Modal State
     const [editModalOpen, setEditModalOpen] = useState(false);
     const [editingSkill, setEditingSkill] = useState<{ id: number; skill: string } | null>(null);
@@ -70,15 +75,20 @@ export default function QualificationTable() {
 
     return (
         <>
-            <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
-                <h3 style={{marginLeft: 2}}>
-                    Aktuelle Qualifikationen ({skills.length} gefunden)
-                </h3>
+            <h1 style={{marginBottom: 24}}>Qualifikationsverwaltung</h1>
+
+            <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16}}>
+                <Input
+                    placeholder="Qualifikation suchen..."
+                    value={searchValue}
+                    onChange={(e) => setSearchValue(e.target.value)}
+                    sx={{width: 300}}
+                />
                 <Button
                     startDecorator={<AddIcon/>}
                     onClick={() => setAddModalOpen(true)}
                 >
-                    Hinzufügen
+                    Qualifikation hinzufügen
                 </Button>
             </div>
             <>
@@ -176,12 +186,11 @@ export default function QualificationTable() {
                         </thead>
 
                         <tbody>
-                        {skills.map((skill) => (
+                        {filteredSkills.map((skill) => (
                             <tr key={skill.id}>
                                 <td>{skill.id}</td>
 
-                                <td>
-                                    <Chip sx={{mr: 3}}>{skill.skill}</Chip>
+                                <td><Chip sx={{mr: 3}}>{skill.skill}</Chip>
                                 </td>
 
                                 <td style={{textAlign: "right", whiteSpace: "nowrap"}}>
