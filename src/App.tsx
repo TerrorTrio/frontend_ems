@@ -6,6 +6,8 @@ import {EmployeePage} from "./pages/EmployeePage.tsx";
 import {QualificationsPage} from "./pages/QualificationPage.tsx";
 import {EmployeeDetailPage} from "./pages/EmployeeDetailPage.tsx";
 import {CreateEmployeePage} from "./pages/CreateEmployeePage.tsx";
+import AuthCallback from "./auth/AuthCallback.tsx";
+import RequireAuth from "./auth/RequireAuth.tsx";
 
 function App() {
     return (
@@ -27,11 +29,13 @@ function App() {
                     overflow: "auto",
                 }}>
                     <Routes>
-                        <Route path="/callback" element={<EmployeePage/>}/>
-                        <Route path="/employees" element={<EmployeePage/>}/>
-                        <Route path="/employees/:id" element={<EmployeeDetailPage/>}/>
-                        <Route path="/employees/new" element={<CreateEmployeePage/>}/>
-                        <Route path="/qualifications" element={<QualificationsPage/>}/>
+                        <Route element={<RequireAuth/>}>
+                            <Route path="/callback" element={<AuthCallback/>}/>
+                            <Route path="/employees/new" element={<CreateEmployeePage/>}/>
+                            <Route path="/employees/:id" element={<EmployeeDetailPage/>}/>
+                            <Route path="/employees" element={<EmployeePage/>}/>
+                            <Route path="/qualifications" element={<QualificationsPage/>}/>
+                        </Route>
                     </Routes>
                 </main>
             </div>
