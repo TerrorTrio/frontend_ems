@@ -60,17 +60,11 @@ export async function deleteQualificationFromApi(id: number, accessToken?: strin
     });
 
     if (!response.ok) {
-        const errorText = await response.text();
+        const errorBody = await response.json();
 
-        if (response.status === 500 && errorText.includes("foreign key constraint")) {
+        if (response.status === 500 && errorBody.message.includes("foreign key constraint")) {
             throw new Error("Diese Qualifikation kann nicht gelöscht werden, da sie noch einem oder mehreren Mitarbeitern zugewiesen ist.");
         }
-
-        try {
-            const errorBody = JSON.parse(errorText);
-            throw new Error(`Fehler beim Löschen der Qualifikation: ${response.status} ${errorBody.message}`);
-        } catch {
-            throw new Error(`Fehler beim Löschen der Qualifikation: ${response.status} ${errorText || response.statusText}`);
-        }
+        throw new Error(`Fehler beim Löschen der Qualifikation: ${response.status} ${errorBody.message}`);
     }
 }
