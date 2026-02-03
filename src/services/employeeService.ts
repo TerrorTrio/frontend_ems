@@ -139,8 +139,6 @@ export async function saveEmployeeInApi({accessToken, employee}: SaveEmployeePro
 
     if (!response.ok) {
         const errorBody = await response.json();
-
-        console.log(JSON.stringify(body));
         throw new Error(`Fehler beim Speichern: ${response.status}. ${errorBody.message}`);
     }
 

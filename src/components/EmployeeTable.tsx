@@ -14,7 +14,7 @@ export default function EmployeeTable({filteredEmployees}: { filteredEmployees: 
     const {deleteEmployee, deleting, deleteError} = useDeleteEmployee();
     const navigate = useNavigate();
 
-    const {openDialog, Dialog} = useDeleteDialog(async (id) => {
+    const {openDeleteDialog, DeleteDialog} = useDeleteDialog(async (id) => {
         await deleteEmployee(id);
         await refetch();
     })
@@ -78,14 +78,14 @@ export default function EmployeeTable({filteredEmployees}: { filteredEmployees: 
                             <IconButton
                                 aria-label="View employee details"
                                 onClick={() => navigate(`/employees/${employee.id}`)}><RemoveRedEye/></IconButton>
-                            <IconButton aria-label={"Deletes an employee"} onClick={() => openDialog(employee.id)}
+                            <IconButton aria-label={"Deletes an employee"} onClick={() => openDeleteDialog(employee.id)}
                                         disabled={deleting}><DeleteIcon color={"error"}/></IconButton>
                         </td>
                     </tr>
                 ))}
                 </tbody>
             </Table>
-            <Dialog/>
+            <DeleteDialog/>
         </Card>
     )
 }

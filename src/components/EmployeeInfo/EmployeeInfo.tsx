@@ -17,6 +17,7 @@ import {EmployeeAdressSection} from "./EmployeeAdressSection.tsx";
 import {EmployeeSkillsSection} from "./EmployeeSkillsSection.tsx";
 import {EmployeeActionsBar} from "./EmployeeActionsBar.tsx";
 import {ToastSnackBar} from "./ToastSnackBar.tsx";
+import {useCancelDialog} from "../../hooks/useCancelDialog.tsx";
 
 interface EmployeeInfoProps {
     employee: Employee
@@ -34,7 +35,7 @@ export default function EmployeeInfo({employee, onUpdate}: EmployeeInfoProps) {
     const [isEditing, setIsEditing] = useState(false);
     const [selectedSkills, setSelectedSkills] = useState<Skill[]>(employee.skillSet ?? []);
 
-    const [formData, setFormData] = useState<EmployeeFormData>({
+    const initialData = {
         firstName: employee.firstName,
         lastName: employee.lastName,
         phone: employee.phone,
@@ -42,6 +43,9 @@ export default function EmployeeInfo({employee, onUpdate}: EmployeeInfoProps) {
         houseNumber,
         postcode: employee.postcode,
         city: employee.city
+    };
+    const [formData, setFormData] = useState<EmployeeFormData>({
+        ...initialData
     })
 
     const [toast, setToast] = useState<{ open: boolean; message: string; color: "danger" | "success" }>({
@@ -68,7 +72,21 @@ export default function EmployeeInfo({employee, onUpdate}: EmployeeInfoProps) {
         }
     }, [fetchQualificationError]);
 
-    const {openDialog, Dialog} = useDeleteDialog(async (id) => {
+    const {openCancelDialog, CancelDialog} = useCancelDialog(() => {
+        setFormData({
+            firstName: employee.firstName,
+            lastName: employee.lastName,
+            phone: employee.phone,
+            streetName,
+            houseNumber,
+            postcode: employee.postcode,
+            city: employee.city
+        });
+        setSelectedSkills(employee.skillSet ?? []);
+        setIsEditing(false);
+    });
+
+    const {openDeleteDialog, DeleteDialog} = useDeleteDialog(async (id) => {
         await deleteEmployee(id);
         if (!deleteError) {
             navigate("/employees");
@@ -108,18 +126,23 @@ export default function EmployeeInfo({employee, onUpdate}: EmployeeInfoProps) {
         }
     }
 
+    const haveSkillsChanged = () => {
+        const originalIds = (employee.skillSet ?? []).map(skill => skill.id).sort();
+        const selectedIds = selectedSkills.map(skill => skill.id).sort();
+        if (originalIds.length !== selectedIds.length) return true;
+        return !originalIds.every((id, index) => id === selectedIds[index]);
+    };
+
+    const hasFormChanged =
+        JSON.stringify(formData) !== JSON.stringify(initialData) ||
+        haveSkillsChanged() ;
+
     const handleCancel = () => {
-        setFormData({
-            firstName: employee.firstName,
-            lastName: employee.lastName,
-            phone: employee.phone,
-            streetName,
-            houseNumber,
-            postcode: employee.postcode,
-            city: employee.city
-        });
-        setSelectedSkills(employee.skillSet ?? []);
-        setIsEditing(false);
+        if (hasFormChanged) {
+            openCancelDialog();
+        } else {
+            setIsEditing(false);
+        }
     }
 
     return (
@@ -156,13 +179,14 @@ export default function EmployeeInfo({employee, onUpdate}: EmployeeInfoProps) {
                 isEditing={isEditing}
                 deleting={deleting}
                 updating={updating}
-                onDelete={() => openDialog(employee.id)}
+                onDelete={() => openDeleteDialog(employee.id)}
                 onGoBack={() => navigate("/employees")}
                 onEdit={() => setIsEditing(true)}
                 onCancel={handleCancel}
                 onSave={handleSave}/>
 
-            <Dialog/>
+            <DeleteDialog/>
+            <CancelDialog/>
 
             <ToastSnackBar
                 toast={toast}

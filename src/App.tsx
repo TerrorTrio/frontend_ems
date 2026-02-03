@@ -1,7 +1,7 @@
 import Header from "./components/Header.tsx";
 import Footer from "./components/Footer.tsx";
 import NavBar from "./components/Navbar.tsx";
-import {Route, Routes} from "react-router-dom";
+import {Navigate, Route, Routes} from "react-router-dom";
 import {EmployeePage} from "./pages/EmployeePage.tsx";
 import {QualificationsPage} from "./pages/QualificationPage.tsx";
 import {EmployeeDetailPage} from "./pages/EmployeeDetailPage.tsx";
@@ -30,6 +30,7 @@ function App() {
                 }}>
                     <Routes>
                         <Route element={<RequireAuth/>}>
+                            <Route path="/" element={<Navigate to="/employees" replace />} />
                             <Route path="/callback" element={<AuthCallback/>}/>
                             <Route path="/employees/new" element={<CreateEmployeePage/>}/>
                             <Route path="/employees/:id" element={<EmployeeDetailPage/>}/>

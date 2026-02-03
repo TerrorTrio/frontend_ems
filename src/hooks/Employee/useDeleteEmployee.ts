@@ -4,7 +4,6 @@ import {useState} from "react";
 
 
 export function useDeleteEmployee() {
-
     const auth = useAuth();
 
     const [deleting, setDeleting] = useState(false);

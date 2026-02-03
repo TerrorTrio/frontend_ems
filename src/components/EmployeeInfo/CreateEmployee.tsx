@@ -14,16 +14,10 @@ import {EmployeeSkillsSection} from "./EmployeeSkillsSection.tsx";
 import {ToastSnackBar} from "./ToastSnackBar.tsx";
 import {useSaveEmployee} from "../../hooks/Employee/useSaveEmployee.ts";
 import {SaveEmployeeActionsBar} from "./SaveEmployeeActionBar.tsx";
+import {useCancelDialog} from "../../hooks/useCancelDialog.tsx";
 
-
-export default function CreateEmployee() {
-    const navigate = useNavigate();
-    const {saveEmployee, saving, saveError} = useSaveEmployee();
-
-    const {skills, loadingQualifications, fetchQualificationError} = useFetchQualifications();
-    const [selectedSkills, setSelectedSkills] = useState<Skill[]>([]);
-
-    const [formData, setFormData] = useState<EmployeeFormData>({
+export function CreateEmployee() {
+    const initialFormData: EmployeeFormData = {
         firstName: "",
         lastName: "",
         phone: "",
@@ -31,12 +25,24 @@ export default function CreateEmployee() {
         houseNumber: "",
         postcode: "",
         city: ""
-    });
+    };
+
+    const navigate = useNavigate();
+    const {saveEmployee, saving, saveError} = useSaveEmployee();
+
+    const {skills, loadingQualifications, fetchQualificationError} = useFetchQualifications();
+    const [selectedSkills, setSelectedSkills] = useState<Skill[]>([]);
+
+    const [formData, setFormData] = useState<EmployeeFormData>(initialFormData);
 
     const [toast, setToast] = useState<{ open: boolean; message: string; color: "danger" | "success" }>({
         open: false,
         message: "",
         color: "danger"
+    });
+
+    const {openCancelDialog, CancelDialog} = useCancelDialog(() => {
+        navigate("/employees");
     });
 
     useEffect(() => {
@@ -66,6 +72,10 @@ export default function CreateEmployee() {
         setSelectedSkills(selectedSkills.filter(skill => skill.id !== id));
     }
 
+    const hasFormChanged =
+        JSON.stringify(formData) !== JSON.stringify(initialFormData) ||
+        selectedSkills.length > 0;
+
     const handleSave = async () => {
         const employee: Employee = {
             id: 1,
@@ -85,7 +95,11 @@ export default function CreateEmployee() {
     }
 
     const handleCancel = () => {
-        navigate("/employees");
+        if (hasFormChanged) {
+            openCancelDialog();
+        } else {
+            navigate("/employees");
+        }
     }
 
     return (
@@ -122,6 +136,8 @@ export default function CreateEmployee() {
                 onCancel={handleCancel}
                 saving={saving}
                 onSave={handleSave}/>
+
+            <CancelDialog/>
 
             <ToastSnackBar
                 toast={toast}

@@ -1,4 +1,4 @@
-import CreateEmployee from "../components/EmployeeInfo/CreateEmployee.tsx";
+import {CreateEmployee} from "../components/EmployeeInfo/CreateEmployee.tsx";
 
 export function CreateEmployeePage() {
     return (
