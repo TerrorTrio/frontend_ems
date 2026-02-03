@@ -18,7 +18,7 @@ export default function QualificationTable() {
     // Suchfunktion
     const [searchValue, setSearchValue] = useState("");
 
-    const filteredSkills = skills.filter(skill => skill.skill.toLowerCase().includes(searchValue.toLowerCase()));
+    const filteredSkills = skills.filter(skill => skill.skill.toLowerCase().includes(searchValue.trim().toLowerCase()));
 
     // Edit Modal State
     const [editModalOpen, setEditModalOpen] = useState(false);
