@@ -14,17 +14,11 @@ export function useUpdateQualification() {
         setUpdateError(null);
 
         try {
-            const updated = await updateQualificationsFromApi(
-                id,
-                newSkillName,
-                auth.user?.access_token
-            );
+            const updated = await updateQualificationsFromApi(id, newSkillName, auth.user?.access_token);
 
             return updated;
         } catch (error) {
-            setUpdateError(
-                error instanceof Error ? error.message : "Fehler beim Aktualisieren"
-            );
+            setUpdateError(error instanceof Error ? error.message : "Fehler beim Aktualisieren");
             return null;
         } finally {
             setIsUpdating(false);

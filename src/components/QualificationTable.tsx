@@ -2,14 +2,43 @@ import {useFetchQualifications} from "../hooks/useFetchQualifications";
 import {useDeleteQualification} from "../hooks/useDeleteQualification";
 import {useUpdateQualification} from "../hooks/useUpdateQualification";
 import Table from "@mui/joy/Table";
-import {Button, Card, Chip, DialogActions, DialogContent, DialogTitle, IconButton, Modal, ModalDialog} from "@mui/joy";
+import {Button, Card, Chip, DialogActions, DialogContent, DialogTitle, IconButton, Input, Modal, ModalDialog} from "@mui/joy";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import EditIcon from "@mui/icons-material/EditOutlined";
+import {useState} from "react";
 
 export default function QualificationTable() {
     const {skills, loadingQualifications, fetchQualificationError, fetchQualifications} = useFetchQualifications();
     const {deleteQualification, isDeleting, deleteError, clearError} = useDeleteQualification();
     const {updateQualification, isUpdating} = useUpdateQualification();
+
+    // Edit Modal State
+    const [editModalOpen, setEditModalOpen] = useState(false);
+    const [editingSkill, setEditingSkill] = useState<{ id: number; skill: string } | null>(null);
+    const [editValue, setEditValue] = useState("");
+
+    const handleEditClick = (skill: { id: number; skill: string }) => {
+        setEditingSkill(skill);
+        setEditValue(skill.skill);
+        setEditModalOpen(true);
+    };
+
+    const handleEditSave = async () => {
+        if (!editingSkill) return;
+
+        const result = await updateQualification(editingSkill.id, editValue);
+        if (result) {
+            await fetchQualifications();
+            setEditModalOpen(false);
+            setEditingSkill(null);
+        }
+    };
+
+    const handleEditCancel = () => {
+        setEditModalOpen(false);
+        setEditingSkill(null);
+        setEditValue("");
+    };
 
     if (loadingQualifications) {
         return <div>Lade Qualifikationen...</div>;
@@ -21,6 +50,7 @@ export default function QualificationTable() {
 
     return (
         <>
+            {/* Error Modal */}
             <Modal open={!!deleteError} onClose={clearError}>
                 <ModalDialog color="danger" variant="soft">
                     <DialogTitle>
@@ -36,6 +66,31 @@ export default function QualificationTable() {
                     </DialogActions>
                 </ModalDialog>
             </Modal>
+
+            {/* Edit Modal */}
+            <Modal open={editModalOpen} onClose={handleEditCancel}>
+                <ModalDialog>
+                    <DialogTitle>Qualifikation bearbeiten</DialogTitle>
+                    <DialogContent>
+                        <Input
+                            autoFocus
+                            value={editValue}
+                            onChange={(e) => setEditValue(e.target.value)}
+                            placeholder="Bezeichnung"
+                            sx={{ mt: 1 }}
+                        />
+                    </DialogContent>
+                    <DialogActions>
+                        <Button variant="solid" color="primary" onClick={handleEditSave} loading={isUpdating}>
+                            Speichern
+                        </Button>
+                        <Button variant="plain" color="neutral" onClick={handleEditCancel}>
+                            Abbrechen
+                        </Button>
+                    </DialogActions>
+                </ModalDialog>
+            </Modal>
+
             <Card
                 sx={{
                     boxShadow: "0px 2px 10px rgba(0, 0, 0, 0.2)",
@@ -75,21 +130,11 @@ export default function QualificationTable() {
                             </td>
 
                             <td style={{textAlign: "right", whiteSpace: "nowrap"}}>
+
                                 <IconButton
                                     aria-label="Edit qualification"
                                     disabled={isUpdating}
-                                    onClick={async () => {
-
-
-                                        // Update ausführen
-                                        const result = await updateQualification(skill.id, skill.skill);
-
-                                        // Wenn erfolgreich → Liste neu laden
-                                        if (result) {
-                                            await fetchQualifications();
-                                        }
-                                    }}
-                                >
+                                    onClick={() => handleEditClick(skill)}>
                                     <EditIcon/>
                                 </IconButton>
 
@@ -103,6 +148,7 @@ export default function QualificationTable() {
                                 >
                                     <DeleteIcon color="error"/>
                                 </IconButton>
+
                             </td>
                         </tr>
                     ))}
