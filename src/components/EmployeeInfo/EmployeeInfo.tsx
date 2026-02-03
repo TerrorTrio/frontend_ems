@@ -124,6 +124,18 @@ export default function EmployeeInfo({employee, onUpdate}: EmployeeInfoProps) {
         setIsEditing(false);
     }
 
+    const isFormValid = (): boolean => {
+        const firstNameValid = formData.firstName.trim() !== "";
+        const lastNameValid = formData.lastName.trim() !== "";
+        const phoneValid = formData.phone.trim() !== "" && /^[\d\s\-+()]{6,20}$/.test(formData.phone);
+        const streetValid = formData.streetName.trim() !== "";
+        const houseNumberValid = formData.houseNumber.trim() !== "";
+        const postcodeValid = /^\d{5}$/.test(formData.postcode);
+        const cityValid = formData.city.trim() !== "";
+
+        return firstNameValid && lastNameValid && phoneValid && streetValid && houseNumberValid && postcodeValid && cityValid;
+    };
+
     return (
         <Card sx={{marginTop: 3}}>
             <EmployeePersonalSection
@@ -162,7 +174,8 @@ export default function EmployeeInfo({employee, onUpdate}: EmployeeInfoProps) {
                 onGoBack={() => navigate("/employees")}
                 onEdit={() => setIsEditing(true)}
                 onCancel={handleCancel}
-                onSave={handleSave}/>
+                onSave={handleSave}
+                isFormValid={isFormValid()}/>
 
             <Dialog/>
 

@@ -9,9 +9,10 @@ interface EmployeeActionsBarProps {
     onEdit: () => void,
     onCancel: () => void,
     onSave: () => void
+    isFormValid: boolean,
 }
 
-export function EmployeeActionsBar({isEditing, deleting, updating, onDelete, onGoBack, onEdit, onCancel, onSave}: EmployeeActionsBarProps) {
+export function EmployeeActionsBar({isEditing, deleting, updating, onDelete, onGoBack, onEdit, onCancel, onSave, isFormValid}: EmployeeActionsBarProps) {
     return(
         <>
             <Box sx={{display: "flex", justifyContent: "space-between", marginTop: 3}}>
@@ -28,7 +29,7 @@ export function EmployeeActionsBar({isEditing, deleting, updating, onDelete, onG
                         <>
                             <Button color="neutral" variant="outlined" onClick={onCancel}
                                     disabled={updating}>Abbrechen</Button>
-                            <Button color="primary" onClick={onSave} loading={updating}>Speichern</Button>
+                            <Button color="primary" onClick={onSave} loading={updating} disabled={!isFormValid}>Speichern</Button>
                         </>
                     ) : (
                         <>
