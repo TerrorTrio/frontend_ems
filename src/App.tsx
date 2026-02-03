@@ -3,6 +3,7 @@ import Footer from "./components/Footer.tsx";
 import NavBar from "./components/Navbar.tsx";
 import {Route, Routes} from "react-router-dom";
 import {EmployeePage} from "./pages/EmployeePage.tsx";
+import {EmployeeDetailPage} from "./pages/EmployeeDetailPage.tsx";
 import {QualificationsPage} from "./pages/QualificationPage.tsx";
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
                     <Routes>
                         <Route path="/callback" element={<EmployeePage/>}/>
                         <Route path="/employees" element={<EmployeePage/>}/>
+                        <Route path="/employees/:id" element={<EmployeeDetailPage/>}/>
                         <Route path="/qualifications" element={<QualificationsPage/>}/>
                     </Routes>
                 </main>
