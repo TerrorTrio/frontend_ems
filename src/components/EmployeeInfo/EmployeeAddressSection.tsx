@@ -1,13 +1,13 @@
 import type {EmployeeFormData} from "../../types/employeeFormData.ts";
 import {Box, FormControl, FormLabel, Input} from "@mui/joy";
 
-interface EmployeeAdressSectionProps {
+interface EmployeeAddressSectionProps {
     isEditing: boolean,
     value: Pick<EmployeeFormData, "streetName" | "houseNumber" | "postcode" | "city">,
     onChange: (field: "streetName" | "houseNumber" | "postcode" | "city", value: string) => void;
 }
 
-export function EmployeeAdressSection({isEditing, value, onChange}: EmployeeAdressSectionProps) {
+export function EmployeeAddressSection({isEditing, value, onChange}: EmployeeAddressSectionProps) {
     return (
         <>
             <h5 style={{marginTop: 10}}>Adresse</h5>

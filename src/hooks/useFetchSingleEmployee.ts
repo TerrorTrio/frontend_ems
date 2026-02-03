@@ -1,5 +1,5 @@
 import {useAuth} from "react-oidc-context";
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import type {Employee} from "../types/employee.ts";
 import {fetchSingleEmployeeFromApi} from "../services/employeeService.ts";
 
@@ -10,7 +10,7 @@ export function useFetchSingleEmployee(employeeId: number) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const fetchEmployee = async () => {
+    const fetchEmployee = useCallback( async () => {
         setLoading(true);
         setError(null);
 
@@ -25,11 +25,11 @@ export function useFetchSingleEmployee(employeeId: number) {
         } finally {
             setLoading(false);
         }
-    };
+    }, [auth.user?.access_token, employeeId]);
 
     useEffect(() => {
         fetchEmployee();
-    }, [auth.user?.access_token]);
+    }, [fetchEmployee]);
 
     return {refetch: fetchEmployee, employee, loading, error};
 }

@@ -17,13 +17,21 @@ export function useDeleteDialog(onConfirm: (id: number) => Promise<void>): UseDe
     }, []);
 
     const handleConfirm = async () => {
-        if (itemId !== null) {
-            setLoading(true);
+        if (itemId === null) {
+            return;
+        }
+
+        setLoading(true);
+
+        try {
             await onConfirm(itemId);
+            setOpen(false);
+            setItemId(null);
+        } catch (error) {
+            console.log(error);
+        } finally {
             setLoading(false);
         }
-        setOpen(false);
-        setItemId(null);
     };
 
     const handleClose = () => {

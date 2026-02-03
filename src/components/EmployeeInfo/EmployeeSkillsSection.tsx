@@ -28,7 +28,7 @@ export function EmployeeSkillsSection({isEditing, skills, selectedSkills, loadin
             {isEditing && <FormControl>
                 <Autocomplete<Skill>
                     key={selectedSkills.length}
-                    placeholder="Wähle eine Qualfikation aus"
+                    placeholder="Wähle eine Qualifikation aus"
                     options={options}
                     getOptionLabel={(option) => option.skill}
                     filterOptions={filterOptions}

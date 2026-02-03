@@ -13,7 +13,7 @@ import {useFetchQualifications} from "../../hooks/useFetchQualifications.ts";
 import type {EmployeeFormData} from "../../types/employeeFormData.ts";
 import {EmployeePersonalSection} from "./EmployeePersonalSection.tsx";
 import {EmployeeContactSection} from "./EmployeeContactSection.tsx";
-import {EmployeeAdressSection} from "./EmployeeAdressSection.tsx";
+import {EmployeeAddressSection} from "./EmployeeAddressSection.tsx";
 import {EmployeeSkillsSection} from "./EmployeeSkillsSection.tsx";
 import {EmployeeActionsBar} from "./EmployeeActionsBar.tsx";
 import {ToastSnackBar} from "./ToastSnackBar.tsx";
@@ -69,10 +69,12 @@ export default function EmployeeInfo({employee, onUpdate}: EmployeeInfoProps) {
     }, [fetchQualificationError]);
 
     const {openDialog, Dialog} = useDeleteDialog(async (id) => {
-        await deleteEmployee(id);
-        if (!deleteError) {
-            navigate("/employees");
-        }
+       try {
+           await deleteEmployee(id);
+           navigate("/employees");
+       } catch {
+           // Fehler wird über deleteError-State im Hook behandelt
+       }
     });
 
     const handleInputChange = (field: string, value: string) => {
@@ -134,7 +136,7 @@ export default function EmployeeInfo({employee, onUpdate}: EmployeeInfoProps) {
                 value={{phone: formData.phone}}
                 onChange={handleInputChange}/>
 
-            <EmployeeAdressSection
+            <EmployeeAddressSection
                 isEditing={isEditing}
                 value={{
                     streetName: formData.streetName,
