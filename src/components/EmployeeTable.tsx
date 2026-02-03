@@ -5,7 +5,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveRedEye from '@mui/icons-material/RemoveRedEyeOutlined';
 import {useDeleteEmployee} from "../hooks/Employee/useDeleteEmployee.ts";
 import {useNavigate} from "react-router-dom";
-import {useDeleteDialog} from "../hooks/useDeleteDialog.tsx";
+import {useDeleteDialog} from "../hooks/Dialogs/useDeleteDialog.tsx";
 import type {Employee} from "../types/employee.ts";
 import {useFetchEmployees} from "../hooks/Employee/useFetchEmployees.ts";
 

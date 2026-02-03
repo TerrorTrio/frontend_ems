@@ -14,7 +14,7 @@ import {EmployeeSkillsSection} from "./EmployeeSkillsSection.tsx";
 import {ToastSnackBar} from "./ToastSnackBar.tsx";
 import {useSaveEmployee} from "../../hooks/Employee/useSaveEmployee.ts";
 import {SaveEmployeeActionsBar} from "./SaveEmployeeActionBar.tsx";
-import {useCancelDialog} from "../../hooks/useCancelDialog.tsx";
+import {useCancelDialog} from "../../hooks/Dialogs/useCancelDialog.tsx";
 
 export function CreateEmployee() {
     const initialFormData: EmployeeFormData = {

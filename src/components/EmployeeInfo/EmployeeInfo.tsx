@@ -4,7 +4,7 @@ import {
 } from "@mui/joy";
 import {parseStreet} from "../../hooks/useStreetParser.ts";
 import {type SyntheticEvent, useEffect, useState} from "react";
-import {useDeleteDialog} from "../../hooks/useDeleteDialog.tsx";
+import {useDeleteDialog} from "../../hooks/Dialogs/useDeleteDialog.tsx";
 import {useDeleteEmployee} from "../../hooks/Employee/useDeleteEmployee.ts";
 import {useNavigate} from "react-router-dom";
 import type {Skill} from "../../types/skill.ts";
@@ -17,7 +17,7 @@ import {EmployeeAdressSection} from "./EmployeeAdressSection.tsx";
 import {EmployeeSkillsSection} from "./EmployeeSkillsSection.tsx";
 import {EmployeeActionsBar} from "./EmployeeActionsBar.tsx";
 import {ToastSnackBar} from "./ToastSnackBar.tsx";
-import {useCancelDialog} from "../../hooks/useCancelDialog.tsx";
+import {useCancelDialog} from "../../hooks/Dialogs/useCancelDialog.tsx";
 
 interface EmployeeInfoProps {
     employee: Employee

@@ -1,7 +1,12 @@
-import type {ReactNode} from "react";
+import {useLogout} from "../hooks/useLogout.ts";
+import {useAuth} from "react-oidc-context";
 
 export function Header() {
-    const iconBtnBaseStyle = {
+    const handleLogout = useLogout();
+    const auth = useAuth();
+    const userInitial = auth.user?.profile?.given_name?.[0].toUpperCase();
+
+    const iconBaseStyle = {
         display: "inline-flex",
         alignItems: "center",
         justifyContent: "center",
@@ -9,8 +14,8 @@ export function Header() {
         height: "36px",
         borderRadius: "50%",
         border: "none",
-        cursor: "pointer",
         transition: "transform 120ms ease, boxShadow 120ms ease",
+        color: "#fff",
     };
 
     const svgBaseStyle = {
@@ -23,7 +28,7 @@ export function Header() {
         strokeLinejoin: "round",
     } as const;
 
-    const buttonColors: Record<string, { bg: string; shadow: string }> = {
+    const iconColors: Record<string, { bg: string; shadow: string }> = {
         user: {bg: "#1a33b2", shadow: "rgba(31, 90, 246, 0.25)"},
         logout: {bg: "#3b4b5f", shadow: "rgba(59, 75, 95, 0.25)"},
     };
@@ -84,55 +89,41 @@ export function Header() {
                 gap: "10px",
             }}>
                 <div style={{display: "inline-flex", gap: "10px"}}>
-                    <IconButton type="user" ariaLabel="Profil">
-                        <svg viewBox="0 0 24 24" role="img" style={svgBaseStyle}>
+                    <div style={{...iconBaseStyle, backgroundColor: iconColors.user.bg,}}>
+                        {userInitial || <svg viewBox="0 0 24 24" role="img" style={svgBaseStyle}>
                             <circle cx="12" cy="8" r="4"/>
                             <path d="M4 20c1.5-3 4.5-4.5 8-4.5s6.5 1.5 8 4.5"/>
-                        </svg>
-                    </IconButton>
+                        </svg>}
+                    </div>
 
-                    <IconButton type="logout" ariaLabel="Logout">
+                    <button
+                        aria-label="Logout"
+                        style={{
+                            ...iconBaseStyle,
+                            backgroundColor: iconColors.logout.bg,
+                        }}
+                        onMouseEnter={(e) => {
+                            const el = e.currentTarget as HTMLButtonElement;
+                            el.style.transform = "translateY(-1px)";
+                            el.style.boxShadow = `0 4px 10px ${iconColors.logout.shadow}`;
+                        }}
+                        onMouseLeave={(e) => {
+                            const el = e.currentTarget as HTMLButtonElement;
+                            el.style.transform = "none";
+                            el.style.boxShadow = "none";
+                        }}
+                        onClick={handleLogout}
+                    >
                         <svg viewBox="0 0 24 24" role="img" style={svgBaseStyle}>
                             <path d="M10 5H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h4"/>
                             <path d="m15 9 4 3-4 3"/>
                             <path d="M19 12H10"/>
                         </svg>
-                    </IconButton>
+                    </button>
                 </div>
             </div>
         </header>
     );
-
-    function IconButton({
-                            type,
-                            ariaLabel,
-                            children,
-                        }: {
-        type: "user" | "logout";
-        ariaLabel: string;
-        children: ReactNode;
-    }) {
-        const colors = buttonColors[type];
-
-        return (
-            <button
-                aria-label={ariaLabel}
-                style={{...iconBtnBaseStyle, backgroundColor: colors.bg}}
-                onMouseEnter={(e) => {
-                    const el = e.currentTarget as HTMLButtonElement;
-                    el.style.transform = "translateY(-1px)";
-                    el.style.boxShadow = `0 4px 10px ${colors.shadow}`;
-                }}
-                onMouseLeave={(e) => {
-                    const el = e.currentTarget as HTMLButtonElement;
-                    el.style.transform = "none";
-                    el.style.boxShadow = "none";
-                }}
-            >
-                {children}
-            </button>
-        );
-    }
 }
 
 export default Header;
