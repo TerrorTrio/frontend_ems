@@ -82,7 +82,6 @@ export default function QualificationTable() {
                 </Button>
             </div>
             <>
-
                 {/* Add Modal */}
                 <Modal open={addModalOpen} onClose={handleAddCancel}>
                     <ModalDialog>
@@ -96,7 +95,13 @@ export default function QualificationTable() {
                                 sx={{mt: 1}}/>
                         </DialogContent>
                         <DialogActions>
-                            <Button variant="solid" color="primary" onClick={handleAddSave} loading={isCreating}>
+                            <Button
+                                variant="solid"
+                                color="primary"
+                                onClick={handleAddSave}
+                                loading={isCreating}
+                                disabled={!newSkillValue.trim()}
+                            >
                                 Erstellen
                             </Button>
                             <Button variant="plain" color="neutral" onClick={handleAddCancel}>
@@ -105,7 +110,6 @@ export default function QualificationTable() {
                         </DialogActions>
                     </ModalDialog>
                 </Modal>
-
                 {/* Error Modal */}
                 <Modal open={!!deleteError} onClose={clearError}>
                     <ModalDialog color="danger" variant="soft">
@@ -122,7 +126,6 @@ export default function QualificationTable() {
                         </DialogActions>
                     </ModalDialog>
                 </Modal>
-
                 {/* Edit Modal */}
                 <Modal open={editModalOpen} onClose={handleEditCancel}>
                     <ModalDialog>
@@ -136,16 +139,22 @@ export default function QualificationTable() {
                                 sx={{mt: 1}}/>
                         </DialogContent>
                         <DialogActions>
-                            <Button variant="solid" color="primary" onClick={handleEditSave} loading={isUpdating}>
+                            <Button
+                                variant="solid"
+                                color="primary"
+                                onClick={handleEditSave}
+                                loading={isUpdating}
+                                disabled={!editValue.trim()}
+                            >
                                 Speichern
                             </Button>
+
                             <Button variant="plain" color="neutral" onClick={handleEditCancel}>
                                 Abbrechen
                             </Button>
                         </DialogActions>
                     </ModalDialog>
                 </Modal>
-
                 <Card
                     sx={{
                         boxShadow: "0px 2px 10px rgba(0, 0, 0, 0.2)",
@@ -156,7 +165,6 @@ export default function QualificationTable() {
                     <h4 style={{marginLeft: 2}}>
                         Aktuelle Qualifikationen ({skills.length} gefunden)
                     </h4>
-
                     <Table
                         sx={{
                             mt: 4,
@@ -174,25 +182,20 @@ export default function QualificationTable() {
                             <th style={{textAlign: "right", whiteSpace: "nowrap"}}>Aktionen</th>
                         </tr>
                         </thead>
-
                         <tbody>
                         {skills.map((skill) => (
                             <tr key={skill.id}>
                                 <td>{skill.id}</td>
-
                                 <td>
                                     <Chip sx={{mr: 3}}>{skill.skill}</Chip>
                                 </td>
-
                                 <td style={{textAlign: "right", whiteSpace: "nowrap"}}>
-
                                     <IconButton
                                         aria-label="Edit qualification"
                                         disabled={isUpdating}
                                         onClick={() => handleEditClick(skill)}>
                                         <EditIcon/>
                                     </IconButton>
-
                                     <IconButton
                                         aria-label="Delete qualification"
                                         disabled={isDeleting}
@@ -203,7 +206,6 @@ export default function QualificationTable() {
                                     >
                                         <DeleteIcon color="error"/>
                                     </IconButton>
-
                                 </td>
                             </tr>
                         ))}
