@@ -27,7 +27,7 @@ export default function Navbar() {
     ];
 
     const navContent = (
-        <nav style={{display: "block"}}>
+        <nav style={{display: "block", position:"fixed"}}>
             <ul style={{listStyle: "none", margin: 0, padding: 0}}>
                 {links.map((link) => (
                     <li key={link.to}>
