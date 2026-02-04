@@ -172,9 +172,9 @@ export default function QualificationTable() {
                         mt: 2,
                     }}
                 >
-                    <h3 style={{marginLeft: 2}}>
+                    <h4 style={{marginLeft: 2}}>
                         Aktuelle Qualifikationen ({filteredSkills.length} gefunden)
-                    </h3>
+                    </h4>
                     <Table
                         sx={{
                             mt: 4,
