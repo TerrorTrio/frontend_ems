@@ -13,13 +13,13 @@ import {EmployeeContactSection} from "./EmployeeContactSection.tsx";
 import {EmployeeSkillsSection} from "./EmployeeSkillsSection.tsx";
 import {EmployeeActionsBar} from "./EmployeeActionsBar.tsx";
 import {ToastSnackBar} from "./ToastSnackBar.tsx";
-import {useCancelDialog} from "../../hooks/Dialogs/useCancelDialog.tsx";
 import {EmployeeAddressSection} from "./EmployeeAddressSection.tsx";
 import {useFetchQualifications} from "../../hooks/Qualification/useFetchQualifications.ts";
 import {useSkillSelection} from "../../hooks/useSkillSelection.ts";
 import type {ToastState} from "../../types/toast.ts";
 import {useToastFromErrors} from "../../hooks/useToastFromErrors.ts";
 import {useEmployeeForm} from "../../hooks/useEmployeeForm.ts";
+import {useCancelDialog} from "../../hooks/Dialogs/useCancelDialog.tsx";
 
 interface EmployeeInfoProps {
     employee: Employee
@@ -118,8 +118,8 @@ export default function EmployeeInfo({employee, onUpdate}: EmployeeInfoProps) {
     }
 
     return (
-        <Card sx={{marginTop: 3, padding: {xs: 2, md: 3}}}>
-            <Stack direction={'column'} spacing={3}>
+        <Card sx={{marginTop: 3, gap: 0, padding: {xs: 2, md: 3}}}>
+            <Stack direction={'column'}>
             <EmployeePersonalSection
                 isEditing={isEditing}
                 value={{firstName: formData.firstName, lastName: formData.lastName}}
