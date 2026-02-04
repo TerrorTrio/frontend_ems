@@ -3,13 +3,11 @@ import {
     Card,
 } from "@mui/joy";
 import {parseStreet} from "../../hooks/useStreetParser.ts";
-import {type SyntheticEvent, useEffect, useState} from "react";
+import {useState} from "react";
 import {useDeleteDialog} from "../../hooks/Dialogs/useDeleteDialog.tsx";
 import {useDeleteEmployee} from "../../hooks/Employee/useDeleteEmployee.ts";
 import {useNavigate} from "react-router-dom";
-import type {Skill} from "../../types/skill.ts";
 import {useUpdateEmployee} from "../../hooks/Employee/useUpdateEmployee.ts";
-import type {EmployeeFormData} from "../../types/employeeFormData.ts";
 import {EmployeePersonalSection} from "./EmployeePersonalSection.tsx";
 import {EmployeeContactSection} from "./EmployeeContactSection.tsx";
 import {EmployeeSkillsSection} from "./EmployeeSkillsSection.tsx";
@@ -18,6 +16,10 @@ import {ToastSnackBar} from "./ToastSnackBar.tsx";
 import {useCancelDialog} from "../../hooks/Dialogs/useCancelDialog.tsx";
 import {EmployeeAddressSection} from "./EmployeeAddressSection.tsx";
 import {useFetchQualifications} from "../../hooks/Qualification/useFetchQualifications.ts";
+import {useSkillSelection} from "../../hooks/useSkillSelection.ts";
+import type {ToastState} from "../../types/toast.ts";
+import {useToastFromErrors} from "../../hooks/useToastFromErrors.ts";
+import {useEmployeeForm} from "../../hooks/useEmployeeForm.ts";
 
 interface EmployeeInfoProps {
     employee: Employee
@@ -27,15 +29,7 @@ interface EmployeeInfoProps {
 export default function EmployeeInfo({employee, onUpdate}: EmployeeInfoProps) {
     const navigate = useNavigate();
     const {streetName, houseNumber} = parseStreet(employee.street);
-
-    const {deleteEmployee, deleting, deleteError} = useDeleteEmployee();
-    const {updateEmployee, updating, updateError} = useUpdateEmployee();
-    const {skills, loadingQualifications, fetchQualificationError} = useFetchQualifications();
-
-    const [isEditing, setIsEditing] = useState(false);
-    const [selectedSkills, setSelectedSkills] = useState<Skill[]>(employee.skillSet ?? []);
-
-    const initialData = {
+    const initialFormData = {
         firstName: employee.firstName,
         lastName: employee.lastName,
         phone: employee.phone,
@@ -44,33 +38,23 @@ export default function EmployeeInfo({employee, onUpdate}: EmployeeInfoProps) {
         postcode: employee.postcode,
         city: employee.city
     };
-    const [formData, setFormData] = useState<EmployeeFormData>({
-        ...initialData
-    })
+    const {formData, setFormData ,setField, isValid} = useEmployeeForm(initialFormData);
 
-    const [toast, setToast] = useState<{ open: boolean; message: string; color: "danger" | "success" }>({
+    const {deleteEmployee, deleting, deleteError} = useDeleteEmployee();
+    const {updateEmployee, updating, updateError} = useUpdateEmployee();
+    const {skills, loadingQualifications, fetchQualificationError} = useFetchQualifications();
+    const {selectedSkills, setSelectedSkills, addSkill, removeSkill} =
+        useSkillSelection(employee.skillSet ?? []);
+
+    const [isEditing, setIsEditing] = useState(false);
+
+    const [toast, setToast] = useState<ToastState>({
         open: false,
         message: "",
         color: "danger"
     });
 
-    useEffect(() => {
-        if (updateError) {
-            setToast({open: true, message: updateError, color: "danger"});
-        }
-    }, [updateError]);
-
-    useEffect(() => {
-        if (deleteError) {
-            setToast({open: true, message: deleteError, color: "danger"});
-        }
-    }, [deleteError]);
-
-    useEffect(() => {
-        if (fetchQualificationError) {
-            setToast({open: true, message: fetchQualificationError, color: "danger"});
-        }
-    }, [fetchQualificationError]);
+    useToastFromErrors([updateError, deleteError, fetchQualificationError], setToast);
 
     const {openCancelDialog, CancelDialog} = useCancelDialog(() => {
         setFormData({
@@ -94,20 +78,6 @@ export default function EmployeeInfo({employee, onUpdate}: EmployeeInfoProps) {
             // Fehler wird über deleteError-State im Hook behandelt
         }
     });
-
-    const handleInputChange = (field: string, value: string) => {
-        setFormData(prevState => ({...prevState, [field]: value}));
-    }
-
-    const handleAddSkill = (_event: SyntheticEvent, value: Skill | null) => {
-        if (value && !selectedSkills.some(skill => skill.id === value.id)) {
-            setSelectedSkills([...selectedSkills, value]);
-        }
-    };
-
-    const handleRemoveSkill = (id: number) => {
-        setSelectedSkills(selectedSkills.filter(skill => skill.id !== id));
-    }
 
     const handleSave = async () => {
         const updatedEmployee: Employee = {
@@ -136,7 +106,7 @@ export default function EmployeeInfo({employee, onUpdate}: EmployeeInfoProps) {
     };
 
     const hasFormChanged =
-        JSON.stringify(formData) !== JSON.stringify(initialData) ||
+        JSON.stringify(formData) !== JSON.stringify(initialFormData) ||
         haveSkillsChanged() ;
 
     const handleCancel = () => {
@@ -147,29 +117,17 @@ export default function EmployeeInfo({employee, onUpdate}: EmployeeInfoProps) {
         }
     }
 
-    const isFormValid = (): boolean => {
-        const firstNameValid = formData.firstName.trim() !== "";
-        const lastNameValid = formData.lastName.trim() !== "";
-        const phoneValid = formData.phone.trim() !== "" && /^[\d\s\-+()]{6,20}$/.test(formData.phone);
-        const streetValid = formData.streetName.trim() !== "";
-        const houseNumberValid = formData.houseNumber.trim() !== "";
-        const postcodeValid = /^\d{5}$/.test(formData.postcode);
-        const cityValid = formData.city.trim() !== "";
-
-        return firstNameValid && lastNameValid && phoneValid && streetValid && houseNumberValid && postcodeValid && cityValid;
-    };
-
     return (
         <Card sx={{marginTop: 3, gap: 0}}>
             <EmployeePersonalSection
                 isEditing={isEditing}
                 value={{firstName: formData.firstName, lastName: formData.lastName}}
-                onChange={handleInputChange}/>
+                onChange={setField}/>
 
             <EmployeeContactSection
                 isEditing={isEditing}
                 value={{phone: formData.phone}}
-                onChange={handleInputChange}/>
+                onChange={setField}/>
 
             <EmployeeAddressSection
                 isEditing={isEditing}
@@ -179,15 +137,15 @@ export default function EmployeeInfo({employee, onUpdate}: EmployeeInfoProps) {
                     postcode: formData.postcode,
                     city: formData.city
                 }}
-                onChange={handleInputChange}/>
+                onChange={setField}/>
 
             <EmployeeSkillsSection
                 isEditing={isEditing}
                 skills={skills}
                 selectedSkills={selectedSkills}
                 loading={loadingQualifications}
-                onAdd={handleAddSkill}
-                onRemove={handleRemoveSkill}/>
+                onAdd={addSkill}
+                onRemove={removeSkill}/>
 
             <EmployeeActionsBar
                 isEditing={isEditing}
@@ -198,7 +156,7 @@ export default function EmployeeInfo({employee, onUpdate}: EmployeeInfoProps) {
                 onEdit={() => setIsEditing(true)}
                 onCancel={handleCancel}
                 onSave={handleSave}
-                isFormValid={isFormValid()}/>
+                isFormValid={isValid}/>
 
             <DeleteDialog/>
             <CancelDialog/>
