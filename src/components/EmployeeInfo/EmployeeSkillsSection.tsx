@@ -1,29 +1,64 @@
-import type {SyntheticEvent} from "react";
+import {type SyntheticEvent, useState} from "react";
 import type {Skill} from "../../types/skill.ts";
 import {Autocomplete, Box, Chip, createFilterOptions, FormControl} from "@mui/joy";
 import CloseIcon from "@mui/icons-material/Close";
+import {createSkillModal} from "../Qualification/CreateSkillModal.tsx";
+import {useFetchQualifications} from "../../hooks/Qualification/useFetchQualifications.ts";
+import {useCreateQualification} from "../../hooks/Qualification/useCreateQualification.ts";
 
 interface EmployeeSkillsSectionProps {
     isEditing: boolean,
-    skills: Skill[],
     selectedSkills: Skill[],
     loading: boolean,
-    onAdd: (_event: SyntheticEvent, value: Skill  | null) => void,
+    onAdd: (_event: SyntheticEvent, value: Skill | null) => void,
     onRemove: (id: number) => void
-};
+}
 
 const filterOptions = createFilterOptions<Skill>({
     matchFrom: "start",
     stringify: (option) => option.skill
 })
 
-export function EmployeeSkillsSection({isEditing, skills, selectedSkills, loading, onAdd, onRemove}: EmployeeSkillsSectionProps) {
+export function EmployeeSkillsSection({
+                                          isEditing,
+                                          selectedSkills,
+                                          loading,
+                                          onAdd,
+                                          onRemove
+                                      }: EmployeeSkillsSectionProps) {
+    const {skills, fetchQualifications} = useFetchQualifications();
+    const [inputValue, setInputValue] = useState("");
     const options = skills.filter(
         (skill) => !selectedSkills.some((selectedSkill) => selectedSkill.id === skill.id)
     );
+    const {createQualification, isCreating} = useCreateQualification();
+
+    const [addModalOpen, setAddModalOpen] = useState(false);
+    const [newSkillValue, setNewSkillValue] = useState("");
+
+    const handleAddSave = async () => {
+        const result = await createQualification(newSkillValue.trim());
+        if (result) {
+            await fetchQualifications();
+            onAdd({} as unknown as SyntheticEvent, result);
+            setAddModalOpen(false);
+            setNewSkillValue("");
+        }
+    };
+
+    const handleAddCancel = () => {
+        setAddModalOpen(false);
+        setNewSkillValue("");
+    };
+
+    {
+        createSkillModal(addModalOpen, handleAddCancel, newSkillValue, setNewSkillValue, handleAddSave, isCreating)
+    }
 
     return (
         <>
+            {createSkillModal(addModalOpen, handleAddCancel, newSkillValue, setNewSkillValue, handleAddSave, isCreating)}
+
             <h5 style={{marginTop: 10}}>Qualifikationen</h5>
             {isEditing && <FormControl>
                 <Autocomplete<Skill>
@@ -32,16 +67,38 @@ export function EmployeeSkillsSection({isEditing, skills, selectedSkills, loadin
                     options={options}
                     getOptionLabel={(option) => option.skill}
                     filterOptions={filterOptions}
+                    inputValue={inputValue}
+                    onInputChange={(_, newValue) => setInputValue(newValue)}
                     onChange={onAdd}
                     value={null}
                     readOnly={!isEditing}
                     loading={loading}
                     disabled={loading}
                     sx={{fontSize: 14}}
+                    noOptionsText={
+                        <div style={{display: "flex", textAlign: "center", alignItems: "center", gap: "20px"}}>
+                            <div>Keine Qualifikation gefunden</div>
+                            <span
+                                style={{
+                                    color: "#1976d2",
+                                    cursor: "pointer",
+                                    textDecoration: "underline",
+                                    fontSize: 14,
+                                }}
+                                onClick={() => {
+                                    setAddModalOpen(true)
+                                    setNewSkillValue(inputValue)
+                                }}
+                            >
+                            Qualifikation hinzufügen
+                        </span>
+
+                        </div>
+                    }
                 />
             </FormControl>}
 
-            <Box sx={{display: "flex", flexWrap: "wrap", gap: 1, marginTop: 1}}>
+            <Box sx={{display: "flex", flexWrap: "wrap", gap: 1, margin: "1vh"}}>
                 {selectedSkills.map((skill) => (
                     <Chip
                         key={skill.id}

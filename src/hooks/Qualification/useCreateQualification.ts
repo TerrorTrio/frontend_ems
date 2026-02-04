@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "react-oidc-context";
-import { createQualificationFromApi } from "../../services/qualificationService.ts";
+import {createQualificationFromApi} from "../../services/qualificationService.ts";
+import type {Skill} from "../../types/skill.ts";
 
 export function useCreateQualification() {
     const auth = useAuth();
@@ -8,16 +9,15 @@ export function useCreateQualification() {
     const [isCreating, setIsCreating] = useState(false);
     const [createError, setCreateError] = useState<string | null>(null);
 
-    const createQualification = async (skill: string): Promise<boolean> => {
+    const createQualification = async (skill: string): Promise<Skill|null> => {
         setIsCreating(true);
         setCreateError(null);
 
         try {
-            await createQualificationFromApi(skill, auth.user?.access_token);
-            return true;
+            return await createQualificationFromApi(skill, auth.user?.access_token);
         } catch (error) {
             setCreateError(error instanceof Error ? error.message : "Ein Fehler ist aufgetreten");
-            return false;
+            return null;
         } finally {
             setIsCreating(false);
         }

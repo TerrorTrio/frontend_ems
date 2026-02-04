@@ -3,12 +3,24 @@ import {useDeleteQualification} from "../hooks/Qualification/useDeleteQualificat
 import {useUpdateQualification} from "../hooks/Qualification/useUpdateQualification.ts";
 import {useCreateQualification} from "../hooks/Qualification/useCreateQualification.ts";
 import Table from "@mui/joy/Table";
-import {Button, Card, Chip, DialogActions, DialogContent, DialogTitle, IconButton, Input, Modal, ModalDialog} from "@mui/joy";
+import {
+    Button,
+    Card,
+    Chip,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    IconButton,
+    Input,
+    Modal,
+    ModalDialog
+} from "@mui/joy";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import EditIcon from "@mui/icons-material/EditOutlined";
 import {useState} from "react";
 import {useDeleteDialog} from "../hooks/Dialogs/useDeleteDialog.tsx";
+import {createSkillModal} from "./Qualification/CreateSkillModal.tsx";
 
 export default function QualificationTable() {
     const {skills, loadingQualifications, fetchQualificationError, fetchQualifications} = useFetchQualifications();
@@ -16,7 +28,7 @@ export default function QualificationTable() {
     const {updateQualification, isUpdating} = useUpdateQualification();
     const {createQualification, isCreating} = useCreateQualification();
 
-    // Suchfunktion
+    // Search function
     const [searchValue, setSearchValue] = useState("");
 
     const filteredSkills = skills.filter(skill => skill.skill.toLowerCase().includes(searchValue.trim().toLowerCase()));
@@ -38,7 +50,7 @@ export default function QualificationTable() {
     const handleEditSave = async () => {
         if (!editingSkill) return;
 
-        const result = await updateQualification(editingSkill.id, editValue);
+        const result = await updateQualification(editingSkill.id, editValue.trim());
         if (result) {
             await fetchQualifications();
             setEditModalOpen(false);
@@ -53,7 +65,7 @@ export default function QualificationTable() {
     };
 
     const handleAddSave = async () => {
-        const result = await createQualification(newSkillValue);
+        const result = await createQualification(newSkillValue.trim());
         if (result) {
             await fetchQualifications();
             setAddModalOpen(false);
@@ -86,13 +98,16 @@ export default function QualificationTable() {
                     placeholder="Qualifikation suchen..."
                     value={searchValue}
                     onChange={(e) => setSearchValue(e.target.value)}
-                    sx={{width: 300}}
+                    sx={{
+                        width: 300, borderRadius: "15px",
+                    }}
                 />
                 <Button
-                    startDecorator={<AddCircleOutlineIcon/>}
+                    startDecorator={<AddCircleOutlineIcon style={{fontSize: "22", paddingRight: "5px"}}/>}
                     sx={{
                         backgroundColor: "#258bf2",
                         fontWeight: "normal",
+                        borderRadius: "10px",
                     }}
                     onClick={() => setAddModalOpen(true)}
                 >
@@ -101,33 +116,7 @@ export default function QualificationTable() {
             </div>
             <>
                 {/* Add Modal */}
-                <Modal open={addModalOpen} onClose={handleAddCancel}>
-                    <ModalDialog>
-                        <DialogTitle>Neue Qualifikation</DialogTitle>
-                        <DialogContent>
-                            <Input
-                                autoFocus
-                                value={newSkillValue}
-                                onChange={(e) => setNewSkillValue(e.target.value)}
-                                placeholder="Bezeichnung"
-                                sx={{mt: 1}}/>
-                        </DialogContent>
-                        <DialogActions>
-                            <Button
-                                variant="solid"
-                                color="primary"
-                                onClick={handleAddSave}
-                                loading={isCreating}
-                                disabled={!newSkillValue.trim()}
-                            >
-                                Erstellen
-                            </Button>
-                            <Button variant="plain" color="neutral" onClick={handleAddCancel}>
-                                Abbrechen
-                            </Button>
-                        </DialogActions>
-                    </ModalDialog>
-                </Modal>
+                {createSkillModal(addModalOpen, handleAddCancel, newSkillValue, setNewSkillValue, handleAddSave, isCreating)}
                 {/* Error Modal */}
                 <Modal open={!!deleteError} onClose={clearError}>
                     <ModalDialog color="danger" variant="soft">
