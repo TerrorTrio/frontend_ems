@@ -78,7 +78,7 @@ export default function QualificationTable() {
         setNewSkillValue("");
     };
 
-    const {openDialog, Dialog} = useDeleteDialog(async (id) => {
+    const {openDeleteDialog, DeleteDialog} = useDeleteDialog(async (id) => {
         await deleteQualification(id);
         await fetchQualifications();
     });
@@ -204,7 +204,7 @@ export default function QualificationTable() {
                                     <IconButton
                                         aria-label="Delete qualification"
                                         disabled={isDeleting}
-                                        onClick={() => openDialog(skill.id)}
+                                        onClick={() => openDeleteDialog(skill.id)}
                                     >
                                         <DeleteIcon color="error"/>
                                     </IconButton>
@@ -215,7 +215,7 @@ export default function QualificationTable() {
                     </Table>
                 </Card>
             </>
-            <Dialog/>
+            <DeleteDialog/>
         </>
     );
 }
