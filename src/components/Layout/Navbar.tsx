@@ -63,6 +63,7 @@ export default function Navbar() {
                     variant="outlined"
                     color="neutral"
                     onClick={() => setMobileOpen(true)}
+                    aria-label={"Open navigation menu"}
                 >
                     <MenuIcon/>
                 </IconButton>
@@ -80,6 +81,7 @@ export default function Navbar() {
                             variant="plain"
                             color="neutral"
                             onClick={() => setMobileOpen(false)}
+                            aria-label={"Close navigation menu"}
                         >
                             <CloseIcon/>
                         </IconButton>

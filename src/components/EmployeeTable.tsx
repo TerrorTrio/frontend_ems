@@ -55,7 +55,7 @@ export default function EmployeeTable() {
                     onClick={() => navigate("/employees/new")}
                 >
                     <AddCircleOutlineIcon />
-                    <Box component="span" sx={{ display: { xs: "none", sm: "inline" }, ml: 1 }}>
+                    <Box component="span" sx={{ display: { xs: "none", md: "inline" }, ml: 1 }}>
                         Mitarbeiter hinzufügen
                     </Box>
                 </Button>
@@ -110,7 +110,15 @@ export default function EmployeeTable() {
                         key={employee.id}
                         variant="outlined"
                         sx={{p: 2}}
-                        onClick={() => navigate(`/employees/${employee.id}`)}>
+                        role="button"
+                        tabIndex={0}
+                        onClick={() => navigate(`/employees/${employee.id}`)}
+                        onKeyDown={(event) => {
+                            if (event.key === 'Enter' || event.key === ' ' || event.key === 'Spacebar') {
+                                event.preventDefault();
+                                navigate(`/employees/${employee.id}`);
+                            }
+                        }}>
                         <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                             <Box>
                                 <Typography level="title-md">

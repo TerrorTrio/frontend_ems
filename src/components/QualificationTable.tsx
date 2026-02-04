@@ -113,7 +113,7 @@ export default function QualificationTable() {
                     onClick={() => setAddModalOpen(true)}
                 >
                     <AddCircleOutlineIcon />
-                    <Box component="span" sx={{ display: { xs: "none", sm: "inline" }, ml: 1 }}>
+                    <Box component="span" sx={{ display: { xs: "none", md: "inline" }, ml: 1 }}>
                         Qualifikation hinzufügen
                     </Box>
                 </Button>

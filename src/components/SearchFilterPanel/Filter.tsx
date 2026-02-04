@@ -33,7 +33,7 @@ export function Filter({setSelectedQualifications, setSearchedCity: setSearchedC
             <Button
                 sx={{
                     padding: 0,
-                    width: {xs: "36px", sm: "7rem"},
+                    width: {xs: "36px", md: "7rem"},
                     height: "100%",
                     border: "none",
                     borderRadius: "12px",
@@ -45,7 +45,7 @@ export function Filter({setSelectedQualifications, setSearchedCity: setSearchedC
                 onClick={() => setShowFilter(prev => !prev)}
             >
                 <FaFilter/>
-                <Box component="span" sx={{display: {xs: 'none', sm: 'inline'}, ml: 1}}>
+                <Box component="span" sx={{display: {xs: 'none', md: 'inline'}, ml: 1}}>
                     Filter
                 </Box>
             </Button>
@@ -53,10 +53,10 @@ export function Filter({setSelectedQualifications, setSearchedCity: setSearchedC
                 <Card sx={{
                     position: "absolute",
                     zIndex: 9999,
-                    left: {xs: "auto", sm: "-6rem"},
-                    right: {xs: "0", sm: "auto"},
+                    left: {xs: "auto", md: "-6rem"},
+                    right: {xs: "0", md: "auto"},
                     mt: "0.5rem",
-                    width: {xs: "calc(100vw - 2rem)", sm: "15rem"},
+                    width: {xs: "calc(100vw - 2rem)", md: "15rem"},
                     maxWidth: "15rem",
                     height: "auto",
                     backgroundColor: "white",
