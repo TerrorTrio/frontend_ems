@@ -3,7 +3,7 @@ import {SearchInput} from "./SearchInput.tsx";
 import {Filter} from "./Filter.tsx";
 import {useEffect, useState} from "react";
 import {useDebounce} from "use-debounce";
-import useEmployeeFilter from "../../hooks/useEmployeeFilter.ts";
+import useEmployeeFilter from "../../hooks/Employee/useEmployeeFilter.ts";
 import {useEmployees} from "../../context/EmployeeContext.tsx";
 
 export function SearchFilterPanel() {

@@ -5,7 +5,6 @@ import {
 import {type SyntheticEvent, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import type {Skill} from "../../types/skill.ts";
-import {useFetchQualifications} from "../../hooks/useFetchQualifications.ts";
 import type {EmployeeFormData} from "../../types/employeeFormData.ts";
 import {EmployeePersonalSection} from "./EmployeePersonalSection.tsx";
 import {EmployeeContactSection} from "./EmployeeContactSection.tsx";
@@ -15,6 +14,7 @@ import {ToastSnackBar} from "./ToastSnackBar.tsx";
 import {useSaveEmployee} from "../../hooks/Employee/useSaveEmployee.ts";
 import {SaveEmployeeActionsBar} from "./SaveEmployeeActionBar.tsx";
 import {useCancelDialog} from "../../hooks/Dialogs/useCancelDialog.tsx";
+import {useFetchQualifications} from "../../hooks/Qualification/useFetchQualifications.ts";
 
 export function CreateEmployee() {
     const initialFormData: EmployeeFormData = {

@@ -21,6 +21,29 @@ export async function fetchQualificationsFromApi(accessToken?: string): Promise<
     return response.json();
 }
 
+export async function createQualificationFromApi(skill: string, accessToken?: string): Promise<Skill> {
+    const headers: HeadersInit = {
+        "Content-Type": "application/json",
+    };
+
+    if (accessToken) {
+        headers["Authorization"] = `Bearer ${accessToken}`;
+    }
+
+    const response = await fetch(`${BASE_URL}/qualifications`, {
+        method: "POST",
+        headers,
+        body: JSON.stringify({ skill }),
+    });
+
+    if (!response.ok) {
+        throw new Error(`Fehler beim Erstellen der Qualifikation: ${response.status} ${response.statusText}`);
+    }
+
+    return response.json();
+}
+
+
 export async function updateQualificationsFromApi(id: number, skill: string, accessToken?: string): Promise<Skill> {
     const headers: HeadersInit = {
         "Content-Type": "application/json",

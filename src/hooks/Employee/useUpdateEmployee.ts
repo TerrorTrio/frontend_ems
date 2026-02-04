@@ -1,8 +1,8 @@
 import {useAuth} from "react-oidc-context";
 import {useState} from "react";
-import {useEmployees} from "../../context/EmployeeContext.tsx";
 import type {Employee} from "../../types/employee.ts";
 import {updateEmployeeInApi} from "../../services/employeeService.ts";
+import {useEmployees} from "../../context/EmployeeContext.tsx";
 
 export function useUpdateEmployee() {
     const auth = useAuth();

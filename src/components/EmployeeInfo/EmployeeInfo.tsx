@@ -9,7 +9,6 @@ import {useDeleteEmployee} from "../../hooks/Employee/useDeleteEmployee.ts";
 import {useNavigate} from "react-router-dom";
 import type {Skill} from "../../types/skill.ts";
 import {useUpdateEmployee} from "../../hooks/Employee/useUpdateEmployee.ts";
-import {useFetchQualifications} from "../../hooks/useFetchQualifications.ts";
 import type {EmployeeFormData} from "../../types/employeeFormData.ts";
 import {EmployeePersonalSection} from "./EmployeePersonalSection.tsx";
 import {EmployeeContactSection} from "./EmployeeContactSection.tsx";
@@ -18,6 +17,7 @@ import {EmployeeActionsBar} from "./EmployeeActionsBar.tsx";
 import {ToastSnackBar} from "./ToastSnackBar.tsx";
 import {useCancelDialog} from "../../hooks/Dialogs/useCancelDialog.tsx";
 import {EmployeeAddressSection} from "./EmployeeAddressSection.tsx";
+import {useFetchQualifications} from "../../hooks/Qualification/useFetchQualifications.ts";
 
 interface EmployeeInfoProps {
     employee: Employee

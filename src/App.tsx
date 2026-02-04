@@ -1,6 +1,6 @@
-import Header from "./components/Header.tsx";
-import Footer from "./components/Footer.tsx";
-import NavBar from "./components/Navbar.tsx";
+import Header from "./components/Layout/Header.tsx";
+import Footer from "./components/Layout/Footer.tsx";
+import NavBar from "./components/Layout/Navbar.tsx";
 import {Navigate, Route, Routes} from "react-router-dom";
 import {EmployeePage} from "./pages/EmployeePage.tsx";
 import {QualificationsPage} from "./pages/QualificationPage.tsx";
