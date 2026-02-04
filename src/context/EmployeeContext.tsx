@@ -29,10 +29,6 @@ export const EmployeeProvider = ({children} : {children : ReactNode}) => {
     }, [auth.user?.access_token]);
 
     useEffect(() => {
-        refetchEmployees();
-    }, [refetchEmployees]);
-
-    useEffect(() => {
         const loadEmployees = async () => {
             const data = await fetchEmployeesFromApi(auth.user?.access_token);
             setEmployees(data);
