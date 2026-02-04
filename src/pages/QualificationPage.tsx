@@ -8,7 +8,7 @@ export function QualificationsPage() {
                 sx={{
                     mb: 2,
                     ml: {xs: 3.5, md: 0},
-                    fontWeight: {xs: "normal", md: "bold"},
+                    fontWeight: "bold",
                     fontSize: {xs: "1.5rem", md: "1.8rem"}
                 }}
                 letterSpacing={'1'}
