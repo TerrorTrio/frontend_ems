@@ -48,6 +48,11 @@ export function MultiSelectQualification({tempQualifications, setTempQualificati
                             key={option.skill}
                             className="msd-item"
                             onClick={() => toggleOption(option.skill)}
+                            style={{
+                                display: "flex",
+                                alignItems: "center",
+                                marginBottom: 8
+                            }}
                         >
                             <input
                                 type="checkbox"

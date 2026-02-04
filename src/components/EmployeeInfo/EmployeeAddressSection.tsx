@@ -19,8 +19,12 @@ export function EmployeeAddressSection({isEditing, value, onChange}: EmployeeAdd
     const cityEmpty = value.city.trim() === "";
     return (
         <>
-            <h5 style={{marginTop: 10}}>Adresse</h5>
-            <Box sx={{display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2}}>
+            <h5 style={{marginTop: 20}}>Adresse</h5>
+            <Box sx={{
+                display: "grid",
+                gridTemplateColumns: {xs: "1fr", md: "1fr 1fr"},
+                gap: 2,
+            }}>
                 <FormControl error={isEditing && streetNameEmpty}>
                     <FormLabel>Straße</FormLabel>
                     <Input

@@ -17,7 +17,7 @@ export function EmployeeContactSection({isEditing, value, onChange}: EmployeeCon
 
     return (
         <>
-            <h5 style={{marginTop: 10}}>Kontaktdaten</h5>
+            <h5 style={{marginTop: 20}}>Kontaktdaten</h5>
             <FormControl error={isEditing && (phoneEmpty || !isValidPhoneNumber(value.phone))}>
                 <FormLabel>Telefon</FormLabel>
                 <Input

@@ -4,6 +4,7 @@ import {useUpdateQualification} from "../hooks/Qualification/useUpdateQualificat
 import {useCreateQualification} from "../hooks/Qualification/useCreateQualification.ts";
 import Table from "@mui/joy/Table";
 import {
+    Box,
     Button,
     Card,
     Chip,
@@ -103,15 +104,24 @@ export default function QualificationTable() {
                     }}
                 />
                 <Button
-                    startDecorator={<AddCircleOutlineIcon style={{fontSize: "22", paddingRight: "5px"}}/>}
                     sx={{
                         backgroundColor: "#258bf2",
                         fontWeight: "normal",
                         borderRadius: "10px",
+                        width: { xs: "36px", sm: "auto" },
+                        minWidth: { xs: "36px", sm: "unset" },
+                        px: { xs: 1, sm: 2 },
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        "&:hover": {backgroundColor: "#0b80f1"},
                     }}
                     onClick={() => setAddModalOpen(true)}
                 >
-                    Qualifikation hinzufügen
+                    <AddCircleOutlineIcon />
+                    <Box component="span" sx={{ display: { xs: "none", md: "inline" }, ml: 1 }}>
+                        Qualifikation hinzufügen
+                    </Box>
                 </Button>
             </div>
             <>
@@ -168,9 +178,9 @@ export default function QualificationTable() {
                         mt: 2,
                     }}
                 >
-                    <h3 style={{marginLeft: 2}}>
+                    <h4 style={{marginLeft: 2}}>
                         Aktuelle Qualifikationen ({filteredSkills.length} gefunden)
-                    </h3>
+                    </h4>
                     <Table
                         sx={{
                             mt: 4,
@@ -192,7 +202,19 @@ export default function QualificationTable() {
                         {filteredSkills.map((skill) => (
                             <tr key={skill.id}>
                                 <td>{skill.id}</td>
-                                <td><Chip sx={{mr: 3}}>{skill.skill}</Chip>
+                                <td>
+                                    <Chip
+                                        sx={{
+                                            mr: 3,
+                                            height: 'auto',
+                                            whiteSpace: 'normal',
+                                            wordWrap: 'break-word',
+                                            py: 0.5,
+                                            px: 1.5,
+                                        }}
+                                    >
+                                        {skill.skill}
+                                    </Chip>
                                 </td>
                                 <td style={{textAlign: "right", whiteSpace: "nowrap"}}>
                                     <IconButton

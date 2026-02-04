@@ -57,9 +57,8 @@ export function EmployeeSkillsSection({
 
     return (
         <>
+            <h5 style={{marginTop: 20}}>Qualifikationen</h5>
             {createSkillModal(addModalOpen, handleAddCancel, newSkillValue, setNewSkillValue, handleAddSave, isCreating)}
-
-            <h5 style={{marginTop: 10}}>Qualifikationen</h5>
             {isEditing && <FormControl>
                 <Autocomplete<Skill>
                     key={selectedSkills.length}

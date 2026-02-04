@@ -28,31 +28,36 @@ export function Filter({setSelectedQualifications, setSearchedCity: setSearchedC
         <div style={{
             position: "relative",
             display: "inline-block",
-            width: "9rem",
             height: "36px",
         }}>
             <Button
                 sx={{
                     padding: 0,
-                    width: "100%",
+                    width: {xs: "36px", md: "7rem"},
                     height: "100%",
                     border: "none",
                     borderRadius: "12px",
                     backgroundColor: filterSelected ? "#1976d2" : "#e3e3e3",
                     color: filterSelected ? "white" : "black",
-                    "&:hover": {backgroundColor: filterSelected ? "#1976d2" : "#e3e3e3"}
+                    "&:hover": {backgroundColor: filterSelected ? "#1976d2" : "#e3e3e3"},
+                    minWidth: "unset"
                 }}
                 onClick={() => setShowFilter(prev => !prev)}
             >
-                <FaFilter/> Filter
+                <FaFilter/>
+                <Box component="span" sx={{display: {xs: 'none', md: 'inline'}, ml: 1}}>
+                    Filter
+                </Box>
             </Button>
             {showFilter && (
                 <Card sx={{
                     position: "absolute",
                     zIndex: 9999,
-                    left: "-6rem",
+                    left: {xs: "auto", md: "-6rem"},
+                    right: {xs: "0", md: "auto"},
                     mt: "0.5rem",
-                    width: "15rem",
+                    width: {xs: "calc(100vw - 2rem)", md: "15rem"},
+                    maxWidth: "15rem",
                     height: "auto",
                     backgroundColor: "white",
                     borderRadius: "12px",

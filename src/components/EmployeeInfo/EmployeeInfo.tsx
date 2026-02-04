@@ -1,6 +1,6 @@
 import type {Employee} from "../../types/employee.ts";
 import {
-    Card,
+    Card, Stack,
 } from "@mui/joy";
 import {parseStreet} from "../../hooks/useStreetParser.ts";
 import {useState} from "react";
@@ -118,7 +118,8 @@ export default function EmployeeInfo({employee, onUpdate}: EmployeeInfoProps) {
     }
 
     return (
-        <Card sx={{marginTop: 3, gap: 0}}>
+        <Card sx={{marginTop: 3, padding: {xs: 2, md: 3}}}>
+            <Stack direction={'column'} spacing={3}>
             <EmployeePersonalSection
                 isEditing={isEditing}
                 value={{firstName: formData.firstName, lastName: formData.lastName}}
@@ -145,6 +146,7 @@ export default function EmployeeInfo({employee, onUpdate}: EmployeeInfoProps) {
                 loading={loadingQualifications}
                 onAdd={addSkill}
                 onRemove={removeSkill}/>
+        </Stack>
 
             <EmployeeActionsBar
                 isEditing={isEditing}
