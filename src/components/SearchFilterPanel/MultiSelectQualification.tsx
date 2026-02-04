@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {Input} from "@mui/joy";
-import {useFetchQualifications} from "../../hooks/useFetchQualifications.ts";
+import {useFetchQualifications} from "../../hooks/Qualification/useFetchQualifications.ts";
 import type {Skill} from "../../types/skill.ts";
 
 interface MultiSelectQualificationProps {

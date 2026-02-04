@@ -1,4 +1,4 @@
-import type {Employee} from "../types/employee.ts";
+import type {Employee} from "../../types/employee.ts";
 import {useMemo} from "react";
 
 export default function useEmployeeFilter(debouncedSearchTerm: string, employees: Employee[], searchedCity: string, selectedQualifications: string[]): Employee[] {

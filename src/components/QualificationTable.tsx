@@ -1,7 +1,7 @@
-import {useFetchQualifications} from "../hooks/useFetchQualifications";
-import {useDeleteQualification} from "../hooks/useDeleteQualification";
-import {useUpdateQualification} from "../hooks/useUpdateQualification";
-import {useCreateQualification} from "../hooks/useCreateQualification";
+import {useFetchQualifications} from "../hooks/Qualification/useFetchQualifications.ts";
+import {useDeleteQualification} from "../hooks/Qualification/useDeleteQualification.ts";
+import {useUpdateQualification} from "../hooks/Qualification/useUpdateQualification.ts";
+import {useCreateQualification} from "../hooks/Qualification/useCreateQualification.ts";
 import Table from "@mui/joy/Table";
 import {Button, Card, Chip, DialogActions, DialogContent, DialogTitle, IconButton, Input, Modal, ModalDialog} from "@mui/joy";
 import AddIcon from "@mui/icons-material/Add";
