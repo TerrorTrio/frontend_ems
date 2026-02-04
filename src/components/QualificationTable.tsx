@@ -76,7 +76,6 @@ export default function QualificationTable() {
     return (
         <>
             <h1 style={{marginBottom: 24}}>Qualifikationsverwaltung</h1>
-
             <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16}}>
                 <Input
                     placeholder="Qualifikation suchen..."
@@ -92,7 +91,6 @@ export default function QualificationTable() {
                 </Button>
             </div>
             <>
-
                 {/* Add Modal */}
                 <Modal open={addModalOpen} onClose={handleAddCancel}>
                     <ModalDialog>
@@ -115,7 +113,6 @@ export default function QualificationTable() {
                         </DialogActions>
                     </ModalDialog>
                 </Modal>
-
                 {/* Error Modal */}
                 <Modal open={!!deleteError} onClose={clearError}>
                     <ModalDialog color="danger" variant="soft">
@@ -132,7 +129,6 @@ export default function QualificationTable() {
                         </DialogActions>
                     </ModalDialog>
                 </Modal>
-
                 {/* Edit Modal */}
                 <Modal open={editModalOpen} onClose={handleEditCancel}>
                     <ModalDialog>
@@ -155,7 +151,6 @@ export default function QualificationTable() {
                         </DialogActions>
                     </ModalDialog>
                 </Modal>
-
                 <Card
                     sx={{
                         boxShadow: "0px 2px 10px rgba(0, 0, 0, 0.2)",
@@ -164,9 +159,8 @@ export default function QualificationTable() {
                     }}
                 >
                     <h3 style={{marginLeft: 2}}>
-                        Aktuelle Qualifikationen ({skills.length} gefunden)
+                        Aktuelle Qualifikationen ({filteredSkills.length} gefunden)
                     </h3>
-
                     <Table
                         sx={{
                             mt: 4,
@@ -184,24 +178,19 @@ export default function QualificationTable() {
                             <th style={{textAlign: "right", whiteSpace: "nowrap"}}>Aktionen</th>
                         </tr>
                         </thead>
-
                         <tbody>
                         {filteredSkills.map((skill) => (
                             <tr key={skill.id}>
                                 <td>{skill.id}</td>
-
                                 <td><Chip sx={{mr: 3}}>{skill.skill}</Chip>
                                 </td>
-
                                 <td style={{textAlign: "right", whiteSpace: "nowrap"}}>
-
                                     <IconButton
                                         aria-label="Edit qualification"
                                         disabled={isUpdating}
                                         onClick={() => handleEditClick(skill)}>
                                         <EditIcon/>
                                     </IconButton>
-
                                     <IconButton
                                         aria-label="Delete qualification"
                                         disabled={isDeleting}
@@ -212,7 +201,6 @@ export default function QualificationTable() {
                                     >
                                         <DeleteIcon color="error"/>
                                     </IconButton>
-
                                 </td>
                             </tr>
                         ))}
