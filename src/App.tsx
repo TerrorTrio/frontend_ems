@@ -1,46 +1,48 @@
-import './App.css'
-import {Container, Nav, Navbar} from "react-bootstrap";
-import {Link, Route, Routes} from "react-router-dom";
-import {UnsecuredFoo} from "./pages/UnsecuredFoo.tsx";
-import {SecuredBar} from "./pages/SecuredBar.tsx";
-import {Home} from "./pages/Home.tsx";
+import Header from "./components/Layout/Header.tsx";
+import Footer from "./components/Layout/Footer.tsx";
+import NavBar from "./components/Layout/Navbar.tsx";
+import {Navigate, Route, Routes} from "react-router-dom";
+import {EmployeePage} from "./pages/EmployeePage.tsx";
+import {QualificationsPage} from "./pages/QualificationPage.tsx";
+import {CreateEmployeePage} from "./pages/CreateEmployeePage.tsx";
+import AuthCallback from "./auth/AuthCallback.tsx";
 import RequireAuth from "./auth/RequireAuth.tsx";
-import {EmployeeTable} from "./pages/EmployeeTable.tsx";
+import {EmployeeDetailPage} from "./pages/EmployeeDetailPage.tsx";
 
 function App() {
-
-
     return (
-        <Container>
-            <Navbar bg="light" expand="lg">
-                <Container>
-                    <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
-                    <Navbar.Toggle aria-controls="basic-navbar-nav"/>
-                    <Navbar.Collapse id="basic-navbar-nav">
-                        <Nav className="me-auto">
-                            <Nav.Link as={Link} to="/foo">Foo</Nav.Link>
-                            <Nav.Link as={Link} to="/bar">Bar</Nav.Link>
-                            <Nav.Link as={Link} to="/employees">Mitarbeiter</Nav.Link>
-                        </Nav>
-                    </Navbar.Collapse>
-                </Container>
-            </Navbar>
-            <Routes>
-                <Route path="/" element={<Home/>}/>
-                <Route path="/foo" element={<UnsecuredFoo/>}/>
-                <Route path="/bar" element={
-                    <RequireAuth>
-                        <SecuredBar/>
-                    </RequireAuth>
-                }/>
-                <Route path="/employees" element={
-                    <RequireAuth>
-                        <EmployeeTable/>
-                    </RequireAuth>
-                }/>
-            </Routes>
-        </Container>
-    )
+        <div style={{
+            display: "flex",
+            flexDirection: "column",
+            minHeight: "100vh",
+        }}>
+            <Header/>
+            <div style={{
+                display: "flex",
+                flex: 1,
+                minHeight: 0,
+            }}>
+                <NavBar/>
+                <main style={{
+                    flex: 1,
+                    padding: "2vh 9vw 2vh 9vw",
+                    overflow: "auto",
+                }}>
+                    <Routes>
+                        <Route element={<RequireAuth/>}>
+                            <Route path="/" element={<Navigate to="/employees" replace />} />
+                            <Route path="/callback" element={<AuthCallback/>}/>
+                            <Route path="/employees/new" element={<CreateEmployeePage/>}/>
+                            <Route path="/employees/:id" element={<EmployeeDetailPage/>}/>
+                            <Route path="/employees" element={<EmployeePage/>}/>
+                            <Route path="/qualifications" element={<QualificationsPage/>}/>
+                        </Route>
+                    </Routes>
+                </main>
+            </div>
+            <Footer/>
+        </div>
+    );
 }
 
-export default App
+export default App;

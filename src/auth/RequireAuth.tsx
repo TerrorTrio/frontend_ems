@@ -1,15 +1,32 @@
 import {useAuth} from "react-oidc-context";
-import type {JSX} from "react";
+import {useEffect} from "react";
+import {Outlet, useLocation} from "react-router-dom";
 
-export default function RequireAuth({children}: { children: JSX.Element }) {
+export default function RequireAuth() {
     const auth = useAuth();
+    const location = useLocation();
 
-    if (auth.isLoading) return <p>Lädt…</p>;
-    if (auth.error) return <p>Fehler: {auth.error.message}</p>;
+    useEffect(() => {
+        if (!auth.isLoading && !auth.isAuthenticated && !auth.activeNavigator) {
+            auth.signinRedirect({
+                state: {
+                    returnTo: location.pathname + location.search
+                }
+            });
+        }
+    }, [auth, location]);
+
+    if (auth.isLoading) {
+        return <div>Laden...</div>;
+    }
+
+    if (auth.error) {
+        return <div>Fehler: {auth.error.message}</div>;
+    }
 
     if (!auth.isAuthenticated) {
-        auth.signinRedirect();
-        return <div>Weiterleitung zum Login...</div>;
+        return <div>Weiterleitung zur Anmeldung...</div>;
     }
-    return children;
+
+    return <Outlet />
 }
