@@ -42,7 +42,7 @@ export default function EmployeeInfo({employee, onUpdate}: EmployeeInfoProps) {
 
     const {deleteEmployee, deleting, deleteError} = useDeleteEmployee();
     const {updateEmployee, updating, updateError} = useUpdateEmployee();
-    const {skills, loadingQualifications, fetchQualificationError} = useFetchQualifications();
+    const {loadingQualifications, fetchQualificationError} = useFetchQualifications();
     const {selectedSkills, setSelectedSkills, addSkill, removeSkill} =
         useSkillSelection(employee.skillSet ?? []);
 
@@ -141,7 +141,6 @@ export default function EmployeeInfo({employee, onUpdate}: EmployeeInfoProps) {
 
             <EmployeeSkillsSection
                 isEditing={isEditing}
-                skills={skills}
                 selectedSkills={selectedSkills}
                 loading={loadingQualifications}
                 onAdd={addSkill}

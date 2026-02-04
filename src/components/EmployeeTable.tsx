@@ -16,7 +16,7 @@ export default function EmployeeTable() {
 
     useEffect(() => {
         refetchEmployees();
-    }, []);
+    }, [refetchEmployees]);
 
     const {openDeleteDialog, DeleteDialog} = useDeleteDialog(async (id) => {
         await deleteEmployee(id);

@@ -15,7 +15,7 @@ export default function AuthCallback() {
             const state = auth.user.state as RedirectState | undefined;
 
             navigate(state?.returnTo ?? "/", { replace: true });        }
-    }, [auth, navigate]);
+    }, [auth.isAuthenticated, auth.user, navigate]);
 
     return <div>Login wird abgeschlossen…</div>;
 }

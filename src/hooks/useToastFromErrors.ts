@@ -1,6 +1,5 @@
 import {useEffect} from "react";
-
-export type ToastState = { open: boolean; message: string; color: "danger" | "success" };
+import type {ToastState} from "../types/toast.ts";
 
 export function useToastFromErrors(
     errors: Array<string | undefined | null>,
