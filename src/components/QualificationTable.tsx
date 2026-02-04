@@ -4,7 +4,7 @@ import {useUpdateQualification} from "../hooks/Qualification/useUpdateQualificat
 import {useCreateQualification} from "../hooks/Qualification/useCreateQualification.ts";
 import Table from "@mui/joy/Table";
 import {Button, Card, Chip, DialogActions, DialogContent, DialogTitle, IconButton, Input, Modal, ModalDialog} from "@mui/joy";
-import AddIcon from "@mui/icons-material/Add";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import EditIcon from "@mui/icons-material/EditOutlined";
 import {useState} from "react";
@@ -83,7 +83,7 @@ export default function QualificationTable() {
                     sx={{width: 300}}
                 />
                 <Button
-                    startDecorator={<AddIcon/>}
+                    startDecorator={<AddCircleOutlineIcon/>}
                     sx={{
                         backgroundColor: "#258bf2",
                         fontWeight: "normal",
@@ -107,7 +107,13 @@ export default function QualificationTable() {
                                 sx={{mt: 1}}/>
                         </DialogContent>
                         <DialogActions>
-                            <Button variant="solid" color="primary" onClick={handleAddSave} loading={isCreating}>
+                            <Button
+                                variant="solid"
+                                color="primary"
+                                onClick={handleAddSave}
+                                loading={isCreating}
+                                disabled={!newSkillValue.trim()}
+                            >
                                 Erstellen
                             </Button>
                             <Button variant="plain" color="neutral" onClick={handleAddCancel}>
@@ -145,7 +151,13 @@ export default function QualificationTable() {
                                 sx={{mt: 1}}/>
                         </DialogContent>
                         <DialogActions>
-                            <Button variant="solid" color="primary" onClick={handleEditSave} loading={isUpdating}>
+                            <Button
+                                variant="solid"
+                                color="primary"
+                                onClick={handleEditSave}
+                                loading={isUpdating}
+                                disabled={!editValue.trim()}
+                            >
                                 Speichern
                             </Button>
                             <Button variant="plain" color="neutral" onClick={handleEditCancel}>
