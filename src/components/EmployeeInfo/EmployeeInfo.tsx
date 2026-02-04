@@ -4,7 +4,7 @@ import {
 } from "@mui/joy";
 import {parseStreet} from "../../hooks/useStreetParser.ts";
 import {type SyntheticEvent, useEffect, useState} from "react";
-import {useDeleteDialog} from "../../hooks/useDeleteDialog.tsx";
+import {useDeleteDialog} from "../../hooks/Dialogs/useDeleteDialog.tsx";
 import {useDeleteEmployee} from "../../hooks/Employee/useDeleteEmployee.ts";
 import {useNavigate} from "react-router-dom";
 import type {Skill} from "../../types/skill.ts";
@@ -13,11 +13,11 @@ import {useFetchQualifications} from "../../hooks/useFetchQualifications.ts";
 import type {EmployeeFormData} from "../../types/employeeFormData.ts";
 import {EmployeePersonalSection} from "./EmployeePersonalSection.tsx";
 import {EmployeeContactSection} from "./EmployeeContactSection.tsx";
-import {EmployeeAdressSection} from "./EmployeeAdressSection.tsx";
 import {EmployeeSkillsSection} from "./EmployeeSkillsSection.tsx";
 import {EmployeeActionsBar} from "./EmployeeActionsBar.tsx";
 import {ToastSnackBar} from "./ToastSnackBar.tsx";
-import {useCancelDialog} from "../../hooks/useCancelDialog.tsx";
+import {useCancelDialog} from "../../hooks/Dialogs/useCancelDialog.tsx";
+import {EmployeeAddressSection} from "./EmployeeAddressSection.tsx";
 
 interface EmployeeInfoProps {
     employee: Employee
@@ -87,9 +87,11 @@ export default function EmployeeInfo({employee, onUpdate}: EmployeeInfoProps) {
     });
 
     const {openDeleteDialog, DeleteDialog} = useDeleteDialog(async (id) => {
-        await deleteEmployee(id);
-        if (!deleteError) {
+        try {
+            await deleteEmployee(id);
             navigate("/employees");
+        } catch {
+            // Fehler wird über deleteError-State im Hook behandelt
         }
     });
 
@@ -145,6 +147,18 @@ export default function EmployeeInfo({employee, onUpdate}: EmployeeInfoProps) {
         }
     }
 
+    const isFormValid = (): boolean => {
+        const firstNameValid = formData.firstName.trim() !== "";
+        const lastNameValid = formData.lastName.trim() !== "";
+        const phoneValid = formData.phone.trim() !== "" && /^[\d\s\-+()]{6,20}$/.test(formData.phone);
+        const streetValid = formData.streetName.trim() !== "";
+        const houseNumberValid = formData.houseNumber.trim() !== "";
+        const postcodeValid = /^\d{5}$/.test(formData.postcode);
+        const cityValid = formData.city.trim() !== "";
+
+        return firstNameValid && lastNameValid && phoneValid && streetValid && houseNumberValid && postcodeValid && cityValid;
+    };
+
     return (
         <Card sx={{marginTop: 3, gap: 0}}>
             <EmployeePersonalSection
@@ -157,7 +171,7 @@ export default function EmployeeInfo({employee, onUpdate}: EmployeeInfoProps) {
                 value={{phone: formData.phone}}
                 onChange={handleInputChange}/>
 
-            <EmployeeAdressSection
+            <EmployeeAddressSection
                 isEditing={isEditing}
                 value={{
                     streetName: formData.streetName,
@@ -183,7 +197,8 @@ export default function EmployeeInfo({employee, onUpdate}: EmployeeInfoProps) {
                 onGoBack={() => navigate("/employees")}
                 onEdit={() => setIsEditing(true)}
                 onCancel={handleCancel}
-                onSave={handleSave}/>
+                onSave={handleSave}
+                isFormValid={isFormValid()}/>
 
             <DeleteDialog/>
             <CancelDialog/>

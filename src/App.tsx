@@ -4,10 +4,10 @@ import NavBar from "./components/Navbar.tsx";
 import {Navigate, Route, Routes} from "react-router-dom";
 import {EmployeePage} from "./pages/EmployeePage.tsx";
 import {QualificationsPage} from "./pages/QualificationPage.tsx";
-import {EmployeeDetailPage} from "./pages/EmployeeDetailPage.tsx";
 import {CreateEmployeePage} from "./pages/CreateEmployeePage.tsx";
 import AuthCallback from "./auth/AuthCallback.tsx";
 import RequireAuth from "./auth/RequireAuth.tsx";
+import {EmployeeDetailPage} from "./pages/EmployeeDetailPage.tsx";
 
 function App() {
     return (

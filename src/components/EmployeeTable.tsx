@@ -5,19 +5,21 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveRedEye from '@mui/icons-material/RemoveRedEyeOutlined';
 import {useDeleteEmployee} from "../hooks/Employee/useDeleteEmployee.ts";
 import {useNavigate} from "react-router-dom";
-import {useDeleteDialog} from "../hooks/useDeleteDialog.tsx";
-import type {Employee} from "../types/employee.ts";
-import {useFetchEmployees} from "../hooks/Employee/useFetchEmployees.ts";
+import {useDeleteDialog} from "../hooks/Dialogs/useDeleteDialog.tsx";
+import {useEmployees} from "../context/EmployeeContext.tsx";
 
-export default function EmployeeTable({filteredEmployees}: { filteredEmployees: Employee[] }) {
-    const {refetch} = useFetchEmployees();
+export default function EmployeeTable() {
+    const {filteredEmployees, loading} = useEmployees();
     const {deleteEmployee, deleting, deleteError} = useDeleteEmployee();
     const navigate = useNavigate();
 
     const {openDeleteDialog, DeleteDialog} = useDeleteDialog(async (id) => {
         await deleteEmployee(id);
-        await refetch();
     })
+
+    if (loading) {
+        return <div>Lade Mitarbeiter...</div>;
+    }
 
     if (deleteError) {
         return <div> {deleteError} </div>

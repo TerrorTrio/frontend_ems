@@ -25,10 +25,10 @@ export function EmployeeSkillsSection({isEditing, skills, selectedSkills, loadin
     return (
         <>
             <h5 style={{marginTop: 10}}>Qualifikationen</h5>
-            <FormControl>
+            {isEditing && <FormControl>
                 <Autocomplete<Skill>
                     key={selectedSkills.length}
-                    placeholder="Wähle eine Qualfikation aus"
+                    placeholder="Wähle eine Qualifikation aus"
                     options={options}
                     getOptionLabel={(option) => option.skill}
                     filterOptions={filterOptions}
@@ -39,7 +39,7 @@ export function EmployeeSkillsSection({isEditing, skills, selectedSkills, loadin
                     disabled={loading}
                     sx={{fontSize: 14}}
                 />
-            </FormControl>
+            </FormControl>}
 
             <Box sx={{display: "flex", flexWrap: "wrap", gap: 1, marginTop: 1}}>
                 {selectedSkills.map((skill) => (

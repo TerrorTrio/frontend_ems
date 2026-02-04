@@ -9,12 +9,12 @@ import {useFetchQualifications} from "../../hooks/useFetchQualifications.ts";
 import type {EmployeeFormData} from "../../types/employeeFormData.ts";
 import {EmployeePersonalSection} from "./EmployeePersonalSection.tsx";
 import {EmployeeContactSection} from "./EmployeeContactSection.tsx";
-import {EmployeeAdressSection} from "./EmployeeAdressSection.tsx";
+import {EmployeeAddressSection} from "./EmployeeAddressSection.tsx";
 import {EmployeeSkillsSection} from "./EmployeeSkillsSection.tsx";
 import {ToastSnackBar} from "./ToastSnackBar.tsx";
 import {useSaveEmployee} from "../../hooks/Employee/useSaveEmployee.ts";
 import {SaveEmployeeActionsBar} from "./SaveEmployeeActionBar.tsx";
-import {useCancelDialog} from "../../hooks/useCancelDialog.tsx";
+import {useCancelDialog} from "../../hooks/Dialogs/useCancelDialog.tsx";
 
 export function CreateEmployee() {
     const initialFormData: EmployeeFormData = {
@@ -114,7 +114,7 @@ export function CreateEmployee() {
                 value={{phone: formData.phone}}
                 onChange={handleInputChange}/>
 
-            <EmployeeAdressSection
+            <EmployeeAddressSection
                 isEditing={true}
                 value={{
                     streetName: formData.streetName,

@@ -75,11 +75,9 @@ export function Filter({setSelectedQualifications, setSearchedCity: setSearchedC
                         width: "70%",
                     }}
                               onClick={() => {
-                                  if (tempCity !== "" || tempQualifications.length > 0) {
-                                      setSearchedCity(tempCity.trim())
-                                      setSelectedQualifications(tempQualifications)
-                                      setFilterSelected(true);
-                                  }
+                                  setSearchedCity(tempCity.trim())
+                                  setSelectedQualifications(tempQualifications)
+                                  setFilterSelected(tempCity.trim() !== "" || tempQualifications.length > 0);
                                   setShowFilter(false);
                               }}>
                         Übernehmen
