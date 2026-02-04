@@ -4,6 +4,7 @@ import {useUpdateQualification} from "../hooks/Qualification/useUpdateQualificat
 import {useCreateQualification} from "../hooks/Qualification/useCreateQualification.ts";
 import Table from "@mui/joy/Table";
 import {
+    Box,
     Button,
     Card,
     Chip,
@@ -94,14 +95,22 @@ export default function QualificationTable() {
                     sx={{width: 300}}
                 />
                 <Button
-                    startDecorator={<AddCircleOutlineIcon/>}
                     sx={{
                         backgroundColor: "#258bf2",
                         fontWeight: "normal",
+                        width: { xs: "36px", sm: "auto" },
+                        minWidth: { xs: "36px", sm: "unset" },
+                        px: { xs: 1, sm: 2 },
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
                     }}
                     onClick={() => setAddModalOpen(true)}
                 >
-                    Qualifikation hinzufügen
+                    <AddCircleOutlineIcon />
+                    <Box component="span" sx={{ display: { xs: "none", sm: "inline" }, ml: 1 }}>
+                        Qualifikation hinzufügen
+                    </Box>
                 </Button>
             </div>
             <>
