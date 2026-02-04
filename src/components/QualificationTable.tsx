@@ -126,7 +126,18 @@ export default function QualificationTable() {
                             <td>{skill.id}</td>
 
                             <td>
-                                <Chip sx={{mr: 3}}>{skill.skill}</Chip>
+                                <Chip
+                                    sx={{
+                                        mr: 3,
+                                        height: 'auto',
+                                        whiteSpace: 'normal',
+                                        wordWrap: 'break-word',
+                                        py: 0.5,
+                                        px: 1.5,
+                                    }}
+                                >
+                                    {skill.skill}
+                                </Chip>
                             </td>
 
                             <td style={{textAlign: "right", whiteSpace: "nowrap"}}>

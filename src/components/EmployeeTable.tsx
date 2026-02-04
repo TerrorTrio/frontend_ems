@@ -76,8 +76,12 @@ export default function EmployeeTable() {
             {/* Mobile Ansicht */}
             <Box sx={{display: {xs: 'flex', md: 'none'}, flexDirection: 'column', gap: 2, mt: 2}}>
                 {filteredEmployees.map((employee: Employee) => (
-                    <Card key={employee.id} variant="outlined" sx={{p: 2}}>
-                        <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start'}}>
+                    <Card
+                        key={employee.id}
+                        variant="outlined"
+                        sx={{p: 2}}
+                        onClick={() => navigate(`/employees/${employee.id}`)}>
+                        <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                             <Box>
                                 <Typography level="title-md">
                                     {employee.firstName} {employee.lastName}
@@ -86,17 +90,14 @@ export default function EmployeeTable() {
                                     {employee.city}
                                 </Typography>
                             </Box>
-                            <Box>
-                                <IconButton size="sm" aria-label="View employee details"
-                                            onClick={() => navigate(`/employees/${employee.id}`)}>
-                                    <RemoveRedEye/>
-                                </IconButton>
-                                <IconButton size="sm" aria-label="Deletes an employee"
-                                            onClick={() => openDialog(employee.id)}
-                                            disabled={deleting}>
-                                    <DeleteIcon color="error"/>
-                                </IconButton>
-                            </Box>
+                            <IconButton size="sm" aria-label="Deletes an employee"
+                                        onClick={(event) => {
+                                            event.stopPropagation();
+                                            openDialog(employee.id)
+                                        }}
+                                        disabled={deleting}>
+                                <DeleteIcon color="error"/>
+                            </IconButton>
                         </Box>
                         <Box sx={{display: 'flex', flexWrap: 'wrap', gap: 0.5, mt: 1}}>
                             {employee.skillSet.map(skill => (
