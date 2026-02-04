@@ -23,7 +23,7 @@ export function EmployeeDetailPage() {
         <>
             <Typography
                 level="h3"
-                sx={{mb: 2, ml: {xs: 3.5, md: 1}}}
+                sx={{mb: 2, ml: {xs: 3.5, md: 0}}}
                 letterSpacing={1}
             >
                 Mitarbeiterdetails

@@ -39,17 +39,25 @@ export default function EmployeeTable() {
         }}>
             <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
                 <h4 style={{marginLeft: 2}}>Mitarbeiterliste ({filteredEmployees.length} gefunden)</h4>
-                <Button sx={{
-                    minHeight: '40px',
-                    width: '14vw',
-                    fontWeight: "normal",
-                    fontSize: "13px",
-                    backgroundColor: "#258bf2",
-                    borderRadius: "10px",
-                    "&:hover": {backgroundColor: "#0b80f1"},
-                }}
-                        onClick={() => navigate(`/employees/new`)}>
-                    <AddCircleOutlineIcon style={{fontSize: "22", paddingRight: "5px"}}/> Mitarbeiter hinzufügen
+                <Button
+                    sx={{
+                        backgroundColor: "#258bf2",
+                        fontWeight: "normal",
+                        borderRadius: "10px",
+                        width: { xs: "36px", sm: "auto" },
+                        minWidth: { xs: "36px", sm: "unset" },
+                        px: { xs: 1, sm: 2 },
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        "&:hover": {backgroundColor: "#0b80f1"},
+                    }}
+                    onClick={() => navigate("/employees/new")}
+                >
+                    <AddCircleOutlineIcon />
+                    <Box component="span" sx={{ display: { xs: "none", sm: "inline" }, ml: 1 }}>
+                        Mitarbeiter hinzufügen
+                    </Box>
                 </Button>
             </div>
 
