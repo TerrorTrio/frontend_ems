@@ -1,5 +1,5 @@
-import {useLogout} from "../hooks/useLogout.ts";
 import {useAuth} from "react-oidc-context";
+import {useLogout} from "../../hooks/useLogout.ts";
 
 export function Header() {
     const handleLogout = useLogout();
@@ -75,7 +75,7 @@ export function Header() {
                     }}
                          viewBox="0 0 24 24" role="img">
                         <rect x="3" y="7" width="18" height="13" rx="2" ry="2"/>
-                        <path d="M9 7V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v1"/>          //path = drawn Logo!
+                        <path d="M9 7V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v1"/>
                         <path d="M3 11h18"/>
                         <path d="M12 11v2"/>
                     </svg>

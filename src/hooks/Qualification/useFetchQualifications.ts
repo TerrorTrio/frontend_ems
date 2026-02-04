@@ -1,7 +1,7 @@
-import {useEffect, useState} from "react";
-import { useAuth } from "react-oidc-context";
-import type {Skill} from "../types/skill.ts";
-import {fetchQualificationsFromApi} from "../services/qualificationService.ts";
+import {useCallback, useEffect, useState} from "react";
+import {useAuth} from "react-oidc-context";
+import type {Skill} from "../../types/skill.ts";
+import {fetchQualificationsFromApi} from "../../services/qualificationService.ts";
 
 export function useFetchQualifications() {
     const auth = useAuth();
@@ -10,7 +10,7 @@ export function useFetchQualifications() {
     const [loadingQualifications, setLoadingQualifications] = useState(false);
     const [fetchQualificationError, setFetchQualificationError] = useState<string | null>(null);
 
-    const fetchQualifications = async () => {
+    const fetchQualifications = useCallback(async () => {
         setLoadingQualifications(true);
         setFetchQualificationError(null);
 
@@ -22,11 +22,11 @@ export function useFetchQualifications() {
         } finally {
             setLoadingQualifications(false);
         }
-    };
+    }, [auth.user?.access_token]);
 
     useEffect(() => {
         fetchQualifications();
-    }, [auth.user?.access_token]);
+    }, [fetchQualifications]);
 
     return {fetchQualifications, skills, loadingQualifications, fetchQualificationError};
 }
