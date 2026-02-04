@@ -2,8 +2,8 @@ import {Button, DialogActions, DialogContent, DialogTitle, Modal, ModalDialog} f
 import {useState, useCallback, type ReactElement} from "react";
 
 interface UseDeleteDialogReturn {
-    openDialog: (id: number) => void;
-    Dialog: () => ReactElement | null;
+    openDeleteDialog: (id: number) => void;
+    DeleteDialog: () => ReactElement | null;
 }
 
 export function useDeleteDialog(onConfirm: (id: number) => Promise<void>): UseDeleteDialogReturn {
@@ -11,7 +11,7 @@ export function useDeleteDialog(onConfirm: (id: number) => Promise<void>): UseDe
     const [itemId, setItemId] = useState<number | null>(null);
     const [loading, setLoading] = useState(false);
 
-    const openDialog = useCallback((id: number) => {
+    const openDeleteDialog = useCallback((id: number) => {
         setItemId(id);
         setOpen(true);
     }, []);
@@ -39,7 +39,7 @@ export function useDeleteDialog(onConfirm: (id: number) => Promise<void>): UseDe
         setItemId(null);
     };
 
-    const Dialog = () => open ? (
+    const DeleteDialog = () => open ? (
         <Modal open={open} onClose={handleClose}>
             <ModalDialog variant="outlined" role="alertdialog">
                 <DialogTitle>Mitarbeiter löschen</DialogTitle>
@@ -56,5 +56,5 @@ export function useDeleteDialog(onConfirm: (id: number) => Promise<void>): UseDe
         </Modal>
     ) : null;
 
-    return {openDialog, Dialog};
+    return {openDeleteDialog, DeleteDialog};
 }

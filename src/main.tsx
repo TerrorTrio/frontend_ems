@@ -3,12 +3,11 @@ import {StrictMode} from 'react'
 import {createRoot} from 'react-dom/client'
 import App from './App.tsx'
 import {BrowserRouter} from "react-router-dom";
-import {AuthProvider} from "react-oidc-context";
+import {AuthProvider, type AuthProviderProps} from "react-oidc-context";
 import '@fontsource/inter';
-import RequireAuth from "./auth/RequireAuth.tsx";
 import {EmployeeProvider} from "./context/EmployeeContext.tsx";
 
-const oidc = {
+const oidc: AuthProviderProps = {
     authority: "http://localhost:9000/application/o/employee_api",
     client_id: "employee_api_client",
     redirect_uri: `${window.location.origin}/callback`,
@@ -20,13 +19,11 @@ const oidc = {
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
         <AuthProvider {...oidc}>
-            <RequireAuth>
-                <EmployeeProvider>
-                    <BrowserRouter>
-                        <App/>
-                    </BrowserRouter>
-                </EmployeeProvider>
-            </RequireAuth>
+            <EmployeeProvider>
+                <BrowserRouter>
+                    <App/>
+                </BrowserRouter>
+            </EmployeeProvider>
         </AuthProvider>
     </StrictMode>,
 )

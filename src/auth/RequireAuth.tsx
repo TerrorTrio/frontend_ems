@@ -1,18 +1,20 @@
-import { useAuth } from "react-oidc-context";
-import { useEffect, type ReactNode } from "react";
+import {useAuth} from "react-oidc-context";
+import {useEffect} from "react";
+import {Outlet, useLocation} from "react-router-dom";
 
-interface RequireAuthProps {
-    children: ReactNode;
-}
-
-export default function RequireAuth({ children }: RequireAuthProps) {
+export default function RequireAuth() {
     const auth = useAuth();
+    const location = useLocation();
 
     useEffect(() => {
         if (!auth.isLoading && !auth.isAuthenticated && !auth.activeNavigator) {
-            auth.signinRedirect();
+            auth.signinRedirect({
+                state: {
+                    returnTo: location.pathname + location.search
+                }
+            });
         }
-    }, [auth.isLoading, auth.isAuthenticated, auth.activeNavigator]);
+    }, [auth, location]);
 
     if (auth.isLoading) {
         return <div>Laden...</div>;
@@ -26,5 +28,5 @@ export default function RequireAuth({ children }: RequireAuthProps) {
         return <div>Weiterleitung zur Anmeldung...</div>;
     }
 
-    return <>{children}</>;
+    return <Outlet />
 }

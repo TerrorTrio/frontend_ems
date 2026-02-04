@@ -1,10 +1,13 @@
 import Header from "./components/Layout/Header.tsx";
 import Footer from "./components/Layout/Footer.tsx";
 import NavBar from "./components/Layout/Navbar.tsx";
-import {Route, Routes} from "react-router-dom";
+import {Navigate, Route, Routes} from "react-router-dom";
 import {EmployeePage} from "./pages/EmployeePage.tsx";
-import {EmployeeDetailPage} from "./pages/EmployeeDetailPage.tsx";
 import {QualificationsPage} from "./pages/QualificationPage.tsx";
+import {CreateEmployeePage} from "./pages/CreateEmployeePage.tsx";
+import AuthCallback from "./auth/AuthCallback.tsx";
+import RequireAuth from "./auth/RequireAuth.tsx";
+import {EmployeeDetailPage} from "./pages/EmployeeDetailPage.tsx";
 
 function App() {
     return (
@@ -22,14 +25,18 @@ function App() {
                 <NavBar/>
                 <main style={{
                     flex: 1,
-                    padding: "2vw 9vw 2vw 9vw",
+                    padding: "2vh 9vw 2vh 9vw",
                     overflow: "auto",
                 }}>
                     <Routes>
-                        <Route path="/callback" element={<EmployeePage/>}/>
-                        <Route path="/employees" element={<EmployeePage/>}/>
-                        <Route path="/employees/:id" element={<EmployeeDetailPage/>}/>
-                        <Route path="/qualifications" element={<QualificationsPage/>}/>
+                        <Route element={<RequireAuth/>}>
+                            <Route path="/" element={<Navigate to="/employees" replace />} />
+                            <Route path="/callback" element={<AuthCallback/>}/>
+                            <Route path="/employees/new" element={<CreateEmployeePage/>}/>
+                            <Route path="/employees/:id" element={<EmployeeDetailPage/>}/>
+                            <Route path="/employees" element={<EmployeePage/>}/>
+                            <Route path="/qualifications" element={<QualificationsPage/>}/>
+                        </Route>
                     </Routes>
                 </main>
             </div>
