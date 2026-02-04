@@ -108,6 +108,7 @@ export default function QualificationTable() {
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
+                        "&:hover": {backgroundColor: "#0b80f1"},
                     }}
                     onClick={() => setAddModalOpen(true)}
                 >
