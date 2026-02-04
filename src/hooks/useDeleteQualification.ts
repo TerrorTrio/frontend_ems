@@ -31,5 +31,4 @@ export function useDeleteQualification(){
         deleteQualification,
         clearError,
     };
-
 }

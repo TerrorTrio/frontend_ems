@@ -6,6 +6,7 @@ import {BrowserRouter} from "react-router-dom";
 import {AuthProvider} from "react-oidc-context";
 import '@fontsource/inter';
 import RequireAuth from "./auth/RequireAuth.tsx";
+import {EmployeeProvider} from "./context/EmployeeContext.tsx";
 
 const oidc = {
     authority: "http://localhost:9000/application/o/employee_api",
@@ -13,17 +14,18 @@ const oidc = {
     redirect_uri: `${window.location.origin}/callback`,
     post_logout_redirect_uri: `${window.location.origin}/`,
     response_type: "code",
-    scope: "openid profile email", // optional: " offline_access"
+    scope: "openid profile email",
 };
-
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
         <AuthProvider {...oidc}>
             <RequireAuth>
-                <BrowserRouter>
-                    <App/>
-                </BrowserRouter>
+                <EmployeeProvider>
+                    <BrowserRouter>
+                        <App/>
+                    </BrowserRouter>
+                </EmployeeProvider>
             </RequireAuth>
         </AuthProvider>
     </StrictMode>,
