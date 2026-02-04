@@ -1,5 +1,5 @@
 import type {Employee} from "../types/employee.ts";
-import {createContext, type ReactNode, useContext, useEffect, useState} from "react";
+import {createContext, type ReactNode, useCallback, useContext, useEffect, useState} from "react";
 import {fetchEmployeesFromApi} from "../services/employeeService.ts";
 import {useAuth} from "react-oidc-context";
 
@@ -9,6 +9,7 @@ type EmployeeContextType = {
     setEmployees: (employees: Employee[]) => void;
     setFilteredEmployees: (employees: Employee[]) => void;
     loading: boolean;
+    refetchEmployees: () => Promise<void>;
 }
 
 const EmployeeContext = createContext<EmployeeContextType | undefined>(undefined);
@@ -18,6 +19,18 @@ export const EmployeeProvider = ({children} : {children : ReactNode}) => {
     const [employees, setEmployees] = useState<Employee[]>([]);
     const [filteredEmployees, setFilteredEmployees] = useState<Employee[]>([]);
     const [loading, setLoading] = useState(true);
+
+    const refetchEmployees = useCallback(async () => {
+        setLoading(true);
+        const data = await fetchEmployeesFromApi(auth.user?.access_token);
+        setEmployees(data);
+        setFilteredEmployees(data);
+        setLoading(false);
+    }, [auth.user?.access_token]);
+
+    useEffect(() => {
+        refetchEmployees();
+    }, [refetchEmployees]);
 
     useEffect(() => {
         const loadEmployees = async () => {
@@ -29,7 +42,7 @@ export const EmployeeProvider = ({children} : {children : ReactNode}) => {
         loadEmployees();
     }, [auth.user?.access_token]);
 
-    return <EmployeeContext.Provider value={{employees, setEmployees, filteredEmployees, setFilteredEmployees, loading}}>
+    return <EmployeeContext.Provider value={{employees, setEmployees, filteredEmployees, setFilteredEmployees, loading, refetchEmployees}}>
         {children}
     </EmployeeContext.Provider>
 }

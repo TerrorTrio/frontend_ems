@@ -7,11 +7,16 @@ import {useNavigate} from "react-router-dom";
 import {useDeleteDialog} from "../hooks/Dialogs/useDeleteDialog.tsx";
 import {useEmployees} from "../context/EmployeeContext.tsx";
 import type {Employee} from "../types/employee.ts";
+import {useEffect} from "react";
 
 export default function EmployeeTable() {
-    const {filteredEmployees, loading} = useEmployees();
+    const {filteredEmployees, loading, refetchEmployees} = useEmployees();
     const {deleteEmployee, deleting, deleteError} = useDeleteEmployee();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        refetchEmployees();
+    }, []);
 
     const {openDialog, Dialog} = useDeleteDialog(async (id) => {
         await deleteEmployee(id);
