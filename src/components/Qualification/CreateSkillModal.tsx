@@ -13,7 +13,13 @@ export function createSkillModal(addModalOpen: boolean, handleAddCancel: () => v
                     sx={{mt: 1}}/>
             </DialogContent>
             <DialogActions>
-                <Button variant="solid" color="primary" onClick={handleAddSave} loading={isCreating}>
+                <Button
+                    variant="solid"
+                    color="primary"
+                    onClick={handleAddSave}
+                    loading={isCreating}
+                    disabled={!newSkillValue.trim()}
+                >
                     Erstellen
                 </Button>
                 <Button variant="plain" color="neutral" onClick={handleAddCancel}>

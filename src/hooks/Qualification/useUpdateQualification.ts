@@ -15,7 +15,6 @@ export function useUpdateQualification() {
 
         try {
             const updated = await updateQualificationsFromApi(id, newSkillName, auth.user?.access_token);
-
             return updated;
         } catch (error) {
             setUpdateError(error instanceof Error ? error.message : "Fehler beim Aktualisieren");

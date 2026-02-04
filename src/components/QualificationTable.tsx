@@ -15,7 +15,7 @@ import {
     Modal,
     ModalDialog
 } from "@mui/joy";
-import AddIcon from "@mui/icons-material/Add";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import EditIcon from "@mui/icons-material/EditOutlined";
 import {useState} from "react";
@@ -92,13 +92,16 @@ export default function QualificationTable() {
                     placeholder="Qualifikation suchen..."
                     value={searchValue}
                     onChange={(e) => setSearchValue(e.target.value)}
-                    sx={{width: 300}}
+                    sx={{
+                        width: 300, borderRadius: "15px",
+                    }}
                 />
                 <Button
-                    startDecorator={<AddIcon/>}
+                    startDecorator={<AddCircleOutlineIcon style={{fontSize: "22", paddingRight: "5px"}}/>}
                     sx={{
                         backgroundColor: "#258bf2",
                         fontWeight: "normal",
+                        borderRadius: "10px",
                     }}
                     onClick={() => setAddModalOpen(true)}
                 >
@@ -137,7 +140,13 @@ export default function QualificationTable() {
                                 sx={{mt: 1}}/>
                         </DialogContent>
                         <DialogActions>
-                            <Button variant="solid" color="primary" onClick={handleEditSave} loading={isUpdating}>
+                            <Button
+                                variant="solid"
+                                color="primary"
+                                onClick={handleEditSave}
+                                loading={isUpdating}
+                                disabled={!editValue.trim()}
+                            >
                                 Speichern
                             </Button>
                             <Button variant="plain" color="neutral" onClick={handleEditCancel}>

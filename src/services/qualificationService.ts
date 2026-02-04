@@ -17,7 +17,6 @@ export async function fetchQualificationsFromApi(accessToken?: string): Promise<
         const errorBody = await response.json();
         throw new Error(`Fehler beim Laden der Qualifikationen: ${response.status} ${errorBody.message}`);
     }
-
     return response.json();
 }
 
@@ -37,9 +36,9 @@ export async function createQualificationFromApi(skill: string, accessToken?: st
     });
 
     if (!response.ok) {
-        throw new Error(`Fehler beim Erstellen der Qualifikation: ${response.status} ${response.statusText}`);
+        const errorBody = await response.json();
+        throw new Error(`Fehler beim Erstellen der Qualifikation: ${response.status} ${errorBody.message}`);
     }
-
     return response.json();
 }
 
@@ -64,7 +63,6 @@ export async function updateQualificationsFromApi(id: number, skill: string, acc
         const errorBody = await response.json();
         throw new Error(`Fehler beim Aktualisieren der Qualifikation: ${response.status} ${errorBody.message}`);
     }
-
     return response.json();
 }
 
