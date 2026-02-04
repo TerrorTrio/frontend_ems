@@ -14,7 +14,7 @@ export function EmployeePersonalSection({isEditing, value, onChange}: EmployeePe
     return (
         <>
             <h5>Persönliche Daten</h5>
-            <Box sx={{display: "flex", gap: 2}}>
+            <Box sx={{display: "flex", gap: 2, flexDirection: {xs: "column", md: "row"}}}>
                 <FormControl sx={{flex: 1}} error={isEditing && firstNameEmpty}>
                     <FormLabel>Vorname</FormLabel>
                     <Input

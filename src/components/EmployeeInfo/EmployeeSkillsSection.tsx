@@ -24,7 +24,7 @@ export function EmployeeSkillsSection({isEditing, skills, selectedSkills, loadin
 
     return (
         <>
-            <h5 style={{marginTop: 10}}>Qualifikationen</h5>
+            <h5 style={{marginTop: 20}}>Qualifikationen</h5>
             {isEditing && <FormControl>
                 <Autocomplete<Skill>
                     key={selectedSkills.length}

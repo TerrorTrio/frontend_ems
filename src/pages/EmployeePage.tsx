@@ -1,12 +1,17 @@
 import EmployeeTable from "../components/EmployeeTable.tsx";
 import {SearchFilterPanel} from "../components/SearchFilterPanel/SearchFilterPanel.tsx";
+import {Typography} from "@mui/joy";
 
 export function EmployeePage() {
     return (
         <>
-            <h3 style={{
-                marginBottom: "20px"
-            }}>Mitarbeiterübersicht</h3>
+            <Typography
+                level="h3"
+                sx={{mb: 2, ml: {xs: 3.5, md: 1}}}
+                letterSpacing={'normal'}
+            >
+                Mitarbeiterübersicht
+            </Typography>
             <SearchFilterPanel/>
             <EmployeeTable/>
         </>

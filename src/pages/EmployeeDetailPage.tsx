@@ -1,6 +1,7 @@
 import EmployeeInfo from "../components/EmployeeInfo/EmployeeInfo.tsx";
 import {useParams} from "react-router-dom";
 import {useFetchSingleEmployee} from "../hooks/useFetchSingleEmployee.ts";
+import {Typography} from "@mui/joy";
 
 export function EmployeeDetailPage() {
     const {id} = useParams<{ id: string }>();
@@ -20,7 +21,13 @@ export function EmployeeDetailPage() {
 
     return (
         <>
-            <h3>Mitarbeiterdetails</h3>
+            <Typography
+                level="h3"
+                sx={{mb: 2, ml: {xs: 3.5, md: 1}}}
+                letterSpacing={'normal'}
+            >
+                Mitarbeiterdetails
+            </Typography>
             <EmployeeInfo employee={employee} onUpdate={refetch}/>
         </>
     )

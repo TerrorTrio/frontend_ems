@@ -1,6 +1,6 @@
 import type {Employee} from "../../types/employee.ts";
 import {
-    Card,
+    Card, Stack,
 } from "@mui/joy";
 import {parseStreet} from "../../hooks/useStreetParser.ts";
 import {type SyntheticEvent, useEffect, useState} from "react";
@@ -69,12 +69,12 @@ export default function EmployeeInfo({employee, onUpdate}: EmployeeInfoProps) {
     }, [fetchQualificationError]);
 
     const {openDialog, Dialog} = useDeleteDialog(async (id) => {
-       try {
-           await deleteEmployee(id);
-           navigate("/employees");
-       } catch {
-           // Fehler wird über deleteError-State im Hook behandelt
-       }
+        try {
+            await deleteEmployee(id);
+            navigate("/employees");
+        } catch {
+            // Fehler wird über deleteError-State im Hook behandelt
+        }
     });
 
     const handleInputChange = (field: string, value: string) => {
@@ -137,34 +137,36 @@ export default function EmployeeInfo({employee, onUpdate}: EmployeeInfoProps) {
     };
 
     return (
-        <Card sx={{marginTop: 3}}>
-            <EmployeePersonalSection
-                isEditing={isEditing}
-                value={{firstName: formData.firstName, lastName: formData.lastName}}
-                onChange={handleInputChange}/>
+        <Card sx={{marginTop: 3, padding: {xs: 2, md: 3}}}>
+            <Stack direction={'column'} spacing={3}>
+                    <EmployeePersonalSection
+                        isEditing={isEditing}
+                        value={{firstName: formData.firstName, lastName: formData.lastName}}
+                        onChange={handleInputChange}/>
 
-            <EmployeeContactSection
-                isEditing={isEditing}
-                value={{phone: formData.phone}}
-                onChange={handleInputChange}/>
+                    <EmployeeContactSection
+                        isEditing={isEditing}
+                        value={{phone: formData.phone}}
+                        onChange={handleInputChange}/>
+                    <EmployeeAddressSection
+                        isEditing={isEditing}
+                        value={{
+                            streetName: formData.streetName,
+                            houseNumber: formData.houseNumber,
+                            postcode: formData.postcode,
+                            city: formData.city
+                        }}
+                        onChange={handleInputChange}/>
 
-            <EmployeeAddressSection
-                isEditing={isEditing}
-                value={{
-                    streetName: formData.streetName,
-                    houseNumber: formData.houseNumber,
-                    postcode: formData.postcode,
-                    city: formData.city
-                }}
-                onChange={handleInputChange}/>
+                    <EmployeeSkillsSection
+                        isEditing={isEditing}
+                        skills={skills}
+                        selectedSkills={selectedSkills}
+                        loading={loadingQualifications}
+                        onAdd={handleAddSkill}
+                        onRemove={handleRemoveSkill}/>
+            </Stack>
 
-            <EmployeeSkillsSection
-                isEditing={isEditing}
-                skills={skills}
-                selectedSkills={selectedSkills}
-                loading={loadingQualifications}
-                onAdd={handleAddSkill}
-                onRemove={handleRemoveSkill}/>
 
             <EmployeeActionsBar
                 isEditing={isEditing}
