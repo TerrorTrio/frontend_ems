@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "react-oidc-context";
-import { updateQualificationsFromApi } from "../services/qualificationService";
-import type { Skill } from "../types/skill";
+import { updateQualificationsFromApi } from "../../services/qualificationService.ts";
+import type { Skill } from "../../types/skill.ts";
 
 export function useUpdateQualification() {
     const auth = useAuth();

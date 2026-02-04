@@ -2,9 +2,9 @@ import Table from '@mui/joy/Table';
 import {Card, Chip, IconButton} from "@mui/joy";
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import RemoveRedEye from '@mui/icons-material/RemoveRedEyeOutlined';
-import {useDeleteEmployee} from "../hooks/useDeleteEmployee.ts";
+import {useDeleteEmployee} from "../hooks/Employee/useDeleteEmployee.ts";
 import {useNavigate} from "react-router-dom";
-import {useDeleteDialog} from "../hooks/useDeleteDialog.tsx";
+import {useDeleteDialog} from "../hooks/Dialogs/useDeleteDialog.tsx";
 import {useEmployees} from "../context/EmployeeContext.tsx";
 import type {Employee} from "../types/employee.ts";
 

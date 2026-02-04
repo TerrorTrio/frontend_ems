@@ -1,7 +1,7 @@
-import {useFetchQualifications} from "../hooks/useFetchQualifications";
-import {useDeleteQualification} from "../hooks/useDeleteQualification";
-import {useUpdateQualification} from "../hooks/useUpdateQualification";
-import {useCreateQualification} from "../hooks/useCreateQualification";
+import {useFetchQualifications} from "../hooks/Qualification/useFetchQualifications.ts";
+import {useDeleteQualification} from "../hooks/Qualification/useDeleteQualification.ts";
+import {useUpdateQualification} from "../hooks/Qualification/useUpdateQualification.ts";
+import {useCreateQualification} from "../hooks/Qualification/useCreateQualification.ts";
 import Table from "@mui/joy/Table";
 import {Button, Card, Chip, DialogActions, DialogContent, DialogTitle, IconButton, Input, Modal, ModalDialog} from "@mui/joy";
 import AddIcon from "@mui/icons-material/Add";
@@ -14,6 +14,11 @@ export default function QualificationTable() {
     const {deleteQualification, isDeleting, deleteError, clearError} = useDeleteQualification();
     const {updateQualification, isUpdating} = useUpdateQualification();
     const {createQualification, isCreating} = useCreateQualification();
+
+    // Suchfunktion
+    const [searchValue, setSearchValue] = useState("");
+
+    const filteredSkills = skills.filter(skill => skill.skill.toLowerCase().includes(searchValue.trim().toLowerCase()));
 
     // Edit Modal State
     const [editModalOpen, setEditModalOpen] = useState(false);
@@ -70,15 +75,22 @@ export default function QualificationTable() {
 
     return (
         <>
-            <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
-                <h3 style={{marginLeft: 2}}>
-                    Aktuelle Qualifikationen ({skills.length} gefunden)
-                </h3>
+            <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16}}>
+                <Input
+                    placeholder="Qualifikation suchen..."
+                    value={searchValue}
+                    onChange={(e) => setSearchValue(e.target.value)}
+                    sx={{width: 300}}
+                />
                 <Button
                     startDecorator={<AddIcon/>}
+                    sx={{
+                        backgroundColor: "#258bf2",
+                        fontWeight: "normal",
+                    }}
                     onClick={() => setAddModalOpen(true)}
                 >
-                    Hinzufügen
+                    Qualifikation hinzufügen
                 </Button>
             </div>
             <>
@@ -148,7 +160,6 @@ export default function QualificationTable() {
                             >
                                 Speichern
                             </Button>
-
                             <Button variant="plain" color="neutral" onClick={handleEditCancel}>
                                 Abbrechen
                             </Button>
@@ -162,9 +173,9 @@ export default function QualificationTable() {
                         mt: 2,
                     }}
                 >
-                    <h4 style={{marginLeft: 2}}>
-                        Aktuelle Qualifikationen ({skills.length} gefunden)
-                    </h4>
+                    <h3 style={{marginLeft: 2}}>
+                        Aktuelle Qualifikationen ({filteredSkills.length} gefunden)
+                    </h3>
                     <Table
                         sx={{
                             mt: 4,
@@ -183,11 +194,10 @@ export default function QualificationTable() {
                         </tr>
                         </thead>
                         <tbody>
-                        {skills.map((skill) => (
+                        {filteredSkills.map((skill) => (
                             <tr key={skill.id}>
                                 <td>{skill.id}</td>
-                                <td>
-                                    <Chip sx={{mr: 3}}>{skill.skill}</Chip>
+                                <td><Chip sx={{mr: 3}}>{skill.skill}</Chip>
                                 </td>
                                 <td style={{textAlign: "right", whiteSpace: "nowrap"}}>
                                     <IconButton

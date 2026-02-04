@@ -1,7 +1,7 @@
-import {removeEmployeeFromApi} from "../services/employeeService.ts";
+import {removeEmployeeFromApi} from "../../services/employeeService.ts";
 import {useAuth} from "react-oidc-context";
 import {useState} from "react";
-import {useEmployees} from "../context/EmployeeContext.tsx";
+import {useEmployees} from "../../context/EmployeeContext.tsx";
 
 
 export function useDeleteEmployee() {
