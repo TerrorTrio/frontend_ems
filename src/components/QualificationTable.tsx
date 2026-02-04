@@ -19,6 +19,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import EditIcon from "@mui/icons-material/EditOutlined";
 import {useState} from "react";
+import {useDeleteDialog} from "../hooks/Dialogs/useDeleteDialog.tsx";
 import {createSkillModal} from "./Qualification/CreateSkillModal.tsx";
 
 export default function QualificationTable() {
@@ -76,6 +77,11 @@ export default function QualificationTable() {
         setAddModalOpen(false);
         setNewSkillValue("");
     };
+
+    const {openDeleteDialog, DeleteDialog} = useDeleteDialog(async (id) => {
+        await deleteQualification(id);
+        await fetchQualifications();
+    });
 
     if (loadingQualifications) {
         return <div>Lade Qualifikationen...</div>;
@@ -198,10 +204,7 @@ export default function QualificationTable() {
                                     <IconButton
                                         aria-label="Delete qualification"
                                         disabled={isDeleting}
-                                        onClick={async () => {
-                                            await deleteQualification(skill.id);
-                                            await fetchQualifications();
-                                        }}
+                                        onClick={() => openDeleteDialog(skill.id)}
                                     >
                                         <DeleteIcon color="error"/>
                                     </IconButton>
@@ -212,6 +215,7 @@ export default function QualificationTable() {
                     </Table>
                 </Card>
             </>
+            <DeleteDialog/>
         </>
     );
 }
