@@ -75,7 +75,6 @@ export default function QualificationTable() {
 
     return (
         <>
-            <h1 style={{marginBottom: 24}}>Qualifikationsverwaltung</h1>
             <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16}}>
                 <Input
                     placeholder="Qualifikation suchen..."
@@ -85,6 +84,10 @@ export default function QualificationTable() {
                 />
                 <Button
                     startDecorator={<AddIcon/>}
+                    sx={{
+                        backgroundColor: "#258bf2",
+                        fontWeight: "normal",
+                    }}
                     onClick={() => setAddModalOpen(true)}
                 >
                     Qualifikation hinzufügen
