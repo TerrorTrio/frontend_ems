@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {useAuth} from "react-oidc-context";
-import {deleteQualificationFromApi} from "../services/qualificationService.ts";
+import {deleteQualificationFromApi} from "../../services/qualificationService.ts";
 
 
 export function useDeleteQualification(){

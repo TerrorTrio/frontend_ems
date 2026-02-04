@@ -1,7 +1,7 @@
 import EmployeeInfo from "../components/EmployeeInfo/EmployeeInfo.tsx";
 import {useParams} from "react-router-dom";
-import {useFetchSingleEmployee} from "../hooks/useFetchSingleEmployee.ts";
 import {Typography} from "@mui/joy";
+import {useFetchSingleEmployee} from "../hooks/Employee/useFetchSingleEmployee.ts";
 
 export function EmployeeDetailPage() {
     const {id} = useParams<{ id: string }>();
