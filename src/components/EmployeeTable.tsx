@@ -8,6 +8,7 @@ import {useNavigate} from "react-router-dom";
 import {useDeleteDialog} from "../hooks/Dialogs/useDeleteDialog.tsx";
 import {useEmployees} from "../context/EmployeeContext.tsx";
 import {useEffect} from "react";
+import type {Employee} from "../types/employee.ts";
 
 export default function EmployeeTable() {
     const {filteredEmployees, loading, refetchEmployees} = useEmployees();
@@ -36,7 +37,7 @@ export default function EmployeeTable() {
             width: '100%',
             mt: 2
         }}>
-            <div style={{display:"flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
+            <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
                 <h4 style={{marginLeft: 2}}>Mitarbeiterliste ({filteredEmployees.length} gefunden)</h4>
                 <Button sx={{
                     minHeight: '40px',
@@ -45,7 +46,8 @@ export default function EmployeeTable() {
                     fontSize: "13px",
                     backgroundColor: "#258bf2",
                     borderRadius: "10px",
-                    "&:hover": {backgroundColor: "#0b80f1"},}}
+                    "&:hover": {backgroundColor: "#0b80f1"},
+                }}
                         onClick={() => navigate(`/employees/new`)}>
                     <AddCircleOutlineIcon style={{fontSize: "22", paddingRight: "5px"}}/> Mitarbeiter hinzufügen
                 </Button>
@@ -83,7 +85,8 @@ export default function EmployeeTable() {
                                 <IconButton
                                     aria-label="View employee details"
                                     onClick={() => navigate(`/employees/${employee.id}`)}><RemoveRedEye/></IconButton>
-                                <IconButton aria-label={"Deletes an employee"} onClick={() => openDialog(employee.id)}
+                                <IconButton aria-label={"Deletes an employee"}
+                                            onClick={() => openDeleteDialog(employee.id)}
                                             disabled={deleting}><DeleteIcon color={"error"}/></IconButton>
                             </td>
                         </tr>
@@ -112,7 +115,7 @@ export default function EmployeeTable() {
                             <IconButton size="sm" aria-label="Deletes an employee"
                                         onClick={(event) => {
                                             event.stopPropagation();
-                                            openDialog(employee.id)
+                                            openDeleteDialog(employee.id)
                                         }}
                                         disabled={deleting}>
                                 <DeleteIcon color="error"/>
@@ -126,7 +129,6 @@ export default function EmployeeTable() {
                     </Card>
                 ))}
             </Box>
-
             <DeleteDialog/>
         </Card>
     )
