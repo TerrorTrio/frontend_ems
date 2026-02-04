@@ -1,6 +1,7 @@
 import {Button, DialogActions, DialogContent, DialogTitle, Input, Modal, ModalDialog} from "@mui/joy";
+import * as React from "react";
 
-export function createSkillModal(addModalOpen: boolean, handleAddCancel: () => void, newSkillValue: string, setNewSkillValue: (value: (((prevState: string) => string) | string)) => void, handleAddSave: () => Promise<void>, isCreating: boolean) {
+export function createSkillModal(addModalOpen: boolean, handleAddCancel: () => void, newSkillValue: string, setNewSkillValue: React.Dispatch<React.SetStateAction<string>>, handleAddSave: () => Promise<void>, isCreating: boolean) {
     return <Modal open={addModalOpen} onClose={handleAddCancel}>
         <ModalDialog>
             <DialogTitle>Neue Qualifikation</DialogTitle>

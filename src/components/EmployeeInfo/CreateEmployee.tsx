@@ -34,7 +34,7 @@ export function CreateEmployee() {
     const {formData, setField, isValid} = useEmployeeForm(initialFormData);
 
     const {saveEmployee, saving, saveError} = useSaveEmployee();
-    const {skills, loadingQualifications, fetchQualificationError} = useFetchQualifications();
+    const {loadingQualifications, fetchQualificationError} = useFetchQualifications();
     const {selectedSkills, addSkill, removeSkill} = useSkillSelection([]);
 
     const [toast, setToast] = useState<ToastState>({
@@ -103,7 +103,6 @@ export function CreateEmployee() {
 
             <EmployeeSkillsSection
                 isEditing={true}
-                skills={skills}
                 selectedSkills={selectedSkills}
                 loading={loadingQualifications}
                 onAdd={addSkill}

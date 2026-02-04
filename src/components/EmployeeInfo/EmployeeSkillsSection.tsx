@@ -8,7 +8,6 @@ import {useCreateQualification} from "../../hooks/Qualification/useCreateQualifi
 
 interface EmployeeSkillsSectionProps {
     isEditing: boolean,
-    skills: Skill[],
     selectedSkills: Skill[],
     loading: boolean,
     onAdd: (_event: SyntheticEvent, value: Skill | null) => void,
@@ -41,7 +40,7 @@ export function EmployeeSkillsSection({
         const result = await createQualification(newSkillValue.trim());
         if (result) {
             await fetchQualifications();
-            onAdd(new Event("custom") as unknown as SyntheticEvent, result);
+            onAdd({} as unknown as SyntheticEvent, result);
             setAddModalOpen(false);
             setNewSkillValue("");
         }
@@ -99,7 +98,7 @@ export function EmployeeSkillsSection({
                 />
             </FormControl>}
 
-            <Box sx={{display: "flex", flexWrap: "wrap", gap: 1, margin: "8px"}}>
+            <Box sx={{display: "flex", flexWrap: "wrap", gap: 1, margin: "1vh"}}>
                 {selectedSkills.map((skill) => (
                     <Chip
                         key={skill.id}
